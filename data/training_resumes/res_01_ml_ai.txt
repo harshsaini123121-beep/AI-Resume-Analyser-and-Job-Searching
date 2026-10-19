@@ -1,0 +1,25 @@
+Dr. Elena Rostova
+Email: elena.rostova@ailabs.org | Phone: +1 415 889 2039 | San Francisco, CA
+LinkedIn: linkedin.com/in/elena-rostova-ai | GitHub: github.com/erostova
+
+SUMMARY
+Principal AI Research Scientist with 8+ years experience developing foundational deep learning architectures, Large Language Models, and multimodal vision-language models. Authored 9 peer-reviewed papers at NeurIPS and ICML. Led cross-functional research teams scaling distributed model training across 512 NVIDIA H100 clusters.
+
+CORE SKILLS
+Python, C++, PyTorch, JAX, TensorFlow, Transformers, HuggingFace, Deep Learning, Machine Learning, NLP, Computer Vision, Distributed Training, CUDA, DeepSpeed, Megatron-LM, LoRA, RLHF, Vector Databases, MLOps, Docker, Kubernetes
+
+EXPERIENCE
+Principal AI Scientist | Frontier Intelligence Labs | San Francisco, CA
+2021 - Present
+- Architected and trained custom 13B and 34B multimodal foundation models achieving state-of-the-art benchmark performance across 14 reasoning tasks.
+- Spearheaded RLHF alignment pipelines utilizing PPO and DPO, reducing toxic outputs by 87% and improving instruction compliance by 42%.
+- Optimized distributed training communication kernels in PyTorch and CUDA, reducing inter-node communication latency by 28%.
+
+Senior Research Engineer | DeepMind Technologies | London, UK
+2017 - 2021
+- Developed attention mechanisms for neural sequence transduction, improving translation BLEU score by 4.2 points.
+- Mentored 6 doctoral researchers and contributed 4 open-source libraries with 5,000+ GitHub stars.
+
+EDUCATION
+Ph.D. in Computer Science (Artificial Intelligence) | University of Cambridge | 2017
+B.S. in Mathematics & Computer Science | MIT | 2013

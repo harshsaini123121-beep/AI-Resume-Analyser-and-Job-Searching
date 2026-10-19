@@ -1,0 +1,13 @@
+John Doe
+Email: jdoe@fakemail.com
+
+I am looking for a job as a programmer. I know some coding.
+
+Skills:
+python, html
+
+Work:
+Helped out at a local computer shop fixing computers and writing simple scripts.
+
+Education:
+High School Diploma, 2021

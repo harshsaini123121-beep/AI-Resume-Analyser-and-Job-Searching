@@ -1,0 +1,37 @@
+Alex Morgan
+Email: alex.morgan@email.com | Phone: +1 (555) 234-5678 | San Francisco, CA
+LinkedIn: linkedin.com/in/alexmorgan-ml | GitHub: github.com/alexmorgan-ai | Portfolio: alexmorgan.dev
+
+PROFESSIONAL SUMMARY
+Senior Machine Learning Engineer with 5+ years of experience designing, fine-tuning, and deploying large-scale NLP, computer vision, and generative AI systems in cloud environments. Proven track record of scaling low-latency transformer models to serve over 20 million daily queries while decreasing inference latency by 42%.
+
+CORE SKILLS
+- Programming: Python, SQL, C++, Bash
+- ML & AI Frameworks: PyTorch, TensorFlow, Scikit-learn, HuggingFace, Transformers, Keras
+- NLP & Generative AI: Large Language Models, RAG, LangChain, LlamaIndex, Vector Databases, Pinecone, Prompt Engineering, SpaCy
+- Cloud & MLOps: AWS, Docker, Kubernetes, MLOps, MLflow, CI/CD, Git, Linux
+- Data Processing: Pandas, NumPy, Apache Spark, Data Modeling
+
+PROFESSIONAL EXPERIENCE
+Senior Machine Learning Engineer | NeuralScale AI | San Francisco, CA
+March 2022 - Present
+- Architected and deployed an enterprise Retrieval-Augmented Generation (RAG) system utilizing PyTorch, LangChain, and Pinecone, boosting answer accuracy by 34% and reducing hallucinations.
+- Spearheaded the fine-tuning of open-source 7B and 13B parameter LLMs using LoRA and QLoRA on AWS EKS with Kubernetes, reducing annual API costs by $180,000.
+- Implemented automated CI/CD and MLOps deployment pipelines with MLflow and Docker, accelerating model release velocity from 2 weeks to 2 days.
+- Optimized multi-GPU inference using TensorRT and vLLM, decreasing 99th percentile response latency from 450ms to 95ms under peak traffic.
+
+Machine Learning Engineer | Apex Technologies | San Jose, CA
+July 2019 - February 2022
+- Developed deep learning classification and Named Entity Recognition (NER) models using PyTorch, SpaCy, and Transformers, achieving 94.6% F1 score across 1.2M customer documents.
+- Built scalable ETL feature store pipelines utilizing Python, Pandas, and PostgreSQL, reducing model training dataset preparation time by 55%.
+- Mentored 4 junior data scientists and conducted weekly code reviews adhering to PEP8 and clean architecture.
+
+EDUCATION
+Master of Science in Computer Science (Machine Learning Specialization)
+Stanford University, Stanford, CA | Graduated: 2019
+Bachelor of Science in Computer Engineering
+University of California, Berkeley, CA | Graduated: 2017
+
+PROJECTS & CERTIFICATIONS
+- Autonomous Document Intelligence Engine: Open-source document parsing pipeline with over 1,500 GitHub stars built with Python, PyTorch, and FastAPI.
+- AWS Certified Machine Learning - Specialty (2023)

@@ -1,0 +1,35 @@
+Sarah Chen
+Email: sarah.chen@techmail.io | Phone: +1 (555) 987-6543 | Austin, TX
+LinkedIn: linkedin.com/in/sarahchen-dev | GitHub: github.com/sarahchen-fullstack
+
+PROFESSIONAL SUMMARY
+Results-driven Full Stack Software Engineer with 4 years of hands-on experience building enterprise web applications, high-throughput microservices, and responsive user interfaces. Expert in React, TypeScript, Python, FastAPI, and PostgreSQL with a strong focus on clean code and agile methodologies.
+
+CORE SKILLS
+- Frontend: JavaScript, TypeScript, React, Next.js, Redux, HTML5, CSS3, Tailwind CSS, Responsive Design
+- Backend: Python, FastAPI, Django, Node.js, Express, REST API, GraphQL
+- Databases: PostgreSQL, MongoDB, Redis, SQL
+- DevOps & Tools: Docker, Git, GitHub Actions, CI/CD, AWS, Linux, Postman
+- Testing: Pytest, Jest, Unit Testing, TDD
+
+PROFESSIONAL EXPERIENCE
+Full Stack Developer | CloudSync Labs | Austin, TX
+January 2022 - Present
+- Designed and built a real-time collaborative dashboard using React, TypeScript, and FastAPI, supporting over 85,000 daily active enterprise users.
+- Migrated legacy monolithic services to modular FastAPI microservices backed by PostgreSQL and Redis caching, cutting page load time by 48%.
+- Integrated automated CI/CD workflows using GitHub Actions and Docker, reducing production bug regressions by 35%.
+- Implemented comprehensive unit and integration tests using Jest and Pytest, boosting overall code coverage from 62% to 91%.
+
+Software Engineer | DevWorks Software | Dallas, TX
+June 2020 - December 2021
+- Developed RESTful APIs using Python, Django, and PostgreSQL for customer billing management, processing over $4M in monthly transactions.
+- Built reusable frontend component libraries in React and Tailwind CSS, increasing engineering delivery speed by 25%.
+- Collaborated in cross-functional agile teams of 8 engineers, participating in bi-weekly sprint planning, retrospectives, and peer code reviews.
+
+EDUCATION
+Bachelor of Technology in Computer Science and Engineering
+University of Texas at Austin, Austin, TX | Graduated: 2020
+
+PROJECTS
+- TaskFlow Pro: Open-source Kanban task management application built with Next.js, TypeScript, and Tailwind CSS.
+- FastMicro: Starter boilerplate for production FastAPI microservices with JWT authentication and Docker orchestration.

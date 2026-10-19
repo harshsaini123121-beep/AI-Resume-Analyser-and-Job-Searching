@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    container_name: resume_analyser_api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - DATABASE_URL=sqlite:///./resume_analyser.db
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  frontend:
+    build: .
+    container_name: resume_analyser_ui
+    command: streamlit run frontend/streamlit_app.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+      - "8501:8501"
+    environment:
+      - API_HOST=backend
+      - API_PORT=8000
+    depends_on:
+      - backend
+    volumes:
+      - .:/app
+    restart: unless-stopped

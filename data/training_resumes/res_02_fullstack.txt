@@ -1,0 +1,24 @@
+Marcus Vance
+Email: marcus.vance@codelab.dev | Phone: +1 512 402 9182 | Austin, TX
+GitHub: github.com/marcusvance | Portfolio: marcusvance.io
+
+PROFESSIONAL SUMMARY
+Senior Full Stack Developer with 6 years of expertise building resilient cloud-native enterprise web applications with TypeScript, React, Next.js, Python, and FastAPI. Passionate about API performance, accessible design systems, and automated CI/CD pipelines.
+
+TECHNICAL SKILLS
+TypeScript, JavaScript, React, Next.js, Redux, Tailwind CSS, HTML5, CSS3, Node.js, Express, Python, FastAPI, PostgreSQL, Redis, MongoDB, Docker, Git, CI/CD, Jest, Playwright, AWS, Microservices
+
+WORK EXPERIENCE
+Senior Full Stack Engineer | CloudScale Commerce | Austin, TX
+2021 - Present
+- Designed and built headless e-commerce checkout platform using React, Next.js, and FastAPI handling $120M in annual transactions.
+- Decreased initial page load time from 3.2s to 0.8s by implementing server-side rendering (SSR), Redis caching, and edge routing.
+- Established automated end-to-end testing with Playwright in GitHub Actions, maintaining 94% test coverage across 8 repositories.
+
+Full Stack Developer | Nexa Digital Solutions | Dallas, TX
+2018 - 2021
+- Created responsive SaaS analytics dashboards in React, TypeScript, and Tailwind CSS serving 45,000 daily active users.
+- Migrated legacy Ruby backend to modern FastAPI microservices with PostgreSQL, reducing 95th percentile API latency by 60%.
+
+EDUCATION
+Bachelor of Science in Software Engineering | University of Texas at Dallas | 2018

@@ -1,0 +1,34 @@
+David Kumar
+Email: david.kumar@analytics.net | Phone: +1 (555) 345-6789 | Atlanta, GA
+LinkedIn: linkedin.com/in/davidkumar-analytics | Portfolio: davidkumar-data.com
+
+SUMMARY
+Analytical and detail-oriented Data Analyst with 2 years of experience transforming raw multi-source business data into actionable executive insights. Proficient in SQL, Python, Pandas, Power BI, and Tableau with a proven record of identifying $350K in operational cost savings.
+
+TECHNICAL SKILLS
+- Languages: SQL, Python, R
+- Analytics & BI: Power BI, Tableau, Advanced Excel, Statistics, Exploratory Data Analysis, Data Cleansing
+- Data Libraries: Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn
+- Databases: MySQL, PostgreSQL, BigQuery
+- Soft Skills: Communication, Problem Solving, Presentation Skills, Teamwork
+
+EXPERIENCE
+Data Analyst | HealthMetrics Solutions | Atlanta, GA
+July 2022 - Present
+- Built interactive Power BI and Tableau operational dashboards tracked daily by C-suite executives across 14 hospital clinics.
+- Authored complex SQL queries and automated ETL data cleansing scripts in Python and Pandas, saving 15 manual hours weekly.
+- Conducted cohort retention analysis and churn modeling using Scikit-learn, uncovering opportunities that reduced patient cancellation rates by 18%.
+- Delivered monthly data storytelling presentations to non-technical department leads to guide resource planning.
+
+Junior Analytics Intern | Global Logistics Inc | Charlotte, NC
+June 2021 - May 2022
+- Maintained SQL databases and reconciled inventory records, eliminating a 4% data discrepancy across warehouse branches.
+- Designed automated Excel financial forecasting templates using advanced lookup formulas and pivot tables.
+
+EDUCATION
+Bachelor of Science in Information Systems & Statistics
+Georgia Institute of Technology, Atlanta, GA | Graduated: 2022
+
+CERTIFICATIONS
+- Microsoft Certified: Power BI Data Analyst Associate (PL-300)
+- Google Data Analytics Professional Certificate

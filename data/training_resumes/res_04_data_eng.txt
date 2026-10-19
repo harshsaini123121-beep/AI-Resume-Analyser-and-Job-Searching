@@ -1,0 +1,25 @@
+Nia Robinson
+Email: nia.robinson@datapipeline.co | Phone: +1 404 662 1092 | Atlanta, GA
+LinkedIn: linkedin.com/in/niarobinson-data | GitHub: github.com/niadata
+
+PROFESSIONAL SUMMARY
+Staff Data Engineer with 7+ years of experience designing real-time and petabyte-scale batch data architectures. Expert in Apache Spark, Kafka, Snowflake, dbt, Python, and Airflow orchestrating mission-critical analytical pipelines.
+
+TECHNICAL STACK
+Python, SQL, Apache Spark, PySpark, Apache Kafka, Airflow, Snowflake, Databricks, BigQuery, dbt, AWS, S3, Data Modeling, ETL, Lakehouse, Delta Lake, Presto, Scikit-learn, Linux, Git
+
+PROFESSIONAL EXPERIENCE
+Staff Data Engineer | DataSphere Analytics | Atlanta, GA
+2020 - Present
+- Architected a streaming real-time event pipeline with Kafka and PySpark ingesting 800M daily telemetry events with sub-second latency.
+- Led migration of on-premise data warehouse to Snowflake and dbt, reducing quarterly analytics computation costs by 48%.
+- Built automated data quality validation frameworks using Great Expectations, preventing over 120 bad schema deployments.
+
+Senior Data Pipeline Engineer | FinMetrics Group | Charlotte, NC
+2017 - 2020
+- Developed 50+ batch ETL pipelines in Airflow and AWS Glue feeding executive forecasting dashboards in Power BI.
+- Optimized slow SQL queries and data partition layouts in BigQuery, speeding up daily marketing pipeline execution by 3.5x.
+
+EDUCATION
+Master of Science in Analytics | Georgia Institute of Technology | 2017
+Bachelor of Science in Computer Science | Spelman College | 2015

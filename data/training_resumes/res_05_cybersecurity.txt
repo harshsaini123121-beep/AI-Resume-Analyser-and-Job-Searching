@@ -1,0 +1,25 @@
+Liam O'Connor
+Email: liam.oconnor@secguard.net | Phone: +1 617 339 8812 | Boston, MA
+LinkedIn: linkedin.com/in/liamoconnor-sec
+
+SUMMARY
+Offensive Security Certified Professional (OSCP) with 5 years experience conducting red-team operations, penetration testing, and vulnerability assessments on enterprise web apps, APIs, and cloud networks.
+
+TECHNICAL SKILLS
+Cybersecurity, Penetration Testing, OWASP, Network Security, Wireshark, Burp Suite, Metasploit, Nmap, Kali Linux, Python, Bash, Cryptography, Firewalls, SIEM, Vulnerability Assessment, AWS Security, Zero Trust
+
+EXPERIENCE
+Lead Penetration Tester | CyberShield Defense | Boston, MA
+2021 - Present
+- Executed 45+ comprehensive web application, API, and internal network penetration tests for Fortune 500 financial clients.
+- Discovered 18 critical zero-day and OWASP Top 10 vulnerabilities, authoring remediation roadmaps that eliminated breach risks.
+- Conducted simulated red-team phishing and social engineering campaigns, boosting corporate employee security compliance to 98%.
+
+Security Analyst | Sentinel Tech | New York, NY
+2019 - 2021
+- Monitored Splunk SIEM alerts and investigated intrusion incidents across 12,000 corporate endpoints.
+- Developed automated Python and Bash scripts to streamline vulnerability scanning schedules.
+
+EDUCATION & CERTIFICATIONS
+B.S. in Cybersecurity & Information Assurance | Northeastern University | 2019
+Certifications: OSCP (Offensive Security Certified Professional), CEH, CompTIA Security+

@@ -1,0 +1,27 @@
+Arjun Patel
+Email: arjun.patel@cloudinfras.io | Phone: +1 206 555 7712 | Seattle, WA
+LinkedIn: linkedin.com/in/arjunpatel-devops | GitHub: github.com/apatel-ops
+
+SUMMARY
+Accomplished DevOps & Site Reliability Engineer with 7 years of deep experience architecting scalable, zero-downtime multi-region cloud infrastructure on AWS and GCP. Expert in Terraform, Kubernetes, Helm, CI/CD automation, and Prometheus observability.
+
+CORE COMPETENCIES
+AWS, GCP, Docker, Kubernetes, Helm, Terraform, Ansible, Jenkins, GitLab CI, GitHub Actions, Linux, Bash, Python, Prometheus, Grafana, Istio, ArgoCD, Vault, Network Security, Microservices, SRE
+
+EXPERIENCE
+Lead DevOps Engineer | Horizon Cloud Systems | Seattle, WA
+2020 - Present
+- Architected enterprise multi-tenant Kubernetes (EKS) clusters hosting 200+ containerized microservices across 3 AWS regions.
+- Automated 100% of cloud provisioning using modular Terraform Infrastructure-as-Code, cutting customer onboarding time from 3 days to 25 minutes.
+- Implemented GitOps continuous deployment with ArgoCD and Helm, achieving 99.99% infrastructure uptime SLA over consecutive 24 months.
+- Reduced monthly AWS infrastructure cloud expenditure by $35,000 through automated right-sizing and spot instance fleet management.
+
+DevOps Engineer | Apex Global Services | Chicago, IL
+2017 - 2020
+- Built automated CI/CD build and delivery pipelines with GitLab CI and Docker for 30+ internal developer squads.
+- Standardized centralized logging and monitoring using Prometheus, Grafana, and ELK stack.
+
+EDUCATION
+Bachelor of Technology in Information Technology | National Institute of Technology | 2017
+AWS Certified Solutions Architect - Professional (2022)
+Certified Kubernetes Administrator (CKA, 2021)

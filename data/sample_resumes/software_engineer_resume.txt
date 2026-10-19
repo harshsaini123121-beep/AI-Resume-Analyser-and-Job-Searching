@@ -1,0 +1,26 @@
+HARSH VARDHAN
+Software Engineer | harsh@example.com | +1 (555) 019-2834 | linkedin.com/in/harsh-se | github.com/harsh-dev
+
+PROFESSIONAL SUMMARY
+Software Engineer with 3 years of experience specializing in web development, Python, and cloud services. Experienced in building scalable applications and containerized microservices.
+
+WORK EXPERIENCE
+Software Engineer | CloudScale Technologies
+June 2023 - Present (3 years)
+- Developed and maintained web applications using Python and React, improving throughput by 35%.
+- Implemented automated deployment pipelines using Docker, reducing delivery time by 40%.
+- Designed database schemas in PostgreSQL, optimizing query latency by 25%.
+- Collaborated with teams to integrate TypeScript components.
+
+Junior Developer | Nexa Innovations
+July 2021 - May 2023
+- Assisted in building cloud solutions on AWS.
+- Configured Redis caching to optimize response caching.
+- Conducted testing with PyTest achieving 85% test coverage.
+
+EDUCATION
+Bachelor of Science in Computer Science
+University of Technology, 2021
+
+SKILLS
+Python, React, Docker, AWS, PostgreSQL, Redis, Git, Linux, TypeScript, Kubernetes, PyTest
