@@ -11,7 +11,7 @@ Built according to the industry specification in [AI_Resume_Analyser_Job_Matchin
 | # | Feature | Technical Implementation |
 |---|---------|--------------------------|
 | 1 | **Multi-Format Ingestion** | High-fidelity extraction from PDF (`pdfplumber` + `pypdf` fallback), Word (`python-docx`), and plain text. Includes scanned image detection. |
-| 2 | **Structured Entity Extraction** | Custom spaCy NLP and regex extraction for name, email, phone, links (LinkedIn/GitHub/Portfolio), degrees, graduation years, tenure, and sections. |
+| 2 | **Structured Entity Extraction** | Regex pattern matching, section detection, and dictionary-based entity extraction for name, email, phone, links (LinkedIn/GitHub/Portfolio), degrees, graduation years, tenure, and sections. |
 | 3 | **534-Concept Skill Taxonomy** | Normalized ontology spanning 12 domains (Programming, Web, Data, ML/AI, DevOps, Mobile, QA, Security) with a 57-alias synonym dictionary (`k8s` → `kubernetes`, `rag` → `retrieval augmented generation`, etc.). |
 | 4 | **100-Point ATS Scoring Engine** | Objective 8-dimension rubric assessing contact info, structural completeness, skill density, quantifiable outcomes, dynamic verbs, word count, formatting, and passive filler. |
 | 5 | **Dual-Signal Hybrid Matching** | Blends dense semantic vector representations (`all-MiniLM-L6-v2` / TF-IDF) with keyword skill overlap: `0.50 * Skill + 0.40 * Semantic + 0.10 * Experience`. |
@@ -20,7 +20,7 @@ Built according to the industry specification in [AI_Resume_Analyser_Job_Matchin
 | 8 | **Recruiter Batch Screening** | Batch-uploads 5 to 20+ resumes simultaneously, scores them against a target job, and ranks candidates in an interactive leaderboard table. |
 | 9 | **Branded PDF Audit Export** | One-click export of a styled, 2-page candidate ATS audit report via `fpdf2` containing scores, dimension tables, strengths, issues, and action items. |
 | 10 | **Vector Indexing (720+ Jobs)** | Sub-20ms nearest-neighbor semantic search over 721 real-world tech positions harvested from open industry APIs. |
-| 11 | **Zero-Cloud Local Privacy** | Runs 100% offline with zero cloud API keys, protecting candidate personal data. |
+| 11 | **Zero-Cloud Local Privacy** | Offline-first local inference with zero mandatory cloud dependencies; optional Gemini AI coaching requires user-configured API key. |
 | 12 | **DevOps & Production Readiness** | Multi-stage `Dockerfile`, `docker-compose.yml`, and GitHub Actions CI workflow (`.github/workflows/ci.yml`). |
 
 ---
@@ -34,9 +34,9 @@ Evaluated across 20 gold-standard labeled resume-job pairs spanning High, Modera
 | **Baseline A: Keyword (Jaccard Overlap)** | 23.50 | 0.783 | 65.0% |
 | **Baseline B: Sparse TF-IDF Cosine** | 43.96 | 0.788 | 35.0% |
 | **Baseline C: Pure Dense Embeddings** | 43.96 | 0.788 | 35.0% |
-| **Proposed System: Dual-Signal Hybrid** | **30.54** | **0.831** | **65.0%** |
+| **Proposed System: Dual-Signal Hybrid** | **30.54** | **0.831** | **35.0%** |
 
-> **Key Finding**: The Hybrid architecture achieved the highest rank correlation ($\rho = 0.831$) by balancing semantic generalization with hard technical prerequisite verification and experience duration weighting.
+> **Key Finding**: The Hybrid architecture achieved the highest rank correlation ($\rho = 0.831$) by balancing semantic generalization with hard technical prerequisite verification and experience duration weighting, while the exact-keyword baseline achieved lower MAE on direct vocabulary overlaps.
 
 ---
 

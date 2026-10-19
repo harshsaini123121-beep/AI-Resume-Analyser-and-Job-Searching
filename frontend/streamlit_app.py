@@ -453,30 +453,6 @@ RESUMELAB_CSS = """
         border: 1px solid #fecaca !important;
     }
 
-    /* Pro Plan Box in Sidebar */
-    .pro-plan-container {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 14px;
-        padding: 1rem;
-        margin-top: 2rem;
-    }
-    .pro-title {
-        font-size: 0.92rem;
-        font-weight: 700;
-        color: #0f172a;
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        margin-bottom: 0.35rem;
-    }
-    .pro-desc {
-        font-size: 0.76rem;
-        color: #64748b;
-        line-height: 1.35;
-        margin-bottom: 0.75rem;
-    }
-
     /* Streamlit Sidebar Customization - Minimize vacant space above sidebar */
     [data-testid="stSidebar"] {
         background-color: #ffffff !important;
@@ -726,15 +702,6 @@ with st.sidebar:
         label_visibility="collapsed"
     )
 
-    st.markdown("""
-    <div class="pro-plan-container">
-        <div class="pro-title">👑 Pro Plan</div>
-        <div class="pro-desc">Unlock batch analysis, resume optimization and advanced insights.</div>
-        <div style="text-align: center; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.45rem; font-size: 0.8rem; font-weight: 700; color: #2563eb; cursor: pointer; background: #ffffff;">
-            Upgrade →
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
 
 
 # -----------------------------------------------------------------------------

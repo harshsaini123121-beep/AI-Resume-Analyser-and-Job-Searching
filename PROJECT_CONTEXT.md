@@ -15,6 +15,6 @@ A production-grade AI Resume Analyser and Job Matching platform that empowers jo
 - **Frontend Dashboard**: Streamlit (`frontend/streamlit_app.py`) featuring modern glassmorphism aesthetic, interactive Plotly score gauges, category bar charts, skill badges, and job comparison cards.
 - **NLP / ML Core**:
   - `pdfplumber` & `pypdf` for PDF parsing; `python-docx` for DOCX parsing.
-  - `spacy` (`en_core_web_sm`) and regex pipelines for entity extraction.
+  - Regex pattern matching, section detection, and dictionary-based entity extraction.
   - `sentence-transformers` (`all-MiniLM-L6-v2`) + `scikit-learn` for semantic embeddings and cosine similarity.
-  - `google-generativeai` / `google-genai` for LLM resume coaching with offline fallback.
+  - `google-generativeai` for optional cloud LLM coaching with offline rule-based fallback.

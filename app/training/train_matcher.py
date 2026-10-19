@@ -118,6 +118,8 @@ def train_model(epochs: int = 2, batch_size: int = 8):
         return
 
     try:
+        import torch
+        import torch.nn as nn
         from sentence_transformers import SentenceTransformer, InputExample, losses
         from torch.utils.data import DataLoader
 
