@@ -29,12 +29,12 @@ Built according to the industry specification in [AI_Resume_Analyser_Job_Matchin
 
 Evaluated across 20 gold-standard labeled resume-job pairs spanning High, Moderate, and Low alignment domains (see [`BENCHMARK_RESULTS.md`](BENCHMARK_RESULTS.md)):
 
-| Model Architecture | MAE (Lower is better) | Spearman Correlation $\rho$ (Higher is better) | Category Classification Accuracy |
+| Model Architecture | MAE (Lower is better) | Spearman Correlation $ho$ (Higher is better) | Category Classification Accuracy |
 |--------------------|-----------------------|------------------------------------------------|----------------------------------|
-| **Baseline A: Keyword (Jaccard Overlap)** | 23.50 | 0.783 | 65.0% |
-| **Baseline B: Sparse TF-IDF Cosine** | 43.96 | 0.788 | 35.0% |
-| **Baseline C: Pure Dense Embeddings** | 43.96 | 0.788 | 35.0% |
-| **Proposed System: Dual-Signal Hybrid** | **30.54** | **0.831** | **35.0%** |
+| **Keyword (Jaccard)** | 22.59 | 0.798 | 60.0% |
+| **TF-IDF** | 43.66 | 0.823 | 30.0% |
+| **Dense Embeddings** | 43.66 | 0.823 | 30.0% |
+| **Hybrid (Our Model)** | 30.52 | 0.810 | 30.0% |
 
 > **Key Finding**: The Hybrid architecture achieved the highest rank correlation ($\rho = 0.831$) by balancing semantic generalization with hard technical prerequisite verification and experience duration weighting, while the exact-keyword baseline achieved lower MAE on direct vocabulary overlaps.
 

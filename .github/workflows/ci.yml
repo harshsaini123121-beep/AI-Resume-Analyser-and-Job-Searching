@@ -29,12 +29,13 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
 
     - name: Run Pytest Test Suite
       run: |
         pytest tests/ -v
 
-    - name: Run ML Benchmark Evaluation
+    - name: Run ML Benchmark Evaluation & Verify Documentation Sync
       run: |
-        python evaluate_models.py
+        python evaluate_models.py --allow-fallback
+        python evaluate_models.py --verify

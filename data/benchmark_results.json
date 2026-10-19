@@ -1,0 +1,34 @@
+{
+  "benchmark_dataset_size": 20,
+  "generated_at": "2026-10-19T19:35:34.578535+00:00",
+  "models": [
+    {
+      "model_architecture": "Keyword (Jaccard)",
+      "engine": "Set Intersection / Exact Word Boundary",
+      "mae": 22.59,
+      "spearman_rho": 0.798,
+      "accuracy_pct": 60.0
+    },
+    {
+      "model_architecture": "TF-IDF",
+      "engine": "Sparse N-Gram TF-IDF Cosine",
+      "mae": 43.66,
+      "spearman_rho": 0.823,
+      "accuracy_pct": 30.0
+    },
+    {
+      "model_architecture": "Dense Embeddings",
+      "engine": "TF-IDF (Fallback - Model Deferred)",
+      "mae": 43.66,
+      "spearman_rho": 0.823,
+      "accuracy_pct": 30.0
+    },
+    {
+      "model_architecture": "Hybrid (Our Model)",
+      "engine": "Hybrid [TF-IDF Fallback + Skills + Exp]",
+      "mae": 30.52,
+      "spearman_rho": 0.81,
+      "accuracy_pct": 30.0
+    }
+  ]
+}
