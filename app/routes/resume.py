@@ -6,7 +6,7 @@ Enforces file format, magic-byte inspection, size limits, and scoped authenticat
 import os
 import json
 from typing import List, Optional
-from fastapi import APIRouter, UploadFile, File, HTTPException, Depends, Security, Request, Response, status
+from fastapi import APIRouter, UploadFile, File, HTTPException, Depends, Security, Request, Response, status, Query
 from fastapi.security import APIKeyHeader
 from sqlalchemy.orm import Session
 
@@ -150,14 +150,15 @@ async def analyse_resume(
 
 @router.get("/history")
 def get_resume_history(
-    limit: int = 20,
+    offset: int = Query(0, ge=0),
+    limit: int = Query(20, ge=1, le=100),
     caller_id: str = Depends(get_current_user_or_api_key),
     db: Session = Depends(get_db)
 ):
-    """Returns recent resume analyses scoped to the authenticated caller."""
-    records = db.query(ResumeRecord).filter(
-        ResumeRecord.owner_id == caller_id
-    ).order_by(ResumeRecord.created_at.desc()).limit(limit).all()
+    """Returns recent resume analyses scoped to the authenticated caller with pagination."""
+    query = db.query(ResumeRecord).filter(ResumeRecord.owner_id == caller_id)
+    total = query.count()
+    records = query.order_by(ResumeRecord.created_at.desc()).offset(offset).limit(limit).all()
 
     history = []
     for r in records:
@@ -178,7 +179,7 @@ def get_resume_history(
             "ats_grade": r.ats_grade,
             "created_at": r.created_at.isoformat() if r.created_at else None
         })
-    return {"history": history}
+    return {"history": history, "total": total, "offset": offset, "limit": limit}
 
 
 @router.delete("/{record_id}")

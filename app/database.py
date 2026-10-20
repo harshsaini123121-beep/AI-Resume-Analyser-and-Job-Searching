@@ -16,19 +16,16 @@ Base = declarative_base()
 
 
 def init_db(bind_engine=None):
-    """Initializes tables and automatically migrates missing schema columns for SQLite."""
+    """Initializes tables and metadata for SQLite and PostgreSQL."""
     target_engine = bind_engine or engine
     Base.metadata.create_all(bind=target_engine)
     if "sqlite" in str(target_engine.url):
         with target_engine.connect() as conn:
             try:
-                res = conn.execute(text("PRAGMA table_info(resume_records)")).fetchall()
+                res = conn.execute(text("PRAGMA table_info(resumes)")).fetchall()
                 col_names = [r[1] for r in res]
-                if col_names:
-                    if "storage_uuid" not in col_names:
-                        conn.execute(text("ALTER TABLE resume_records ADD COLUMN storage_uuid VARCHAR(64)"))
-                    if "owner_id" not in col_names:
-                        conn.execute(text("ALTER TABLE resume_records ADD COLUMN owner_id VARCHAR(64) DEFAULT 'default_user'"))
+                if col_names and "storage_uuid" not in col_names:
+                    conn.execute(text("ALTER TABLE resumes ADD COLUMN storage_uuid VARCHAR(64)"))
                 conn.commit()
             except Exception:
                 pass

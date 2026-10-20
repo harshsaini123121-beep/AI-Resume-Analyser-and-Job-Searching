@@ -31,13 +31,23 @@ def get_embedding_model():
 
     try:
         from sentence_transformers import SentenceTransformer
-        # Use lightweight, fast, top-performing all-MiniLM-L6-v2
-        _SENTENCE_MODEL = SentenceTransformer("all-MiniLM-L6-v2")
+        _SENTENCE_MODEL = SentenceTransformer(settings.EMBEDDING_MODEL_NAME)
         return _SENTENCE_MODEL
     except Exception as e:
         print(f"[Matcher] Notice: sentence-transformers model initialization deferred: {e}")
         _MODEL_LOAD_FAILED = True
         return None
+
+
+def is_model_loaded() -> bool:
+    """Returns True if the embedding model is loaded in memory."""
+    return _SENTENCE_MODEL is not None
+
+
+def is_tfidf_fallback_active() -> bool:
+    """Returns True if TF-IDF fallback is active due to model load failure."""
+    return _MODEL_LOAD_FAILED
+
 
 
 def compute_semantic_similarity(text1: str, text2: str) -> float:

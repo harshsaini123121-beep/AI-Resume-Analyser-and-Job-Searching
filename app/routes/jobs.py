@@ -3,8 +3,10 @@ Job matching and recommendation routes: JD matching, skill gap analysis, and rec
 """
 
 import json
-from typing import List, Optional
-from fastapi import APIRouter, HTTPException, Depends, Query
+import threading
+import uuid
+from typing import List, Optional, Dict, Any, Union
+from fastapi import APIRouter, HTTPException, Depends, Query, BackgroundTasks
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -31,6 +33,10 @@ from app.schemas import (
 )
 
 router = APIRouter(prefix="", tags=["Jobs & Matching"])
+
+# In-memory background task registry for asynchronous batch screening
+BATCH_TASKS: Dict[str, Dict[str, Any]] = {}
+BATCH_TASKS_LOCK = threading.Lock()
 
 
 @router.post("/match", response_model=JobMatchResponse)
@@ -125,27 +131,33 @@ def get_job_recommendations(request: JobRecommendationRequest):
 
 
 @router.get("/jobs/list")
-def list_available_jobs(limit: int = Query(60, ge=1, le=100)):
-    """Returns curated jobs from data/jobs.csv for quick selection in the UI."""
+def list_available_jobs(
+    offset: int = Query(0, ge=0),
+    limit: int = Query(60, ge=1, le=100)
+):
+    """Returns curated jobs from data/jobs.csv for quick selection in the UI with pagination."""
     df = load_jobs_dataset()
+    total = len(df) if df is not None else 0
     jobs = []
-    for _, row in df.head(limit).iterrows():
-        raw_skills = [
-            s.strip().lower()
-            for s in str(row["required_skills"]).replace(";", ",").split(",")
-            if s.strip()
-        ]
-        jobs.append({
-            "job_id": str(row["job_id"]),
-            "title": str(row["title"]),
-            "company": str(row["company"]),
-            "location": str(row["location"]),
-            "salary": str(row["salary"]),
-            "experience_required": float(row["experience_required"]),
-            "description": str(row["description"]),
-            "required_skills": raw_skills
-        })
-    return {"jobs": jobs, "total": len(jobs)}
+    if df is not None and not df.empty:
+        sliced_df = df.iloc[offset:offset + limit]
+        for _, row in sliced_df.iterrows():
+            raw_skills = [
+                s.strip().lower()
+                for s in str(row["required_skills"]).replace(";", ",").split(",")
+                if s.strip()
+            ]
+            jobs.append({
+                "job_id": str(row["job_id"]),
+                "title": str(row["title"]),
+                "company": str(row["company"]),
+                "location": str(row["location"]),
+                "salary": str(row["salary"]),
+                "experience_required": float(row["experience_required"]),
+                "description": str(row["description"]),
+                "required_skills": raw_skills
+            })
+    return {"jobs": jobs, "total": total, "offset": offset, "limit": limit}
 
 
 @router.post("/match/xai-evidence", response_model=XAIEvidenceResponse)
@@ -162,17 +174,8 @@ def get_xai_evidence(request: XAIEvidenceRequest):
     return XAIEvidenceResponse(evidence=items)
 
 
-@router.post("/jobs/batch-screen", response_model=BatchScreenResponse)
-def batch_screen_candidates(request: BatchScreenRequest):
-    """
-    Screens multiple candidate resumes against a target job requisition,
-    evaluating ATS compliance, tenure match, and skill overlap.
-    """
-    if not request.candidates:
-        raise HTTPException(status_code=400, detail="Candidate list cannot be empty.")
-
+def _process_candidate_batch(request: BatchScreenRequest, job_id: Optional[str] = None) -> BatchScreenResponse:
     req_skills = request.required_skills or []
-    # If not provided, try to extract from JD text or job_id
     if not req_skills and request.job_id:
         df = load_jobs_dataset()
         job_rows = df[df["job_id"] == str(request.job_id)]
@@ -184,7 +187,8 @@ def batch_screen_candidates(request: BatchScreenRequest):
             ]
 
     results = []
-    for cand in request.candidates:
+    total = len(request.candidates)
+    for idx, cand in enumerate(request.candidates):
         text = cand.text
         ext = extract_resume_data(text)
         cand_exp = float(ext.get("experience_years") or 0.0)
@@ -209,14 +213,81 @@ def batch_screen_candidates(request: BatchScreenRequest):
             missing_skills=match.get("missing_skills", [])[:5]
         ))
 
-    # Sort descending by match percentage
-    results.sort(key=lambda x: x.match_percentage, reverse=True)
+        if job_id:
+            with BATCH_TASKS_LOCK:
+                if job_id in BATCH_TASKS:
+                    BATCH_TASKS[job_id]["processed"] = idx + 1
+                    BATCH_TASKS[job_id]["progress_percentage"] = round((idx + 1) / total * 100, 1)
 
+    results.sort(key=lambda x: x.match_percentage, reverse=True)
     return BatchScreenResponse(
         job_title=request.jd_title or "Target Role",
         candidates_screened=len(results),
         results=results
     )
+
+
+def _execute_background_batch(job_id: str, request: BatchScreenRequest):
+    try:
+        response = _process_candidate_batch(request, job_id=job_id)
+        with BATCH_TASKS_LOCK:
+            if job_id in BATCH_TASKS:
+                BATCH_TASKS[job_id]["status"] = "completed"
+                BATCH_TASKS[job_id]["result"] = response.model_dump()
+    except Exception as e:
+        with BATCH_TASKS_LOCK:
+            if job_id in BATCH_TASKS:
+                BATCH_TASKS[job_id]["status"] = "failed"
+                BATCH_TASKS[job_id]["error"] = str(e)
+
+
+@router.post("/jobs/batch-screen", response_model=BatchScreenResponse)
+def batch_screen_candidates(request: BatchScreenRequest):
+    """
+    Screens multiple candidate resumes against a target job requisition,
+    evaluating ATS compliance, tenure match, and skill overlap.
+    """
+    if not request.candidates:
+        raise HTTPException(status_code=400, detail="Candidate list cannot be empty.")
+    return _process_candidate_batch(request)
+
+
+@router.post("/jobs/batch-screen-async")
+def batch_screen_candidates_async(
+    request: BatchScreenRequest,
+    background_tasks: BackgroundTasks
+):
+    """
+    Submits candidate resumes for asynchronous background screening.
+    Returns tracking job_id and initial status.
+    """
+    if not request.candidates:
+        raise HTTPException(status_code=400, detail="Candidate list cannot be empty.")
+
+    job_id = str(uuid.uuid4())
+    with BATCH_TASKS_LOCK:
+        BATCH_TASKS[job_id] = {
+            "job_id": job_id,
+            "status": "processing",
+            "processed": 0,
+            "total": len(request.candidates),
+            "progress_percentage": 0.0,
+            "result": None,
+            "error": None
+        }
+
+    background_tasks.add_task(_execute_background_batch, job_id, request)
+    return {"job_id": job_id, "status": "processing"}
+
+
+@router.get("/jobs/batch/{job_id}/progress")
+def get_batch_screening_progress(job_id: str):
+    """Returns current progress or completed results of an asynchronous batch screening task."""
+    with BATCH_TASKS_LOCK:
+        task = BATCH_TASKS.get(job_id)
+    if not task:
+        raise HTTPException(status_code=404, detail=f"Batch job '{job_id}' not found.")
+    return task
 
 
 @router.post("/jobs/extract-skills")

@@ -234,6 +234,30 @@ class ResumeLabClient:
         }
         return self._request("POST", "/api/v1/jobs/batch-screen", json_data=payload)
 
+    def batch_screen_async(
+        self,
+        jd_text: str,
+        candidates: List[Dict[str, str]],
+        job_id: Optional[str] = None,
+        jd_title: Optional[str] = None,
+        required_skills: Optional[List[str]] = None,
+        experience_required: float = 0.0
+    ) -> Dict[str, Any]:
+        """Submits candidate resumes for asynchronous background batch screening."""
+        payload = {
+            "job_id": job_id,
+            "jd_title": jd_title or "Target Role",
+            "jd_text": jd_text,
+            "required_skills": required_skills or [],
+            "experience_required": experience_required,
+            "candidates": candidates
+        }
+        return self._request("POST", "/api/v1/jobs/batch-screen-async", json_data=payload)
+
+    def get_batch_progress(self, job_id: str) -> Dict[str, Any]:
+        """Polls the status, progress percentage, or completed results of a batch job."""
+        return self._request("GET", f"/api/v1/jobs/batch/{job_id}/progress")
+
     def optimize_bullet(self, bullet_text: str) -> Dict[str, Any]:
         """Rewrites and audits a bullet point using Google X-Y-Z rubric."""
         return self._request("POST", "/api/v1/resume/bullet-optimize", json_data={"bullet_text": bullet_text})
@@ -270,9 +294,9 @@ class ResumeLabClient:
         }
         return self._request("POST", "/api/v1/resume/report-pdf", json_data=payload, is_binary=True)
 
-    def get_history(self, limit: int = 20) -> List[Dict[str, Any]]:
-        """Retrieves scoped audit history for authenticated caller."""
-        res = self._request("GET", "/api/v1/resume/history", params={"limit": limit})
+    def get_history(self, offset: int = 0, limit: int = 20) -> List[Dict[str, Any]]:
+        """Retrieves scoped audit history for authenticated caller with pagination."""
+        res = self._request("GET", "/api/v1/resume/history", params={"offset": offset, "limit": limit})
         return res.get("history", [])
 
     def delete_history_record(self, record_id: int) -> bool:
