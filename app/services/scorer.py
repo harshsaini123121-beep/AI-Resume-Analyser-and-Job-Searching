@@ -148,9 +148,15 @@ def calculate_ats_score(resume_text: str, extracted_data: Dict[str, Any]) -> Dic
 
     # -------------------------------------------------------------
     # 4. Quantified Achievements & Metrics (Max: 15 pts)
-    # -------------------------------------------------------------
-    # Look for metrics: percentages (%), currencies ($/€/£), multipliers (2x, 10x), scale (100k, 2M, 500+)
-    metric_pattern = r"(?:\d+(?:\.\d+)?%|\$\s*\d+(?:,\d+)*(?:\.\d+)?|\b\d+x\b|\b\d+\s*(?:k|m|million|billion|users|clients|queries|hours)\b|\b\d{2,}\b)"
+    # Look for metrics: percentages (%), currencies ($/€/£/₹), multipliers (2x, 10x), scale (100k, 2M, 500+ users, 45 ms)
+    # Strictly require metric units, percentages, currency symbols, or multipliers (prevents matching bare years/numbers)
+    metric_pattern = (
+        r"(?:\d+(?:\.\d+)?%"
+        r"|[\$€£₹]\s*\d+(?:,\d+)*(?:\.\d+)?(?:\s*(?:k|m|b|million|billion))?"
+        r"|\b\d+(?:\.\d+)?x\b"
+        r"|\b\d+(?:,\d+)*(?:\.\d+)?\+?\s*(?:k|m|million|billion|users|clients|customers|requests|queries|qps|rps|tps|transactions|dau|mau|employees|engineers|members|tickets|hours|days|weeks|months|years|ms|seconds|tb|gb|pb|pts|points)\b"
+        r"|\b\d{2,}\+\b)"
+    )
     quantified_matches = re.findall(metric_pattern, resume_text, re.IGNORECASE)
     quant_count = len(quantified_matches)
     quant_pts = 0

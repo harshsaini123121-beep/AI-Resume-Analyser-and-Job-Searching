@@ -106,9 +106,11 @@ def get_job_recommendations(request: JobRecommendationRequest):
     )
 
     items = [JobItem(**r) for r in recs]
+    df = load_jobs_dataset()
+    total_evaluated = len(df) if df is not None and not df.empty else len(items)
 
     return JobRecommendationResponse(
-        total_jobs_evaluated=len(items),
+        total_jobs_evaluated=total_evaluated,
         recommendations=items
     )
 

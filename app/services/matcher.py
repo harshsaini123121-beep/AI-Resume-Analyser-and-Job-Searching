@@ -9,6 +9,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+from app.config import settings
 from app.services.cleaner import clean_text
 from app.services.extractor import extract_skills
 
@@ -97,9 +98,9 @@ def compute_match(
     jd_skills: Optional[List[str]] = None,
     candidate_exp_years: float = 0.0,
     required_exp_years: float = 0.0,
-    skill_weight: float = 0.5,
-    semantic_weight: float = 0.4,
-    exp_weight: float = 0.1
+    skill_weight: Optional[float] = None,
+    semantic_weight: Optional[float] = None,
+    exp_weight: Optional[float] = None
 ) -> Dict[str, Any]:
     """
     Performs hybrid matching between a resume and target job description:
@@ -108,6 +109,10 @@ def compute_match(
     3. Experience requirement ratio
     4. Weighted final score and verdict categorization
     """
+    w_skill = skill_weight if skill_weight is not None else settings.SKILL_WEIGHT
+    w_semantic = semantic_weight if semantic_weight is not None else settings.SEMANTIC_WEIGHT
+    w_exp = exp_weight if exp_weight is not None else settings.EXPERIENCE_WEIGHT
+
     # Normalize skill lists
     resume_skill_set = set(s.strip().lower() for s in resume_skills if s.strip())
     resolved_jd_skills = parse_job_skills(jd_text, jd_skills)
@@ -118,11 +123,13 @@ def compute_match(
     missing_skills = sorted(list(jd_skill_set - resume_skill_set))
     additional_skills = sorted(list(resume_skill_set - jd_skill_set))
 
+    low_confidence = False
     if len(jd_skill_set) > 0:
         skill_score = len(matched_skills) / len(jd_skill_set)
     else:
-        # If JD has no detected specific skills, rely on semantic similarity
-        skill_score = 0.5
+        # If JD has no detected specific skills, do not invent an arbitrary 0.5 score
+        skill_score = 0.0
+        low_confidence = True
 
     # Semantic similarity
     semantic_score = compute_semantic_similarity(resume_text, jd_text)
@@ -134,11 +141,19 @@ def compute_match(
         exp_score = min(1.0, candidate_exp_years / required_exp_years)
 
     # Weighted final score (0.0 to 1.0)
-    final_score_raw = (
-        (skill_weight * skill_score) +
-        (semantic_weight * semantic_score) +
-        (exp_weight * exp_score)
-    )
+    if low_confidence:
+        denom = w_semantic + w_exp
+        if denom > 0:
+            final_score_raw = ((w_semantic / denom) * semantic_score) + ((w_exp / denom) * exp_score)
+        else:
+            final_score_raw = semantic_score
+    else:
+        final_score_raw = (
+            (w_skill * skill_score) +
+            (w_semantic * semantic_score) +
+            (w_exp * exp_score)
+        )
+
     final_percentage = round(final_score_raw * 100, 1)
     final_percentage = max(0.0, min(100.0, final_percentage))
 
@@ -173,9 +188,10 @@ def compute_match(
         "additional_skills": additional_skills,
         "candidate_experience_years": candidate_exp_years,
         "required_experience_years": required_exp_years,
+        "low_confidence": low_confidence,
         "weights": {
-            "skill": skill_weight,
-            "semantic": semantic_weight,
-            "experience": exp_weight
+            "skill": w_skill,
+            "semantic": w_semantic,
+            "experience": w_exp
         }
     }
