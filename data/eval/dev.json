@@ -1,0 +1,1587 @@
+[
+  {
+    "pair_id": 1,
+    "domain": "Machine Learning / AI",
+    "seniority": "Junior",
+    "resume_text": "Junior Senior Machine Learning Engineer with 6 years experience in Python, PyTorch, Deep Learning, NLP, Transformers, Docker, Kubernetes, and MLOps. Architected and deployed enterprise LLM pipelines on AWS.",
+    "resume_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "nlp",
+      "transformers",
+      "docker",
+      "kubernetes",
+      "mlops",
+      "aws"
+    ],
+    "candidate_exp_years": 5.0,
+    "jd_title": "Junior Senior Machine Learning Engineer",
+    "jd_text": "Role: Junior Senior Machine Learning Engineer. Seeking a Senior ML Engineer with 5+ years building and deploying deep learning and NLP models using PyTorch, Transformers, and MLOps on Kubernetes.",
+    "jd_required_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "nlp"
+    ],
+    "jd_preferred_skills": [
+      "transformers",
+      "docker",
+      "kubernetes",
+      "mlops"
+    ],
+    "required_exp_years": 3.5,
+    "ground_truth_score": 88.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 2,
+    "domain": "Machine Learning / AI",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Senior Machine Learning Engineer with 6 years experience in Python, PyTorch, Deep Learning, NLP, Transformers, Docker, Kubernetes, and MLOps. Architected and deployed enterprise LLM pipelines on AWS.",
+    "resume_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "nlp",
+      "transformers",
+      "docker",
+      "kubernetes",
+      "mlops",
+      "aws"
+    ],
+    "candidate_exp_years": 6.0,
+    "jd_title": "Mid-Level Senior Machine Learning Engineer",
+    "jd_text": "Role: Mid-Level Senior Machine Learning Engineer. Seeking a Senior ML Engineer with 5+ years building and deploying deep learning and NLP models using PyTorch, Transformers, and MLOps on Kubernetes.",
+    "jd_required_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "nlp"
+    ],
+    "jd_preferred_skills": [
+      "transformers",
+      "docker",
+      "kubernetes",
+      "mlops"
+    ],
+    "required_exp_years": 5.0,
+    "ground_truth_score": 92.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 3,
+    "domain": "Machine Learning / AI",
+    "seniority": "Senior",
+    "resume_text": "Senior Senior Machine Learning Engineer with 6 years experience in Python, PyTorch, Deep Learning, NLP, Transformers, Docker, Kubernetes, and MLOps. Architected and deployed enterprise LLM pipelines on AWS.",
+    "resume_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "nlp",
+      "transformers",
+      "docker",
+      "kubernetes",
+      "mlops",
+      "aws"
+    ],
+    "candidate_exp_years": 7.5,
+    "jd_title": "Senior Senior Machine Learning Engineer",
+    "jd_text": "Role: Senior Senior Machine Learning Engineer. Seeking a Senior ML Engineer with 5+ years building and deploying deep learning and NLP models using PyTorch, Transformers, and MLOps on Kubernetes.",
+    "jd_required_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "nlp"
+    ],
+    "jd_preferred_skills": [
+      "transformers",
+      "docker",
+      "kubernetes",
+      "mlops"
+    ],
+    "required_exp_years": 6.0,
+    "ground_truth_score": 94.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 4,
+    "domain": "Machine Learning / AI",
+    "seniority": "Lead",
+    "resume_text": "Lead Senior Machine Learning Engineer with 6 years experience in Python, PyTorch, Deep Learning, NLP, Transformers, Docker, Kubernetes, and MLOps. Architected and deployed enterprise LLM pipelines on AWS.",
+    "resume_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "nlp",
+      "transformers",
+      "docker",
+      "kubernetes",
+      "mlops",
+      "aws"
+    ],
+    "candidate_exp_years": 8.5,
+    "jd_title": "Lead Senior Machine Learning Engineer",
+    "jd_text": "Role: Lead Senior Machine Learning Engineer. Seeking a Senior ML Engineer with 5+ years building and deploying deep learning and NLP models using PyTorch, Transformers, and MLOps on Kubernetes.",
+    "jd_required_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "nlp"
+    ],
+    "jd_preferred_skills": [
+      "transformers",
+      "docker",
+      "kubernetes",
+      "mlops"
+    ],
+    "required_exp_years": 7.0,
+    "ground_truth_score": 95.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 5,
+    "domain": "Machine Learning / AI",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Senior Machine Learning Engineer with 6 years experience in Python, PyTorch, Deep Learning, NLP, Transformers, Docker, Kubernetes, and MLOps. Architected and deployed enterprise LLM pipelines on AWS.",
+    "resume_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "nlp",
+      "transformers",
+      "docker",
+      "kubernetes",
+      "mlops",
+      "aws"
+    ],
+    "candidate_exp_years": 10.0,
+    "jd_title": "Staff / Principal Senior Machine Learning Engineer",
+    "jd_text": "Role: Staff / Principal Senior Machine Learning Engineer. Seeking a Senior ML Engineer with 5+ years building and deploying deep learning and NLP models using PyTorch, Transformers, and MLOps on Kubernetes.",
+    "jd_required_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "nlp"
+    ],
+    "jd_preferred_skills": [
+      "transformers",
+      "docker",
+      "kubernetes",
+      "mlops"
+    ],
+    "required_exp_years": 8.0,
+    "ground_truth_score": 93.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 6,
+    "domain": "Machine Learning / AI",
+    "seniority": "Junior",
+    "resume_text": "Junior Data Analyst with 3 years writing Python and SQL queries for business intelligence, Tableau dashboards, and exploratory data analysis. Built basic scikit-learn models.",
+    "resume_skills": [
+      "python",
+      "sql",
+      "tableau",
+      "pandas",
+      "scikit-learn"
+    ],
+    "candidate_exp_years": 2.0,
+    "jd_title": "Junior Data Scientist - Predictive Analytics",
+    "jd_text": "Role: Junior Data Scientist - Predictive Analytics. Looking for a Data Scientist with 3+ years experience building predictive machine learning models in Python, advanced statistical modeling, and database querying.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "machine learning",
+      "statistics"
+    ],
+    "jd_preferred_skills": [
+      "scikit-learn",
+      "pandas",
+      "tableau"
+    ],
+    "required_exp_years": 2.1,
+    "ground_truth_score": 58.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 7,
+    "domain": "Machine Learning / AI",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Data Analyst with 3 years writing Python and SQL queries for business intelligence, Tableau dashboards, and exploratory data analysis. Built basic scikit-learn models.",
+    "resume_skills": [
+      "python",
+      "sql",
+      "tableau",
+      "pandas",
+      "scikit-learn"
+    ],
+    "candidate_exp_years": 3.0,
+    "jd_title": "Mid-Level Data Scientist - Predictive Analytics",
+    "jd_text": "Role: Mid-Level Data Scientist - Predictive Analytics. Looking for a Data Scientist with 3+ years experience building predictive machine learning models in Python, advanced statistical modeling, and database querying.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "machine learning",
+      "statistics"
+    ],
+    "jd_preferred_skills": [
+      "scikit-learn",
+      "pandas",
+      "tableau"
+    ],
+    "required_exp_years": 3.0,
+    "ground_truth_score": 62.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 8,
+    "domain": "Machine Learning / AI",
+    "seniority": "Senior",
+    "resume_text": "Senior Data Analyst with 3 years writing Python and SQL queries for business intelligence, Tableau dashboards, and exploratory data analysis. Built basic scikit-learn models.",
+    "resume_skills": [
+      "python",
+      "sql",
+      "tableau",
+      "pandas",
+      "scikit-learn"
+    ],
+    "candidate_exp_years": 4.5,
+    "jd_title": "Senior Data Scientist - Predictive Analytics",
+    "jd_text": "Role: Senior Data Scientist - Predictive Analytics. Looking for a Data Scientist with 3+ years experience building predictive machine learning models in Python, advanced statistical modeling, and database querying.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "machine learning",
+      "statistics"
+    ],
+    "jd_preferred_skills": [
+      "scikit-learn",
+      "pandas",
+      "tableau"
+    ],
+    "required_exp_years": 3.6,
+    "ground_truth_score": 64.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 9,
+    "domain": "Machine Learning / AI",
+    "seniority": "Lead",
+    "resume_text": "Lead Data Analyst with 3 years writing Python and SQL queries for business intelligence, Tableau dashboards, and exploratory data analysis. Built basic scikit-learn models.",
+    "resume_skills": [
+      "python",
+      "sql",
+      "tableau",
+      "pandas",
+      "scikit-learn"
+    ],
+    "candidate_exp_years": 5.5,
+    "jd_title": "Lead Data Scientist - Predictive Analytics",
+    "jd_text": "Role: Lead Data Scientist - Predictive Analytics. Looking for a Data Scientist with 3+ years experience building predictive machine learning models in Python, advanced statistical modeling, and database querying.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "machine learning",
+      "statistics"
+    ],
+    "jd_preferred_skills": [
+      "scikit-learn",
+      "pandas",
+      "tableau"
+    ],
+    "required_exp_years": 4.2,
+    "ground_truth_score": 65.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 10,
+    "domain": "Machine Learning / AI",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Data Analyst with 3 years writing Python and SQL queries for business intelligence, Tableau dashboards, and exploratory data analysis. Built basic scikit-learn models.",
+    "resume_skills": [
+      "python",
+      "sql",
+      "tableau",
+      "pandas",
+      "scikit-learn"
+    ],
+    "candidate_exp_years": 7.0,
+    "jd_title": "Staff / Principal Data Scientist - Predictive Analytics",
+    "jd_text": "Role: Staff / Principal Data Scientist - Predictive Analytics. Looking for a Data Scientist with 3+ years experience building predictive machine learning models in Python, advanced statistical modeling, and database querying.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "machine learning",
+      "statistics"
+    ],
+    "jd_preferred_skills": [
+      "scikit-learn",
+      "pandas",
+      "tableau"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 63.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 11,
+    "domain": "Machine Learning / AI",
+    "seniority": "Junior",
+    "resume_text": "Junior Digital Marketing Specialist with 4 years running Google Ads, SEO campaigns, content creation, and social media analytics in Google Analytics.",
+    "resume_skills": [
+      "seo",
+      "google ads",
+      "content marketing",
+      "social media",
+      "copywriting"
+    ],
+    "candidate_exp_years": 3.0,
+    "jd_title": "Junior AI Research Scientist - Deep Learning",
+    "jd_text": "Role: Junior AI Research Scientist - Deep Learning. PhD or Master's required in Computer Science or Mathematics. Hands-on experience developing novel deep learning architectures in PyTorch or JAX.",
+    "jd_required_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "algorithms",
+      "research"
+    ],
+    "jd_preferred_skills": [
+      "cuda",
+      "jax",
+      "distributed training"
+    ],
+    "required_exp_years": 2.8,
+    "ground_truth_score": 6.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 12,
+    "domain": "Machine Learning / AI",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Digital Marketing Specialist with 4 years running Google Ads, SEO campaigns, content creation, and social media analytics in Google Analytics.",
+    "resume_skills": [
+      "seo",
+      "google ads",
+      "content marketing",
+      "social media",
+      "copywriting"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Mid-Level AI Research Scientist - Deep Learning",
+    "jd_text": "Role: Mid-Level AI Research Scientist - Deep Learning. PhD or Master's required in Computer Science or Mathematics. Hands-on experience developing novel deep learning architectures in PyTorch or JAX.",
+    "jd_required_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "algorithms",
+      "research"
+    ],
+    "jd_preferred_skills": [
+      "cuda",
+      "jax",
+      "distributed training"
+    ],
+    "required_exp_years": 4.0,
+    "ground_truth_score": 10.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 13,
+    "domain": "Machine Learning / AI",
+    "seniority": "Senior",
+    "resume_text": "Senior Digital Marketing Specialist with 4 years running Google Ads, SEO campaigns, content creation, and social media analytics in Google Analytics.",
+    "resume_skills": [
+      "seo",
+      "google ads",
+      "content marketing",
+      "social media",
+      "copywriting"
+    ],
+    "candidate_exp_years": 5.5,
+    "jd_title": "Senior AI Research Scientist - Deep Learning",
+    "jd_text": "Role: Senior AI Research Scientist - Deep Learning. PhD or Master's required in Computer Science or Mathematics. Hands-on experience developing novel deep learning architectures in PyTorch or JAX.",
+    "jd_required_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "algorithms",
+      "research"
+    ],
+    "jd_preferred_skills": [
+      "cuda",
+      "jax",
+      "distributed training"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 12.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 14,
+    "domain": "Machine Learning / AI",
+    "seniority": "Lead",
+    "resume_text": "Lead Digital Marketing Specialist with 4 years running Google Ads, SEO campaigns, content creation, and social media analytics in Google Analytics.",
+    "resume_skills": [
+      "seo",
+      "google ads",
+      "content marketing",
+      "social media",
+      "copywriting"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Lead AI Research Scientist - Deep Learning",
+    "jd_text": "Role: Lead AI Research Scientist - Deep Learning. PhD or Master's required in Computer Science or Mathematics. Hands-on experience developing novel deep learning architectures in PyTorch or JAX.",
+    "jd_required_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "algorithms",
+      "research"
+    ],
+    "jd_preferred_skills": [
+      "cuda",
+      "jax",
+      "distributed training"
+    ],
+    "required_exp_years": 5.6,
+    "ground_truth_score": 13.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 15,
+    "domain": "Machine Learning / AI",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Digital Marketing Specialist with 4 years running Google Ads, SEO campaigns, content creation, and social media analytics in Google Analytics.",
+    "resume_skills": [
+      "seo",
+      "google ads",
+      "content marketing",
+      "social media",
+      "copywriting"
+    ],
+    "candidate_exp_years": 8.0,
+    "jd_title": "Staff / Principal AI Research Scientist - Deep Learning",
+    "jd_text": "Role: Staff / Principal AI Research Scientist - Deep Learning. PhD or Master's required in Computer Science or Mathematics. Hands-on experience developing novel deep learning architectures in PyTorch or JAX.",
+    "jd_required_skills": [
+      "python",
+      "pytorch",
+      "deep learning",
+      "algorithms",
+      "research"
+    ],
+    "jd_preferred_skills": [
+      "cuda",
+      "jax",
+      "distributed training"
+    ],
+    "required_exp_years": 6.4,
+    "ground_truth_score": 11.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 16,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Junior",
+    "resume_text": "Junior Full Stack Developer with 5 years in TypeScript, React, Next.js, Node.js, Python, FastAPI, and PostgreSQL. Built scalable microservices and responsive SaaS portals.",
+    "resume_skills": [
+      "typescript",
+      "react",
+      "next.js",
+      "python",
+      "fastapi",
+      "postgresql",
+      "docker",
+      "git"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Junior Full Stack Software Engineer",
+    "jd_text": "Role: Junior Full Stack Software Engineer. Looking for a Full Stack Engineer proficient in React, TypeScript, and Python/FastAPI backend services with relational database experience (PostgreSQL).",
+    "jd_required_skills": [
+      "typescript",
+      "react",
+      "python",
+      "fastapi"
+    ],
+    "jd_preferred_skills": [
+      "postgresql",
+      "docker",
+      "git"
+    ],
+    "required_exp_years": 2.8,
+    "ground_truth_score": 90.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 17,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Full Stack Developer with 5 years in TypeScript, React, Next.js, Node.js, Python, FastAPI, and PostgreSQL. Built scalable microservices and responsive SaaS portals.",
+    "resume_skills": [
+      "typescript",
+      "react",
+      "next.js",
+      "python",
+      "fastapi",
+      "postgresql",
+      "docker",
+      "git"
+    ],
+    "candidate_exp_years": 5.0,
+    "jd_title": "Mid-Level Full Stack Software Engineer",
+    "jd_text": "Role: Mid-Level Full Stack Software Engineer. Looking for a Full Stack Engineer proficient in React, TypeScript, and Python/FastAPI backend services with relational database experience (PostgreSQL).",
+    "jd_required_skills": [
+      "typescript",
+      "react",
+      "python",
+      "fastapi"
+    ],
+    "jd_preferred_skills": [
+      "postgresql",
+      "docker",
+      "git"
+    ],
+    "required_exp_years": 4.0,
+    "ground_truth_score": 94.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 18,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Senior",
+    "resume_text": "Senior Full Stack Developer with 5 years in TypeScript, React, Next.js, Node.js, Python, FastAPI, and PostgreSQL. Built scalable microservices and responsive SaaS portals.",
+    "resume_skills": [
+      "typescript",
+      "react",
+      "next.js",
+      "python",
+      "fastapi",
+      "postgresql",
+      "docker",
+      "git"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Senior Full Stack Software Engineer",
+    "jd_text": "Role: Senior Full Stack Software Engineer. Looking for a Full Stack Engineer proficient in React, TypeScript, and Python/FastAPI backend services with relational database experience (PostgreSQL).",
+    "jd_required_skills": [
+      "typescript",
+      "react",
+      "python",
+      "fastapi"
+    ],
+    "jd_preferred_skills": [
+      "postgresql",
+      "docker",
+      "git"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 96.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 19,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Lead",
+    "resume_text": "Lead Full Stack Developer with 5 years in TypeScript, React, Next.js, Node.js, Python, FastAPI, and PostgreSQL. Built scalable microservices and responsive SaaS portals.",
+    "resume_skills": [
+      "typescript",
+      "react",
+      "next.js",
+      "python",
+      "fastapi",
+      "postgresql",
+      "docker",
+      "git"
+    ],
+    "candidate_exp_years": 7.5,
+    "jd_title": "Lead Full Stack Software Engineer",
+    "jd_text": "Role: Lead Full Stack Software Engineer. Looking for a Full Stack Engineer proficient in React, TypeScript, and Python/FastAPI backend services with relational database experience (PostgreSQL).",
+    "jd_required_skills": [
+      "typescript",
+      "react",
+      "python",
+      "fastapi"
+    ],
+    "jd_preferred_skills": [
+      "postgresql",
+      "docker",
+      "git"
+    ],
+    "required_exp_years": 5.6,
+    "ground_truth_score": 97.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 20,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Full Stack Developer with 5 years in TypeScript, React, Next.js, Node.js, Python, FastAPI, and PostgreSQL. Built scalable microservices and responsive SaaS portals.",
+    "resume_skills": [
+      "typescript",
+      "react",
+      "next.js",
+      "python",
+      "fastapi",
+      "postgresql",
+      "docker",
+      "git"
+    ],
+    "candidate_exp_years": 9.0,
+    "jd_title": "Staff / Principal Full Stack Software Engineer",
+    "jd_text": "Role: Staff / Principal Full Stack Software Engineer. Looking for a Full Stack Engineer proficient in React, TypeScript, and Python/FastAPI backend services with relational database experience (PostgreSQL).",
+    "jd_required_skills": [
+      "typescript",
+      "react",
+      "python",
+      "fastapi"
+    ],
+    "jd_preferred_skills": [
+      "postgresql",
+      "docker",
+      "git"
+    ],
+    "required_exp_years": 6.4,
+    "ground_truth_score": 95.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 21,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Junior",
+    "resume_text": "Junior Frontend Developer with 3 years experience building responsive web UIs using React, HTML5, CSS3, and JavaScript. Basic exposure to Node.js backend APIs.",
+    "resume_skills": [
+      "javascript",
+      "react",
+      "html",
+      "css",
+      "git"
+    ],
+    "candidate_exp_years": 2.0,
+    "jd_title": "Junior Full Stack Developer (React & Python)",
+    "jd_text": "Role: Junior Full Stack Developer (React & Python). Seeking a Full Stack Developer to build both frontend React dashboards and robust Python Django/FastAPI REST APIs. 3+ years experience.",
+    "jd_required_skills": [
+      "react",
+      "python",
+      "javascript",
+      "sql"
+    ],
+    "jd_preferred_skills": [
+      "fastapi",
+      "django",
+      "postgresql"
+    ],
+    "required_exp_years": 2.1,
+    "ground_truth_score": 54.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 22,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Frontend Developer with 3 years experience building responsive web UIs using React, HTML5, CSS3, and JavaScript. Basic exposure to Node.js backend APIs.",
+    "resume_skills": [
+      "javascript",
+      "react",
+      "html",
+      "css",
+      "git"
+    ],
+    "candidate_exp_years": 3.0,
+    "jd_title": "Mid-Level Full Stack Developer (React & Python)",
+    "jd_text": "Role: Mid-Level Full Stack Developer (React & Python). Seeking a Full Stack Developer to build both frontend React dashboards and robust Python Django/FastAPI REST APIs. 3+ years experience.",
+    "jd_required_skills": [
+      "react",
+      "python",
+      "javascript",
+      "sql"
+    ],
+    "jd_preferred_skills": [
+      "fastapi",
+      "django",
+      "postgresql"
+    ],
+    "required_exp_years": 3.0,
+    "ground_truth_score": 58.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 23,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Senior",
+    "resume_text": "Senior Frontend Developer with 3 years experience building responsive web UIs using React, HTML5, CSS3, and JavaScript. Basic exposure to Node.js backend APIs.",
+    "resume_skills": [
+      "javascript",
+      "react",
+      "html",
+      "css",
+      "git"
+    ],
+    "candidate_exp_years": 4.5,
+    "jd_title": "Senior Full Stack Developer (React & Python)",
+    "jd_text": "Role: Senior Full Stack Developer (React & Python). Seeking a Full Stack Developer to build both frontend React dashboards and robust Python Django/FastAPI REST APIs. 3+ years experience.",
+    "jd_required_skills": [
+      "react",
+      "python",
+      "javascript",
+      "sql"
+    ],
+    "jd_preferred_skills": [
+      "fastapi",
+      "django",
+      "postgresql"
+    ],
+    "required_exp_years": 3.6,
+    "ground_truth_score": 60.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 24,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Lead",
+    "resume_text": "Lead Frontend Developer with 3 years experience building responsive web UIs using React, HTML5, CSS3, and JavaScript. Basic exposure to Node.js backend APIs.",
+    "resume_skills": [
+      "javascript",
+      "react",
+      "html",
+      "css",
+      "git"
+    ],
+    "candidate_exp_years": 5.5,
+    "jd_title": "Lead Full Stack Developer (React & Python)",
+    "jd_text": "Role: Lead Full Stack Developer (React & Python). Seeking a Full Stack Developer to build both frontend React dashboards and robust Python Django/FastAPI REST APIs. 3+ years experience.",
+    "jd_required_skills": [
+      "react",
+      "python",
+      "javascript",
+      "sql"
+    ],
+    "jd_preferred_skills": [
+      "fastapi",
+      "django",
+      "postgresql"
+    ],
+    "required_exp_years": 4.2,
+    "ground_truth_score": 61.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 25,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Frontend Developer with 3 years experience building responsive web UIs using React, HTML5, CSS3, and JavaScript. Basic exposure to Node.js backend APIs.",
+    "resume_skills": [
+      "javascript",
+      "react",
+      "html",
+      "css",
+      "git"
+    ],
+    "candidate_exp_years": 7.0,
+    "jd_title": "Staff / Principal Full Stack Developer (React & Python)",
+    "jd_text": "Role: Staff / Principal Full Stack Developer (React & Python). Seeking a Full Stack Developer to build both frontend React dashboards and robust Python Django/FastAPI REST APIs. 3+ years experience.",
+    "jd_required_skills": [
+      "react",
+      "python",
+      "javascript",
+      "sql"
+    ],
+    "jd_preferred_skills": [
+      "fastapi",
+      "django",
+      "postgresql"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 59.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 26,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Junior",
+    "resume_text": "Junior Retail Store Manager with 6 years experience in inventory management, staff scheduling, customer dispute resolution, and POS registers.",
+    "resume_skills": [
+      "inventory management",
+      "customer service",
+      "staff leadership",
+      "pos systems"
+    ],
+    "candidate_exp_years": 5.0,
+    "jd_title": "Junior Senior Frontend Architect (React/TypeScript)",
+    "jd_text": "Role: Junior Senior Frontend Architect (React/TypeScript). Lead frontend architecture for high-volume enterprise platforms. Deep expertise in React, TypeScript, state management, and web performance optimization.",
+    "jd_required_skills": [
+      "typescript",
+      "react",
+      "javascript",
+      "webpack",
+      "css"
+    ],
+    "jd_preferred_skills": [
+      "next.js",
+      "redux",
+      "jest"
+    ],
+    "required_exp_years": 3.5,
+    "ground_truth_score": 5.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 27,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Retail Store Manager with 6 years experience in inventory management, staff scheduling, customer dispute resolution, and POS registers.",
+    "resume_skills": [
+      "inventory management",
+      "customer service",
+      "staff leadership",
+      "pos systems"
+    ],
+    "candidate_exp_years": 6.0,
+    "jd_title": "Mid-Level Senior Frontend Architect (React/TypeScript)",
+    "jd_text": "Role: Mid-Level Senior Frontend Architect (React/TypeScript). Lead frontend architecture for high-volume enterprise platforms. Deep expertise in React, TypeScript, state management, and web performance optimization.",
+    "jd_required_skills": [
+      "typescript",
+      "react",
+      "javascript",
+      "webpack",
+      "css"
+    ],
+    "jd_preferred_skills": [
+      "next.js",
+      "redux",
+      "jest"
+    ],
+    "required_exp_years": 5.0,
+    "ground_truth_score": 8.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 28,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Senior",
+    "resume_text": "Senior Retail Store Manager with 6 years experience in inventory management, staff scheduling, customer dispute resolution, and POS registers.",
+    "resume_skills": [
+      "inventory management",
+      "customer service",
+      "staff leadership",
+      "pos systems"
+    ],
+    "candidate_exp_years": 7.5,
+    "jd_title": "Senior Senior Frontend Architect (React/TypeScript)",
+    "jd_text": "Role: Senior Senior Frontend Architect (React/TypeScript). Lead frontend architecture for high-volume enterprise platforms. Deep expertise in React, TypeScript, state management, and web performance optimization.",
+    "jd_required_skills": [
+      "typescript",
+      "react",
+      "javascript",
+      "webpack",
+      "css"
+    ],
+    "jd_preferred_skills": [
+      "next.js",
+      "redux",
+      "jest"
+    ],
+    "required_exp_years": 6.0,
+    "ground_truth_score": 10.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 29,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Lead",
+    "resume_text": "Lead Retail Store Manager with 6 years experience in inventory management, staff scheduling, customer dispute resolution, and POS registers.",
+    "resume_skills": [
+      "inventory management",
+      "customer service",
+      "staff leadership",
+      "pos systems"
+    ],
+    "candidate_exp_years": 8.5,
+    "jd_title": "Lead Senior Frontend Architect (React/TypeScript)",
+    "jd_text": "Role: Lead Senior Frontend Architect (React/TypeScript). Lead frontend architecture for high-volume enterprise platforms. Deep expertise in React, TypeScript, state management, and web performance optimization.",
+    "jd_required_skills": [
+      "typescript",
+      "react",
+      "javascript",
+      "webpack",
+      "css"
+    ],
+    "jd_preferred_skills": [
+      "next.js",
+      "redux",
+      "jest"
+    ],
+    "required_exp_years": 7.0,
+    "ground_truth_score": 11.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 30,
+    "domain": "Full Stack / Web Development",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Retail Store Manager with 6 years experience in inventory management, staff scheduling, customer dispute resolution, and POS registers.",
+    "resume_skills": [
+      "inventory management",
+      "customer service",
+      "staff leadership",
+      "pos systems"
+    ],
+    "candidate_exp_years": 10.0,
+    "jd_title": "Staff / Principal Senior Frontend Architect (React/TypeScript)",
+    "jd_text": "Role: Staff / Principal Senior Frontend Architect (React/TypeScript). Lead frontend architecture for high-volume enterprise platforms. Deep expertise in React, TypeScript, state management, and web performance optimization.",
+    "jd_required_skills": [
+      "typescript",
+      "react",
+      "javascript",
+      "webpack",
+      "css"
+    ],
+    "jd_preferred_skills": [
+      "next.js",
+      "redux",
+      "jest"
+    ],
+    "required_exp_years": 8.0,
+    "ground_truth_score": 9.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 31,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Junior",
+    "resume_text": "Junior DevOps Engineer with 5 years managing AWS multi-region infrastructure, Terraform, Kubernetes, Docker, and GitLab CI/CD pipelines. Implemented Prometheus monitoring.",
+    "resume_skills": [
+      "aws",
+      "terraform",
+      "kubernetes",
+      "docker",
+      "ci/cd",
+      "linux",
+      "bash",
+      "prometheus"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Junior Cloud Infrastructure & DevOps Engineer",
+    "jd_text": "Role: Junior Cloud Infrastructure & DevOps Engineer. Manage production cloud environments on AWS. Requires 4+ years with Terraform Infrastructure as Code, Kubernetes clusters, Docker containerization, and CI/CD automation.",
+    "jd_required_skills": [
+      "aws",
+      "terraform",
+      "kubernetes",
+      "docker"
+    ],
+    "jd_preferred_skills": [
+      "ci/cd",
+      "linux",
+      "prometheus",
+      "bash"
+    ],
+    "required_exp_years": 2.8,
+    "ground_truth_score": 89.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 32,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level DevOps Engineer with 5 years managing AWS multi-region infrastructure, Terraform, Kubernetes, Docker, and GitLab CI/CD pipelines. Implemented Prometheus monitoring.",
+    "resume_skills": [
+      "aws",
+      "terraform",
+      "kubernetes",
+      "docker",
+      "ci/cd",
+      "linux",
+      "bash",
+      "prometheus"
+    ],
+    "candidate_exp_years": 5.0,
+    "jd_title": "Mid-Level Cloud Infrastructure & DevOps Engineer",
+    "jd_text": "Role: Mid-Level Cloud Infrastructure & DevOps Engineer. Manage production cloud environments on AWS. Requires 4+ years with Terraform Infrastructure as Code, Kubernetes clusters, Docker containerization, and CI/CD automation.",
+    "jd_required_skills": [
+      "aws",
+      "terraform",
+      "kubernetes",
+      "docker"
+    ],
+    "jd_preferred_skills": [
+      "ci/cd",
+      "linux",
+      "prometheus",
+      "bash"
+    ],
+    "required_exp_years": 4.0,
+    "ground_truth_score": 93.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 33,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Senior",
+    "resume_text": "Senior DevOps Engineer with 5 years managing AWS multi-region infrastructure, Terraform, Kubernetes, Docker, and GitLab CI/CD pipelines. Implemented Prometheus monitoring.",
+    "resume_skills": [
+      "aws",
+      "terraform",
+      "kubernetes",
+      "docker",
+      "ci/cd",
+      "linux",
+      "bash",
+      "prometheus"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Senior Cloud Infrastructure & DevOps Engineer",
+    "jd_text": "Role: Senior Cloud Infrastructure & DevOps Engineer. Manage production cloud environments on AWS. Requires 4+ years with Terraform Infrastructure as Code, Kubernetes clusters, Docker containerization, and CI/CD automation.",
+    "jd_required_skills": [
+      "aws",
+      "terraform",
+      "kubernetes",
+      "docker"
+    ],
+    "jd_preferred_skills": [
+      "ci/cd",
+      "linux",
+      "prometheus",
+      "bash"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 95.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 34,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Lead",
+    "resume_text": "Lead DevOps Engineer with 5 years managing AWS multi-region infrastructure, Terraform, Kubernetes, Docker, and GitLab CI/CD pipelines. Implemented Prometheus monitoring.",
+    "resume_skills": [
+      "aws",
+      "terraform",
+      "kubernetes",
+      "docker",
+      "ci/cd",
+      "linux",
+      "bash",
+      "prometheus"
+    ],
+    "candidate_exp_years": 7.5,
+    "jd_title": "Lead Cloud Infrastructure & DevOps Engineer",
+    "jd_text": "Role: Lead Cloud Infrastructure & DevOps Engineer. Manage production cloud environments on AWS. Requires 4+ years with Terraform Infrastructure as Code, Kubernetes clusters, Docker containerization, and CI/CD automation.",
+    "jd_required_skills": [
+      "aws",
+      "terraform",
+      "kubernetes",
+      "docker"
+    ],
+    "jd_preferred_skills": [
+      "ci/cd",
+      "linux",
+      "prometheus",
+      "bash"
+    ],
+    "required_exp_years": 5.6,
+    "ground_truth_score": 96.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 35,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal DevOps Engineer with 5 years managing AWS multi-region infrastructure, Terraform, Kubernetes, Docker, and GitLab CI/CD pipelines. Implemented Prometheus monitoring.",
+    "resume_skills": [
+      "aws",
+      "terraform",
+      "kubernetes",
+      "docker",
+      "ci/cd",
+      "linux",
+      "bash",
+      "prometheus"
+    ],
+    "candidate_exp_years": 9.0,
+    "jd_title": "Staff / Principal Cloud Infrastructure & DevOps Engineer",
+    "jd_text": "Role: Staff / Principal Cloud Infrastructure & DevOps Engineer. Manage production cloud environments on AWS. Requires 4+ years with Terraform Infrastructure as Code, Kubernetes clusters, Docker containerization, and CI/CD automation.",
+    "jd_required_skills": [
+      "aws",
+      "terraform",
+      "kubernetes",
+      "docker"
+    ],
+    "jd_preferred_skills": [
+      "ci/cd",
+      "linux",
+      "prometheus",
+      "bash"
+    ],
+    "required_exp_years": 6.4,
+    "ground_truth_score": 94.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 36,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Junior",
+    "resume_text": "Junior Linux Systems Administrator with 4 years managing on-premise Linux servers, bash scripting, Apache web servers, and VMware virtualization.",
+    "resume_skills": [
+      "linux",
+      "bash",
+      "sysadmin",
+      "networking",
+      "python"
+    ],
+    "candidate_exp_years": 3.0,
+    "jd_title": "Junior Site Reliability Engineer (AWS & Kubernetes)",
+    "jd_text": "Role: Junior Site Reliability Engineer (AWS & Kubernetes). SRE needed to maintain 99.99% uptime for cloud infrastructure. Requires solid Linux knowledge, Kubernetes container orchestration, and AWS Terraform automation.",
+    "jd_required_skills": [
+      "linux",
+      "aws",
+      "kubernetes",
+      "terraform"
+    ],
+    "jd_preferred_skills": [
+      "prometheus",
+      "grafana",
+      "python",
+      "golang"
+    ],
+    "required_exp_years": 2.8,
+    "ground_truth_score": 48.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 37,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Linux Systems Administrator with 4 years managing on-premise Linux servers, bash scripting, Apache web servers, and VMware virtualization.",
+    "resume_skills": [
+      "linux",
+      "bash",
+      "sysadmin",
+      "networking",
+      "python"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Mid-Level Site Reliability Engineer (AWS & Kubernetes)",
+    "jd_text": "Role: Mid-Level Site Reliability Engineer (AWS & Kubernetes). SRE needed to maintain 99.99% uptime for cloud infrastructure. Requires solid Linux knowledge, Kubernetes container orchestration, and AWS Terraform automation.",
+    "jd_required_skills": [
+      "linux",
+      "aws",
+      "kubernetes",
+      "terraform"
+    ],
+    "jd_preferred_skills": [
+      "prometheus",
+      "grafana",
+      "python",
+      "golang"
+    ],
+    "required_exp_years": 4.0,
+    "ground_truth_score": 52.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 38,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Senior",
+    "resume_text": "Senior Linux Systems Administrator with 4 years managing on-premise Linux servers, bash scripting, Apache web servers, and VMware virtualization.",
+    "resume_skills": [
+      "linux",
+      "bash",
+      "sysadmin",
+      "networking",
+      "python"
+    ],
+    "candidate_exp_years": 5.5,
+    "jd_title": "Senior Site Reliability Engineer (AWS & Kubernetes)",
+    "jd_text": "Role: Senior Site Reliability Engineer (AWS & Kubernetes). SRE needed to maintain 99.99% uptime for cloud infrastructure. Requires solid Linux knowledge, Kubernetes container orchestration, and AWS Terraform automation.",
+    "jd_required_skills": [
+      "linux",
+      "aws",
+      "kubernetes",
+      "terraform"
+    ],
+    "jd_preferred_skills": [
+      "prometheus",
+      "grafana",
+      "python",
+      "golang"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 54.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 39,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Lead",
+    "resume_text": "Lead Linux Systems Administrator with 4 years managing on-premise Linux servers, bash scripting, Apache web servers, and VMware virtualization.",
+    "resume_skills": [
+      "linux",
+      "bash",
+      "sysadmin",
+      "networking",
+      "python"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Lead Site Reliability Engineer (AWS & Kubernetes)",
+    "jd_text": "Role: Lead Site Reliability Engineer (AWS & Kubernetes). SRE needed to maintain 99.99% uptime for cloud infrastructure. Requires solid Linux knowledge, Kubernetes container orchestration, and AWS Terraform automation.",
+    "jd_required_skills": [
+      "linux",
+      "aws",
+      "kubernetes",
+      "terraform"
+    ],
+    "jd_preferred_skills": [
+      "prometheus",
+      "grafana",
+      "python",
+      "golang"
+    ],
+    "required_exp_years": 5.6,
+    "ground_truth_score": 55.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 40,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Linux Systems Administrator with 4 years managing on-premise Linux servers, bash scripting, Apache web servers, and VMware virtualization.",
+    "resume_skills": [
+      "linux",
+      "bash",
+      "sysadmin",
+      "networking",
+      "python"
+    ],
+    "candidate_exp_years": 8.0,
+    "jd_title": "Staff / Principal Site Reliability Engineer (AWS & Kubernetes)",
+    "jd_text": "Role: Staff / Principal Site Reliability Engineer (AWS & Kubernetes). SRE needed to maintain 99.99% uptime for cloud infrastructure. Requires solid Linux knowledge, Kubernetes container orchestration, and AWS Terraform automation.",
+    "jd_required_skills": [
+      "linux",
+      "aws",
+      "kubernetes",
+      "terraform"
+    ],
+    "jd_preferred_skills": [
+      "prometheus",
+      "grafana",
+      "python",
+      "golang"
+    ],
+    "required_exp_years": 6.4,
+    "ground_truth_score": 53.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 41,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Junior",
+    "resume_text": "Junior Executive Assistant with 5 years experience managing executive calendars, booking corporate travel, taking meeting minutes, and preparing expense reports.",
+    "resume_skills": [
+      "calendar management",
+      "travel booking",
+      "microsoft office",
+      "organization"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Junior Senior Cloud Security Engineer",
+    "jd_text": "Role: Junior Senior Cloud Security Engineer. Enforce zero-trust cloud security policies, perform automated penetration testing, configure IAM roles, and maintain SOC2 compliance across AWS infrastructure.",
+    "jd_required_skills": [
+      "aws",
+      "cybersecurity",
+      "iam",
+      "linux",
+      "networking"
+    ],
+    "jd_preferred_skills": [
+      "terraform",
+      "python",
+      "soc2"
+    ],
+    "required_exp_years": 2.8,
+    "ground_truth_score": 5.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 42,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Executive Assistant with 5 years experience managing executive calendars, booking corporate travel, taking meeting minutes, and preparing expense reports.",
+    "resume_skills": [
+      "calendar management",
+      "travel booking",
+      "microsoft office",
+      "organization"
+    ],
+    "candidate_exp_years": 5.0,
+    "jd_title": "Mid-Level Senior Cloud Security Engineer",
+    "jd_text": "Role: Mid-Level Senior Cloud Security Engineer. Enforce zero-trust cloud security policies, perform automated penetration testing, configure IAM roles, and maintain SOC2 compliance across AWS infrastructure.",
+    "jd_required_skills": [
+      "aws",
+      "cybersecurity",
+      "iam",
+      "linux",
+      "networking"
+    ],
+    "jd_preferred_skills": [
+      "terraform",
+      "python",
+      "soc2"
+    ],
+    "required_exp_years": 4.0,
+    "ground_truth_score": 6.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 43,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Senior",
+    "resume_text": "Senior Executive Assistant with 5 years experience managing executive calendars, booking corporate travel, taking meeting minutes, and preparing expense reports.",
+    "resume_skills": [
+      "calendar management",
+      "travel booking",
+      "microsoft office",
+      "organization"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Senior Senior Cloud Security Engineer",
+    "jd_text": "Role: Senior Senior Cloud Security Engineer. Enforce zero-trust cloud security policies, perform automated penetration testing, configure IAM roles, and maintain SOC2 compliance across AWS infrastructure.",
+    "jd_required_skills": [
+      "aws",
+      "cybersecurity",
+      "iam",
+      "linux",
+      "networking"
+    ],
+    "jd_preferred_skills": [
+      "terraform",
+      "python",
+      "soc2"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 8.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 44,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Lead",
+    "resume_text": "Lead Executive Assistant with 5 years experience managing executive calendars, booking corporate travel, taking meeting minutes, and preparing expense reports.",
+    "resume_skills": [
+      "calendar management",
+      "travel booking",
+      "microsoft office",
+      "organization"
+    ],
+    "candidate_exp_years": 7.5,
+    "jd_title": "Lead Senior Cloud Security Engineer",
+    "jd_text": "Role: Lead Senior Cloud Security Engineer. Enforce zero-trust cloud security policies, perform automated penetration testing, configure IAM roles, and maintain SOC2 compliance across AWS infrastructure.",
+    "jd_required_skills": [
+      "aws",
+      "cybersecurity",
+      "iam",
+      "linux",
+      "networking"
+    ],
+    "jd_preferred_skills": [
+      "terraform",
+      "python",
+      "soc2"
+    ],
+    "required_exp_years": 5.6,
+    "ground_truth_score": 9.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 45,
+    "domain": "DevOps & Cloud Infrastructure",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Executive Assistant with 5 years experience managing executive calendars, booking corporate travel, taking meeting minutes, and preparing expense reports.",
+    "resume_skills": [
+      "calendar management",
+      "travel booking",
+      "microsoft office",
+      "organization"
+    ],
+    "candidate_exp_years": 9.0,
+    "jd_title": "Staff / Principal Senior Cloud Security Engineer",
+    "jd_text": "Role: Staff / Principal Senior Cloud Security Engineer. Enforce zero-trust cloud security policies, perform automated penetration testing, configure IAM roles, and maintain SOC2 compliance across AWS infrastructure.",
+    "jd_required_skills": [
+      "aws",
+      "cybersecurity",
+      "iam",
+      "linux",
+      "networking"
+    ],
+    "jd_preferred_skills": [
+      "terraform",
+      "python",
+      "soc2"
+    ],
+    "required_exp_years": 6.4,
+    "ground_truth_score": 7.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 46,
+    "domain": "Data Engineering",
+    "seniority": "Junior",
+    "resume_text": "Junior Data Engineer with 5 years building scalable ETL pipelines in Python, Apache Spark, SQL, Kafka, Airflow, and Snowflake. Optimized multi-terabyte data warehouse schemas.",
+    "resume_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "kafka",
+      "airflow",
+      "snowflake",
+      "etl",
+      "data modeling"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Junior Senior Data Engineer - Streaming Pipelines",
+    "jd_text": "Role: Junior Senior Data Engineer - Streaming Pipelines. Design streaming and batch ETL pipelines processing millions of events daily. Expertise in Python, SQL, Apache Spark, Kafka, and Snowflake data warehouses.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "kafka"
+    ],
+    "jd_preferred_skills": [
+      "airflow",
+      "snowflake",
+      "etl"
+    ],
+    "required_exp_years": 2.8,
+    "ground_truth_score": 91.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 47,
+    "domain": "Data Engineering",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Data Engineer with 5 years building scalable ETL pipelines in Python, Apache Spark, SQL, Kafka, Airflow, and Snowflake. Optimized multi-terabyte data warehouse schemas.",
+    "resume_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "kafka",
+      "airflow",
+      "snowflake",
+      "etl",
+      "data modeling"
+    ],
+    "candidate_exp_years": 5.0,
+    "jd_title": "Mid-Level Senior Data Engineer - Streaming Pipelines",
+    "jd_text": "Role: Mid-Level Senior Data Engineer - Streaming Pipelines. Design streaming and batch ETL pipelines processing millions of events daily. Expertise in Python, SQL, Apache Spark, Kafka, and Snowflake data warehouses.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "kafka"
+    ],
+    "jd_preferred_skills": [
+      "airflow",
+      "snowflake",
+      "etl"
+    ],
+    "required_exp_years": 4.0,
+    "ground_truth_score": 95.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 48,
+    "domain": "Data Engineering",
+    "seniority": "Senior",
+    "resume_text": "Senior Data Engineer with 5 years building scalable ETL pipelines in Python, Apache Spark, SQL, Kafka, Airflow, and Snowflake. Optimized multi-terabyte data warehouse schemas.",
+    "resume_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "kafka",
+      "airflow",
+      "snowflake",
+      "etl",
+      "data modeling"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Senior Senior Data Engineer - Streaming Pipelines",
+    "jd_text": "Role: Senior Senior Data Engineer - Streaming Pipelines. Design streaming and batch ETL pipelines processing millions of events daily. Expertise in Python, SQL, Apache Spark, Kafka, and Snowflake data warehouses.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "kafka"
+    ],
+    "jd_preferred_skills": [
+      "airflow",
+      "snowflake",
+      "etl"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 97.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 49,
+    "domain": "Data Engineering",
+    "seniority": "Lead",
+    "resume_text": "Lead Data Engineer with 5 years building scalable ETL pipelines in Python, Apache Spark, SQL, Kafka, Airflow, and Snowflake. Optimized multi-terabyte data warehouse schemas.",
+    "resume_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "kafka",
+      "airflow",
+      "snowflake",
+      "etl",
+      "data modeling"
+    ],
+    "candidate_exp_years": 7.5,
+    "jd_title": "Lead Senior Data Engineer - Streaming Pipelines",
+    "jd_text": "Role: Lead Senior Data Engineer - Streaming Pipelines. Design streaming and batch ETL pipelines processing millions of events daily. Expertise in Python, SQL, Apache Spark, Kafka, and Snowflake data warehouses.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "kafka"
+    ],
+    "jd_preferred_skills": [
+      "airflow",
+      "snowflake",
+      "etl"
+    ],
+    "required_exp_years": 5.6,
+    "ground_truth_score": 98.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 50,
+    "domain": "Data Engineering",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Data Engineer with 5 years building scalable ETL pipelines in Python, Apache Spark, SQL, Kafka, Airflow, and Snowflake. Optimized multi-terabyte data warehouse schemas.",
+    "resume_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "kafka",
+      "airflow",
+      "snowflake",
+      "etl",
+      "data modeling"
+    ],
+    "candidate_exp_years": 9.0,
+    "jd_title": "Staff / Principal Senior Data Engineer - Streaming Pipelines",
+    "jd_text": "Role: Staff / Principal Senior Data Engineer - Streaming Pipelines. Design streaming and batch ETL pipelines processing millions of events daily. Expertise in Python, SQL, Apache Spark, Kafka, and Snowflake data warehouses.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "kafka"
+    ],
+    "jd_preferred_skills": [
+      "airflow",
+      "snowflake",
+      "etl"
+    ],
+    "required_exp_years": 6.4,
+    "ground_truth_score": 96.0,
+    "ground_truth_category": "High Match"
+  }
+]

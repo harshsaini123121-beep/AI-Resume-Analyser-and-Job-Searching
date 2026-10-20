@@ -55,3 +55,6 @@ Thumbs.db
 *.zip
 data/*.npy
 data/*.pkl
+data/*.hash
+data/jobs_embeddings.*
+data/jobs_meta.*

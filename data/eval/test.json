@@ -1,0 +1,1677 @@
+[
+  {
+    "pair_id": 51,
+    "domain": "Data Engineering",
+    "seniority": "Junior",
+    "resume_text": "Junior SQL Database Administrator with 4 years managing PostgreSQL and MySQL database backups, query tuning, indexing, and replication.",
+    "resume_skills": [
+      "sql",
+      "postgresql",
+      "mysql",
+      "database tuning",
+      "bash"
+    ],
+    "candidate_exp_years": 3.0,
+    "jd_title": "Junior Big Data Engineer (Spark & Cloud)",
+    "jd_text": "Role: Junior Big Data Engineer (Spark & Cloud). Looking for Data Engineer to build distributed Spark data lakes and pipelines on AWS with Python and Airflow orchestration.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "airflow"
+    ],
+    "jd_preferred_skills": [
+      "aws",
+      "snowflake",
+      "kafka"
+    ],
+    "required_exp_years": 2.1,
+    "ground_truth_score": 46.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 52,
+    "domain": "Data Engineering",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level SQL Database Administrator with 4 years managing PostgreSQL and MySQL database backups, query tuning, indexing, and replication.",
+    "resume_skills": [
+      "sql",
+      "postgresql",
+      "mysql",
+      "database tuning",
+      "bash"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Mid-Level Big Data Engineer (Spark & Cloud)",
+    "jd_text": "Role: Mid-Level Big Data Engineer (Spark & Cloud). Looking for Data Engineer to build distributed Spark data lakes and pipelines on AWS with Python and Airflow orchestration.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "airflow"
+    ],
+    "jd_preferred_skills": [
+      "aws",
+      "snowflake",
+      "kafka"
+    ],
+    "required_exp_years": 3.0,
+    "ground_truth_score": 50.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 53,
+    "domain": "Data Engineering",
+    "seniority": "Senior",
+    "resume_text": "Senior SQL Database Administrator with 4 years managing PostgreSQL and MySQL database backups, query tuning, indexing, and replication.",
+    "resume_skills": [
+      "sql",
+      "postgresql",
+      "mysql",
+      "database tuning",
+      "bash"
+    ],
+    "candidate_exp_years": 5.5,
+    "jd_title": "Senior Big Data Engineer (Spark & Cloud)",
+    "jd_text": "Role: Senior Big Data Engineer (Spark & Cloud). Looking for Data Engineer to build distributed Spark data lakes and pipelines on AWS with Python and Airflow orchestration.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "airflow"
+    ],
+    "jd_preferred_skills": [
+      "aws",
+      "snowflake",
+      "kafka"
+    ],
+    "required_exp_years": 3.6,
+    "ground_truth_score": 52.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 54,
+    "domain": "Data Engineering",
+    "seniority": "Lead",
+    "resume_text": "Lead SQL Database Administrator with 4 years managing PostgreSQL and MySQL database backups, query tuning, indexing, and replication.",
+    "resume_skills": [
+      "sql",
+      "postgresql",
+      "mysql",
+      "database tuning",
+      "bash"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Lead Big Data Engineer (Spark & Cloud)",
+    "jd_text": "Role: Lead Big Data Engineer (Spark & Cloud). Looking for Data Engineer to build distributed Spark data lakes and pipelines on AWS with Python and Airflow orchestration.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "airflow"
+    ],
+    "jd_preferred_skills": [
+      "aws",
+      "snowflake",
+      "kafka"
+    ],
+    "required_exp_years": 4.2,
+    "ground_truth_score": 53.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 55,
+    "domain": "Data Engineering",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal SQL Database Administrator with 4 years managing PostgreSQL and MySQL database backups, query tuning, indexing, and replication.",
+    "resume_skills": [
+      "sql",
+      "postgresql",
+      "mysql",
+      "database tuning",
+      "bash"
+    ],
+    "candidate_exp_years": 8.0,
+    "jd_title": "Staff / Principal Big Data Engineer (Spark & Cloud)",
+    "jd_text": "Role: Staff / Principal Big Data Engineer (Spark & Cloud). Looking for Data Engineer to build distributed Spark data lakes and pipelines on AWS with Python and Airflow orchestration.",
+    "jd_required_skills": [
+      "python",
+      "sql",
+      "apache spark",
+      "airflow"
+    ],
+    "jd_preferred_skills": [
+      "aws",
+      "snowflake",
+      "kafka"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 51.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 56,
+    "domain": "Data Engineering",
+    "seniority": "Junior",
+    "resume_text": "Junior Hospitality Concierge with 3 years arranging guest accommodations, recommending dining reservations, and managing guest check-ins.",
+    "resume_skills": [
+      "customer service",
+      "concierge",
+      "communication",
+      "problem solving"
+    ],
+    "candidate_exp_years": 2.0,
+    "jd_title": "Junior Principal Data Platform Architect",
+    "jd_text": "Role: Junior Principal Data Platform Architect. Architect global enterprise streaming pipelines using Kafka, Flink, PySpark, and Delta Lake. 8+ years distributed systems experience required.",
+    "jd_required_skills": [
+      "python",
+      "apache spark",
+      "kafka",
+      "distributed systems",
+      "sql"
+    ],
+    "jd_preferred_skills": [
+      "flink",
+      "delta lake",
+      "aws"
+    ],
+    "required_exp_years": 5.6,
+    "ground_truth_score": 5.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 57,
+    "domain": "Data Engineering",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Hospitality Concierge with 3 years arranging guest accommodations, recommending dining reservations, and managing guest check-ins.",
+    "resume_skills": [
+      "customer service",
+      "concierge",
+      "communication",
+      "problem solving"
+    ],
+    "candidate_exp_years": 3.0,
+    "jd_title": "Mid-Level Principal Data Platform Architect",
+    "jd_text": "Role: Mid-Level Principal Data Platform Architect. Architect global enterprise streaming pipelines using Kafka, Flink, PySpark, and Delta Lake. 8+ years distributed systems experience required.",
+    "jd_required_skills": [
+      "python",
+      "apache spark",
+      "kafka",
+      "distributed systems",
+      "sql"
+    ],
+    "jd_preferred_skills": [
+      "flink",
+      "delta lake",
+      "aws"
+    ],
+    "required_exp_years": 8.0,
+    "ground_truth_score": 5.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 58,
+    "domain": "Data Engineering",
+    "seniority": "Senior",
+    "resume_text": "Senior Hospitality Concierge with 3 years arranging guest accommodations, recommending dining reservations, and managing guest check-ins.",
+    "resume_skills": [
+      "customer service",
+      "concierge",
+      "communication",
+      "problem solving"
+    ],
+    "candidate_exp_years": 4.5,
+    "jd_title": "Senior Principal Data Platform Architect",
+    "jd_text": "Role: Senior Principal Data Platform Architect. Architect global enterprise streaming pipelines using Kafka, Flink, PySpark, and Delta Lake. 8+ years distributed systems experience required.",
+    "jd_required_skills": [
+      "python",
+      "apache spark",
+      "kafka",
+      "distributed systems",
+      "sql"
+    ],
+    "jd_preferred_skills": [
+      "flink",
+      "delta lake",
+      "aws"
+    ],
+    "required_exp_years": 9.6,
+    "ground_truth_score": 7.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 59,
+    "domain": "Data Engineering",
+    "seniority": "Lead",
+    "resume_text": "Lead Hospitality Concierge with 3 years arranging guest accommodations, recommending dining reservations, and managing guest check-ins.",
+    "resume_skills": [
+      "customer service",
+      "concierge",
+      "communication",
+      "problem solving"
+    ],
+    "candidate_exp_years": 5.5,
+    "jd_title": "Lead Principal Data Platform Architect",
+    "jd_text": "Role: Lead Principal Data Platform Architect. Architect global enterprise streaming pipelines using Kafka, Flink, PySpark, and Delta Lake. 8+ years distributed systems experience required.",
+    "jd_required_skills": [
+      "python",
+      "apache spark",
+      "kafka",
+      "distributed systems",
+      "sql"
+    ],
+    "jd_preferred_skills": [
+      "flink",
+      "delta lake",
+      "aws"
+    ],
+    "required_exp_years": 11.2,
+    "ground_truth_score": 8.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 60,
+    "domain": "Data Engineering",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Hospitality Concierge with 3 years arranging guest accommodations, recommending dining reservations, and managing guest check-ins.",
+    "resume_skills": [
+      "customer service",
+      "concierge",
+      "communication",
+      "problem solving"
+    ],
+    "candidate_exp_years": 7.0,
+    "jd_title": "Staff / Principal Principal Data Platform Architect",
+    "jd_text": "Role: Staff / Principal Principal Data Platform Architect. Architect global enterprise streaming pipelines using Kafka, Flink, PySpark, and Delta Lake. 8+ years distributed systems experience required.",
+    "jd_required_skills": [
+      "python",
+      "apache spark",
+      "kafka",
+      "distributed systems",
+      "sql"
+    ],
+    "jd_preferred_skills": [
+      "flink",
+      "delta lake",
+      "aws"
+    ],
+    "required_exp_years": 12.8,
+    "ground_truth_score": 6.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 61,
+    "domain": "Mobile Development",
+    "seniority": "Junior",
+    "resume_text": "Junior Mobile App Developer with 4 years building cross-platform applications in Flutter, Dart, Android, and iOS. Published 5 production apps on Google Play and Apple App Store.",
+    "resume_skills": [
+      "flutter",
+      "dart",
+      "mobile app development",
+      "android",
+      "ios",
+      "rest api",
+      "git"
+    ],
+    "candidate_exp_years": 3.0,
+    "jd_title": "Junior Mobile Application Developer (Flutter / Dart)",
+    "jd_text": "Role: Junior Mobile Application Developer (Flutter / Dart). Develop consumer-facing cross-platform mobile apps for iOS and Android using Flutter and Dart. Strong foundation in state management and REST API integration.",
+    "jd_required_skills": [
+      "flutter",
+      "dart",
+      "mobile app development"
+    ],
+    "jd_preferred_skills": [
+      "android",
+      "ios",
+      "git"
+    ],
+    "required_exp_years": 2.1,
+    "ground_truth_score": 87.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 62,
+    "domain": "Mobile Development",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Mobile App Developer with 4 years building cross-platform applications in Flutter, Dart, Android, and iOS. Published 5 production apps on Google Play and Apple App Store.",
+    "resume_skills": [
+      "flutter",
+      "dart",
+      "mobile app development",
+      "android",
+      "ios",
+      "rest api",
+      "git"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Mid-Level Mobile Application Developer (Flutter / Dart)",
+    "jd_text": "Role: Mid-Level Mobile Application Developer (Flutter / Dart). Develop consumer-facing cross-platform mobile apps for iOS and Android using Flutter and Dart. Strong foundation in state management and REST API integration.",
+    "jd_required_skills": [
+      "flutter",
+      "dart",
+      "mobile app development"
+    ],
+    "jd_preferred_skills": [
+      "android",
+      "ios",
+      "git"
+    ],
+    "required_exp_years": 3.0,
+    "ground_truth_score": 91.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 63,
+    "domain": "Mobile Development",
+    "seniority": "Senior",
+    "resume_text": "Senior Mobile App Developer with 4 years building cross-platform applications in Flutter, Dart, Android, and iOS. Published 5 production apps on Google Play and Apple App Store.",
+    "resume_skills": [
+      "flutter",
+      "dart",
+      "mobile app development",
+      "android",
+      "ios",
+      "rest api",
+      "git"
+    ],
+    "candidate_exp_years": 5.5,
+    "jd_title": "Senior Mobile Application Developer (Flutter / Dart)",
+    "jd_text": "Role: Senior Mobile Application Developer (Flutter / Dart). Develop consumer-facing cross-platform mobile apps for iOS and Android using Flutter and Dart. Strong foundation in state management and REST API integration.",
+    "jd_required_skills": [
+      "flutter",
+      "dart",
+      "mobile app development"
+    ],
+    "jd_preferred_skills": [
+      "android",
+      "ios",
+      "git"
+    ],
+    "required_exp_years": 3.6,
+    "ground_truth_score": 93.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 64,
+    "domain": "Mobile Development",
+    "seniority": "Lead",
+    "resume_text": "Lead Mobile App Developer with 4 years building cross-platform applications in Flutter, Dart, Android, and iOS. Published 5 production apps on Google Play and Apple App Store.",
+    "resume_skills": [
+      "flutter",
+      "dart",
+      "mobile app development",
+      "android",
+      "ios",
+      "rest api",
+      "git"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Lead Mobile Application Developer (Flutter / Dart)",
+    "jd_text": "Role: Lead Mobile Application Developer (Flutter / Dart). Develop consumer-facing cross-platform mobile apps for iOS and Android using Flutter and Dart. Strong foundation in state management and REST API integration.",
+    "jd_required_skills": [
+      "flutter",
+      "dart",
+      "mobile app development"
+    ],
+    "jd_preferred_skills": [
+      "android",
+      "ios",
+      "git"
+    ],
+    "required_exp_years": 4.2,
+    "ground_truth_score": 94.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 65,
+    "domain": "Mobile Development",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Mobile App Developer with 4 years building cross-platform applications in Flutter, Dart, Android, and iOS. Published 5 production apps on Google Play and Apple App Store.",
+    "resume_skills": [
+      "flutter",
+      "dart",
+      "mobile app development",
+      "android",
+      "ios",
+      "rest api",
+      "git"
+    ],
+    "candidate_exp_years": 8.0,
+    "jd_title": "Staff / Principal Mobile Application Developer (Flutter / Dart)",
+    "jd_text": "Role: Staff / Principal Mobile Application Developer (Flutter / Dart). Develop consumer-facing cross-platform mobile apps for iOS and Android using Flutter and Dart. Strong foundation in state management and REST API integration.",
+    "jd_required_skills": [
+      "flutter",
+      "dart",
+      "mobile app development"
+    ],
+    "jd_preferred_skills": [
+      "android",
+      "ios",
+      "git"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 92.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 66,
+    "domain": "Mobile Development",
+    "seniority": "Junior",
+    "resume_text": "Junior Frontend Web Developer with 3 years in JavaScript, React, HTML5, CSS3. Familiar with responsive design and mobile web view components.",
+    "resume_skills": [
+      "javascript",
+      "react",
+      "html",
+      "css",
+      "ui/ux"
+    ],
+    "candidate_exp_years": 2.0,
+    "jd_title": "Junior React Native Mobile Developer",
+    "jd_text": "Role: Junior React Native Mobile Developer. Build enterprise mobile banking apps using React Native, TypeScript, and native mobile bridges for iOS and Android. 2+ years experience.",
+    "jd_required_skills": [
+      "react native",
+      "javascript",
+      "typescript"
+    ],
+    "jd_preferred_skills": [
+      "mobile app development",
+      "redux",
+      "ios",
+      "android"
+    ],
+    "required_exp_years": 1.4,
+    "ground_truth_score": 56.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 67,
+    "domain": "Mobile Development",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Frontend Web Developer with 3 years in JavaScript, React, HTML5, CSS3. Familiar with responsive design and mobile web view components.",
+    "resume_skills": [
+      "javascript",
+      "react",
+      "html",
+      "css",
+      "ui/ux"
+    ],
+    "candidate_exp_years": 3.0,
+    "jd_title": "Mid-Level React Native Mobile Developer",
+    "jd_text": "Role: Mid-Level React Native Mobile Developer. Build enterprise mobile banking apps using React Native, TypeScript, and native mobile bridges for iOS and Android. 2+ years experience.",
+    "jd_required_skills": [
+      "react native",
+      "javascript",
+      "typescript"
+    ],
+    "jd_preferred_skills": [
+      "mobile app development",
+      "redux",
+      "ios",
+      "android"
+    ],
+    "required_exp_years": 2.0,
+    "ground_truth_score": 60.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 68,
+    "domain": "Mobile Development",
+    "seniority": "Senior",
+    "resume_text": "Senior Frontend Web Developer with 3 years in JavaScript, React, HTML5, CSS3. Familiar with responsive design and mobile web view components.",
+    "resume_skills": [
+      "javascript",
+      "react",
+      "html",
+      "css",
+      "ui/ux"
+    ],
+    "candidate_exp_years": 4.5,
+    "jd_title": "Senior React Native Mobile Developer",
+    "jd_text": "Role: Senior React Native Mobile Developer. Build enterprise mobile banking apps using React Native, TypeScript, and native mobile bridges for iOS and Android. 2+ years experience.",
+    "jd_required_skills": [
+      "react native",
+      "javascript",
+      "typescript"
+    ],
+    "jd_preferred_skills": [
+      "mobile app development",
+      "redux",
+      "ios",
+      "android"
+    ],
+    "required_exp_years": 2.4,
+    "ground_truth_score": 62.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 69,
+    "domain": "Mobile Development",
+    "seniority": "Lead",
+    "resume_text": "Lead Frontend Web Developer with 3 years in JavaScript, React, HTML5, CSS3. Familiar with responsive design and mobile web view components.",
+    "resume_skills": [
+      "javascript",
+      "react",
+      "html",
+      "css",
+      "ui/ux"
+    ],
+    "candidate_exp_years": 5.5,
+    "jd_title": "Lead React Native Mobile Developer",
+    "jd_text": "Role: Lead React Native Mobile Developer. Build enterprise mobile banking apps using React Native, TypeScript, and native mobile bridges for iOS and Android. 2+ years experience.",
+    "jd_required_skills": [
+      "react native",
+      "javascript",
+      "typescript"
+    ],
+    "jd_preferred_skills": [
+      "mobile app development",
+      "redux",
+      "ios",
+      "android"
+    ],
+    "required_exp_years": 2.8,
+    "ground_truth_score": 63.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 70,
+    "domain": "Mobile Development",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Frontend Web Developer with 3 years in JavaScript, React, HTML5, CSS3. Familiar with responsive design and mobile web view components.",
+    "resume_skills": [
+      "javascript",
+      "react",
+      "html",
+      "css",
+      "ui/ux"
+    ],
+    "candidate_exp_years": 7.0,
+    "jd_title": "Staff / Principal React Native Mobile Developer",
+    "jd_text": "Role: Staff / Principal React Native Mobile Developer. Build enterprise mobile banking apps using React Native, TypeScript, and native mobile bridges for iOS and Android. 2+ years experience.",
+    "jd_required_skills": [
+      "react native",
+      "javascript",
+      "typescript"
+    ],
+    "jd_preferred_skills": [
+      "mobile app development",
+      "redux",
+      "ios",
+      "android"
+    ],
+    "required_exp_years": 3.2,
+    "ground_truth_score": 61.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 71,
+    "domain": "Mobile Development",
+    "seniority": "Junior",
+    "resume_text": "Junior Graphic Designer with 5 years creating print brochures, billboards, Adobe Photoshop raster graphics, and corporate business cards.",
+    "resume_skills": [
+      "photoshop",
+      "illustrator",
+      "indesign",
+      "graphic design",
+      "print layout"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Junior Senior iOS Engineer (Swift & SwiftUI)",
+    "jd_text": "Role: Junior Senior iOS Engineer (Swift & SwiftUI). Develop flagship iOS native applications in Swift and SwiftUI. Deep understanding of CoreData, multithreading, and Apple HIG guidelines.",
+    "jd_required_skills": [
+      "swift",
+      "swiftui",
+      "ios",
+      "mobile app development"
+    ],
+    "jd_preferred_skills": [
+      "coredata",
+      "git",
+      "ci/cd"
+    ],
+    "required_exp_years": 2.8,
+    "ground_truth_score": 5.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 72,
+    "domain": "Mobile Development",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Graphic Designer with 5 years creating print brochures, billboards, Adobe Photoshop raster graphics, and corporate business cards.",
+    "resume_skills": [
+      "photoshop",
+      "illustrator",
+      "indesign",
+      "graphic design",
+      "print layout"
+    ],
+    "candidate_exp_years": 5.0,
+    "jd_title": "Mid-Level Senior iOS Engineer (Swift & SwiftUI)",
+    "jd_text": "Role: Mid-Level Senior iOS Engineer (Swift & SwiftUI). Develop flagship iOS native applications in Swift and SwiftUI. Deep understanding of CoreData, multithreading, and Apple HIG guidelines.",
+    "jd_required_skills": [
+      "swift",
+      "swiftui",
+      "ios",
+      "mobile app development"
+    ],
+    "jd_preferred_skills": [
+      "coredata",
+      "git",
+      "ci/cd"
+    ],
+    "required_exp_years": 4.0,
+    "ground_truth_score": 7.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 73,
+    "domain": "Mobile Development",
+    "seniority": "Senior",
+    "resume_text": "Senior Graphic Designer with 5 years creating print brochures, billboards, Adobe Photoshop raster graphics, and corporate business cards.",
+    "resume_skills": [
+      "photoshop",
+      "illustrator",
+      "indesign",
+      "graphic design",
+      "print layout"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Senior Senior iOS Engineer (Swift & SwiftUI)",
+    "jd_text": "Role: Senior Senior iOS Engineer (Swift & SwiftUI). Develop flagship iOS native applications in Swift and SwiftUI. Deep understanding of CoreData, multithreading, and Apple HIG guidelines.",
+    "jd_required_skills": [
+      "swift",
+      "swiftui",
+      "ios",
+      "mobile app development"
+    ],
+    "jd_preferred_skills": [
+      "coredata",
+      "git",
+      "ci/cd"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 9.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 74,
+    "domain": "Mobile Development",
+    "seniority": "Lead",
+    "resume_text": "Lead Graphic Designer with 5 years creating print brochures, billboards, Adobe Photoshop raster graphics, and corporate business cards.",
+    "resume_skills": [
+      "photoshop",
+      "illustrator",
+      "indesign",
+      "graphic design",
+      "print layout"
+    ],
+    "candidate_exp_years": 7.5,
+    "jd_title": "Lead Senior iOS Engineer (Swift & SwiftUI)",
+    "jd_text": "Role: Lead Senior iOS Engineer (Swift & SwiftUI). Develop flagship iOS native applications in Swift and SwiftUI. Deep understanding of CoreData, multithreading, and Apple HIG guidelines.",
+    "jd_required_skills": [
+      "swift",
+      "swiftui",
+      "ios",
+      "mobile app development"
+    ],
+    "jd_preferred_skills": [
+      "coredata",
+      "git",
+      "ci/cd"
+    ],
+    "required_exp_years": 5.6,
+    "ground_truth_score": 10.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 75,
+    "domain": "Mobile Development",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Graphic Designer with 5 years creating print brochures, billboards, Adobe Photoshop raster graphics, and corporate business cards.",
+    "resume_skills": [
+      "photoshop",
+      "illustrator",
+      "indesign",
+      "graphic design",
+      "print layout"
+    ],
+    "candidate_exp_years": 9.0,
+    "jd_title": "Staff / Principal Senior iOS Engineer (Swift & SwiftUI)",
+    "jd_text": "Role: Staff / Principal Senior iOS Engineer (Swift & SwiftUI). Develop flagship iOS native applications in Swift and SwiftUI. Deep understanding of CoreData, multithreading, and Apple HIG guidelines.",
+    "jd_required_skills": [
+      "swift",
+      "swiftui",
+      "ios",
+      "mobile app development"
+    ],
+    "jd_preferred_skills": [
+      "coredata",
+      "git",
+      "ci/cd"
+    ],
+    "required_exp_years": 6.4,
+    "ground_truth_score": 8.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 76,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Junior",
+    "resume_text": "Junior Information Security Engineer with 5 years in network security, vulnerability assessments, penetration testing, Python scripting, firewalls, and SIEM monitoring.",
+    "resume_skills": [
+      "cybersecurity",
+      "network security",
+      "penetration testing",
+      "python",
+      "firewalls",
+      "siem",
+      "linux"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Junior Senior Cybersecurity Analyst & Threat Hunter",
+    "jd_text": "Role: Junior Senior Cybersecurity Analyst & Threat Hunter. Identify and remediate security vulnerabilities, configure intrusion detection systems, analyze security events in SIEM, and execute threat hunting.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "network security",
+      "siem",
+      "penetration testing"
+    ],
+    "jd_preferred_skills": [
+      "python",
+      "linux",
+      "firewalls"
+    ],
+    "required_exp_years": 2.8,
+    "ground_truth_score": 89.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 77,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Information Security Engineer with 5 years in network security, vulnerability assessments, penetration testing, Python scripting, firewalls, and SIEM monitoring.",
+    "resume_skills": [
+      "cybersecurity",
+      "network security",
+      "penetration testing",
+      "python",
+      "firewalls",
+      "siem",
+      "linux"
+    ],
+    "candidate_exp_years": 5.0,
+    "jd_title": "Mid-Level Senior Cybersecurity Analyst & Threat Hunter",
+    "jd_text": "Role: Mid-Level Senior Cybersecurity Analyst & Threat Hunter. Identify and remediate security vulnerabilities, configure intrusion detection systems, analyze security events in SIEM, and execute threat hunting.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "network security",
+      "siem",
+      "penetration testing"
+    ],
+    "jd_preferred_skills": [
+      "python",
+      "linux",
+      "firewalls"
+    ],
+    "required_exp_years": 4.0,
+    "ground_truth_score": 93.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 78,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Senior",
+    "resume_text": "Senior Information Security Engineer with 5 years in network security, vulnerability assessments, penetration testing, Python scripting, firewalls, and SIEM monitoring.",
+    "resume_skills": [
+      "cybersecurity",
+      "network security",
+      "penetration testing",
+      "python",
+      "firewalls",
+      "siem",
+      "linux"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Senior Senior Cybersecurity Analyst & Threat Hunter",
+    "jd_text": "Role: Senior Senior Cybersecurity Analyst & Threat Hunter. Identify and remediate security vulnerabilities, configure intrusion detection systems, analyze security events in SIEM, and execute threat hunting.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "network security",
+      "siem",
+      "penetration testing"
+    ],
+    "jd_preferred_skills": [
+      "python",
+      "linux",
+      "firewalls"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 95.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 79,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Lead",
+    "resume_text": "Lead Information Security Engineer with 5 years in network security, vulnerability assessments, penetration testing, Python scripting, firewalls, and SIEM monitoring.",
+    "resume_skills": [
+      "cybersecurity",
+      "network security",
+      "penetration testing",
+      "python",
+      "firewalls",
+      "siem",
+      "linux"
+    ],
+    "candidate_exp_years": 7.5,
+    "jd_title": "Lead Senior Cybersecurity Analyst & Threat Hunter",
+    "jd_text": "Role: Lead Senior Cybersecurity Analyst & Threat Hunter. Identify and remediate security vulnerabilities, configure intrusion detection systems, analyze security events in SIEM, and execute threat hunting.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "network security",
+      "siem",
+      "penetration testing"
+    ],
+    "jd_preferred_skills": [
+      "python",
+      "linux",
+      "firewalls"
+    ],
+    "required_exp_years": 5.6,
+    "ground_truth_score": 96.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 80,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Information Security Engineer with 5 years in network security, vulnerability assessments, penetration testing, Python scripting, firewalls, and SIEM monitoring.",
+    "resume_skills": [
+      "cybersecurity",
+      "network security",
+      "penetration testing",
+      "python",
+      "firewalls",
+      "siem",
+      "linux"
+    ],
+    "candidate_exp_years": 9.0,
+    "jd_title": "Staff / Principal Senior Cybersecurity Analyst & Threat Hunter",
+    "jd_text": "Role: Staff / Principal Senior Cybersecurity Analyst & Threat Hunter. Identify and remediate security vulnerabilities, configure intrusion detection systems, analyze security events in SIEM, and execute threat hunting.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "network security",
+      "siem",
+      "penetration testing"
+    ],
+    "jd_preferred_skills": [
+      "python",
+      "linux",
+      "firewalls"
+    ],
+    "required_exp_years": 6.4,
+    "ground_truth_score": 94.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 81,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Junior",
+    "resume_text": "Junior Network Administrator with 4 years managing Cisco routers, switches, subnets, VPN tunnels, and enterprise firewall rules.",
+    "resume_skills": [
+      "networking",
+      "firewalls",
+      "cisco",
+      "linux",
+      "troubleshooting"
+    ],
+    "candidate_exp_years": 3.0,
+    "jd_title": "Junior Security Operations Center (SOC) Analyst",
+    "jd_text": "Role: Junior Security Operations Center (SOC) Analyst. Monitor enterprise security telemetry, respond to incident alerts, configure IDS/IPS rules, and maintain compliance standards.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "network security",
+      "siem",
+      "incident response"
+    ],
+    "jd_preferred_skills": [
+      "firewalls",
+      "linux",
+      "python"
+    ],
+    "required_exp_years": 2.1,
+    "ground_truth_score": 51.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 82,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Network Administrator with 4 years managing Cisco routers, switches, subnets, VPN tunnels, and enterprise firewall rules.",
+    "resume_skills": [
+      "networking",
+      "firewalls",
+      "cisco",
+      "linux",
+      "troubleshooting"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Mid-Level Security Operations Center (SOC) Analyst",
+    "jd_text": "Role: Mid-Level Security Operations Center (SOC) Analyst. Monitor enterprise security telemetry, respond to incident alerts, configure IDS/IPS rules, and maintain compliance standards.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "network security",
+      "siem",
+      "incident response"
+    ],
+    "jd_preferred_skills": [
+      "firewalls",
+      "linux",
+      "python"
+    ],
+    "required_exp_years": 3.0,
+    "ground_truth_score": 55.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 83,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Senior",
+    "resume_text": "Senior Network Administrator with 4 years managing Cisco routers, switches, subnets, VPN tunnels, and enterprise firewall rules.",
+    "resume_skills": [
+      "networking",
+      "firewalls",
+      "cisco",
+      "linux",
+      "troubleshooting"
+    ],
+    "candidate_exp_years": 5.5,
+    "jd_title": "Senior Security Operations Center (SOC) Analyst",
+    "jd_text": "Role: Senior Security Operations Center (SOC) Analyst. Monitor enterprise security telemetry, respond to incident alerts, configure IDS/IPS rules, and maintain compliance standards.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "network security",
+      "siem",
+      "incident response"
+    ],
+    "jd_preferred_skills": [
+      "firewalls",
+      "linux",
+      "python"
+    ],
+    "required_exp_years": 3.6,
+    "ground_truth_score": 57.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 84,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Lead",
+    "resume_text": "Lead Network Administrator with 4 years managing Cisco routers, switches, subnets, VPN tunnels, and enterprise firewall rules.",
+    "resume_skills": [
+      "networking",
+      "firewalls",
+      "cisco",
+      "linux",
+      "troubleshooting"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Lead Security Operations Center (SOC) Analyst",
+    "jd_text": "Role: Lead Security Operations Center (SOC) Analyst. Monitor enterprise security telemetry, respond to incident alerts, configure IDS/IPS rules, and maintain compliance standards.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "network security",
+      "siem",
+      "incident response"
+    ],
+    "jd_preferred_skills": [
+      "firewalls",
+      "linux",
+      "python"
+    ],
+    "required_exp_years": 4.2,
+    "ground_truth_score": 58.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 85,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Network Administrator with 4 years managing Cisco routers, switches, subnets, VPN tunnels, and enterprise firewall rules.",
+    "resume_skills": [
+      "networking",
+      "firewalls",
+      "cisco",
+      "linux",
+      "troubleshooting"
+    ],
+    "candidate_exp_years": 8.0,
+    "jd_title": "Staff / Principal Security Operations Center (SOC) Analyst",
+    "jd_text": "Role: Staff / Principal Security Operations Center (SOC) Analyst. Monitor enterprise security telemetry, respond to incident alerts, configure IDS/IPS rules, and maintain compliance standards.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "network security",
+      "siem",
+      "incident response"
+    ],
+    "jd_preferred_skills": [
+      "firewalls",
+      "linux",
+      "python"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 56.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 86,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Junior",
+    "resume_text": "Junior Certified Public Accountant (CPA) with 7 years preparing corporate tax returns, financial audit reports, ledger reconciliation, and QuickBooks payroll.",
+    "resume_skills": [
+      "accounting",
+      "financial reporting",
+      "tax compliance",
+      "quickbooks",
+      "excel"
+    ],
+    "candidate_exp_years": 6.0,
+    "jd_title": "Junior Cloud Security Architect",
+    "jd_text": "Role: Junior Cloud Security Architect. Design secure multi-cloud architectures across AWS and Azure. Implement OWASP guardrails, IAM governance, and automated security scanning.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "aws",
+      "network security",
+      "iam"
+    ],
+    "jd_preferred_skills": [
+      "terraform",
+      "python",
+      "owasp"
+    ],
+    "required_exp_years": 3.5,
+    "ground_truth_score": 5.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 87,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Certified Public Accountant (CPA) with 7 years preparing corporate tax returns, financial audit reports, ledger reconciliation, and QuickBooks payroll.",
+    "resume_skills": [
+      "accounting",
+      "financial reporting",
+      "tax compliance",
+      "quickbooks",
+      "excel"
+    ],
+    "candidate_exp_years": 7.0,
+    "jd_title": "Mid-Level Cloud Security Architect",
+    "jd_text": "Role: Mid-Level Cloud Security Architect. Design secure multi-cloud architectures across AWS and Azure. Implement OWASP guardrails, IAM governance, and automated security scanning.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "aws",
+      "network security",
+      "iam"
+    ],
+    "jd_preferred_skills": [
+      "terraform",
+      "python",
+      "owasp"
+    ],
+    "required_exp_years": 5.0,
+    "ground_truth_score": 5.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 88,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Senior",
+    "resume_text": "Senior Certified Public Accountant (CPA) with 7 years preparing corporate tax returns, financial audit reports, ledger reconciliation, and QuickBooks payroll.",
+    "resume_skills": [
+      "accounting",
+      "financial reporting",
+      "tax compliance",
+      "quickbooks",
+      "excel"
+    ],
+    "candidate_exp_years": 8.5,
+    "jd_title": "Senior Cloud Security Architect",
+    "jd_text": "Role: Senior Cloud Security Architect. Design secure multi-cloud architectures across AWS and Azure. Implement OWASP guardrails, IAM governance, and automated security scanning.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "aws",
+      "network security",
+      "iam"
+    ],
+    "jd_preferred_skills": [
+      "terraform",
+      "python",
+      "owasp"
+    ],
+    "required_exp_years": 6.0,
+    "ground_truth_score": 6.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 89,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Lead",
+    "resume_text": "Lead Certified Public Accountant (CPA) with 7 years preparing corporate tax returns, financial audit reports, ledger reconciliation, and QuickBooks payroll.",
+    "resume_skills": [
+      "accounting",
+      "financial reporting",
+      "tax compliance",
+      "quickbooks",
+      "excel"
+    ],
+    "candidate_exp_years": 9.5,
+    "jd_title": "Lead Cloud Security Architect",
+    "jd_text": "Role: Lead Cloud Security Architect. Design secure multi-cloud architectures across AWS and Azure. Implement OWASP guardrails, IAM governance, and automated security scanning.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "aws",
+      "network security",
+      "iam"
+    ],
+    "jd_preferred_skills": [
+      "terraform",
+      "python",
+      "owasp"
+    ],
+    "required_exp_years": 7.0,
+    "ground_truth_score": 7.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 90,
+    "domain": "Cybersecurity & Information Security",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Certified Public Accountant (CPA) with 7 years preparing corporate tax returns, financial audit reports, ledger reconciliation, and QuickBooks payroll.",
+    "resume_skills": [
+      "accounting",
+      "financial reporting",
+      "tax compliance",
+      "quickbooks",
+      "excel"
+    ],
+    "candidate_exp_years": 11.0,
+    "jd_title": "Staff / Principal Cloud Security Architect",
+    "jd_text": "Role: Staff / Principal Cloud Security Architect. Design secure multi-cloud architectures across AWS and Azure. Implement OWASP guardrails, IAM governance, and automated security scanning.",
+    "jd_required_skills": [
+      "cybersecurity",
+      "aws",
+      "network security",
+      "iam"
+    ],
+    "jd_preferred_skills": [
+      "terraform",
+      "python",
+      "owasp"
+    ],
+    "required_exp_years": 8.0,
+    "ground_truth_score": 5.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 91,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Junior",
+    "resume_text": "Junior QA Automation Engineer with 4 years building automated test frameworks using Python, pytest, Selenium, Cypress, and Playwright integrated into CI/CD pipelines.",
+    "resume_skills": [
+      "pytest",
+      "selenium",
+      "cypress",
+      "playwright",
+      "python",
+      "javascript",
+      "ci/cd",
+      "automation testing"
+    ],
+    "candidate_exp_years": 3.0,
+    "jd_title": "Junior Software QA Automation Engineer",
+    "jd_text": "Role: Junior Software QA Automation Engineer. Design robust automated end-to-end test suites for web platforms. Strong hands-on experience in Selenium, Cypress or Playwright, Python pytest, and CI/CD.",
+    "jd_required_skills": [
+      "pytest",
+      "selenium",
+      "cypress",
+      "python"
+    ],
+    "jd_preferred_skills": [
+      "playwright",
+      "ci/cd",
+      "javascript"
+    ],
+    "required_exp_years": 2.1,
+    "ground_truth_score": 90.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 92,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level QA Automation Engineer with 4 years building automated test frameworks using Python, pytest, Selenium, Cypress, and Playwright integrated into CI/CD pipelines.",
+    "resume_skills": [
+      "pytest",
+      "selenium",
+      "cypress",
+      "playwright",
+      "python",
+      "javascript",
+      "ci/cd",
+      "automation testing"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Mid-Level Software QA Automation Engineer",
+    "jd_text": "Role: Mid-Level Software QA Automation Engineer. Design robust automated end-to-end test suites for web platforms. Strong hands-on experience in Selenium, Cypress or Playwright, Python pytest, and CI/CD.",
+    "jd_required_skills": [
+      "pytest",
+      "selenium",
+      "cypress",
+      "python"
+    ],
+    "jd_preferred_skills": [
+      "playwright",
+      "ci/cd",
+      "javascript"
+    ],
+    "required_exp_years": 3.0,
+    "ground_truth_score": 94.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 93,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Senior",
+    "resume_text": "Senior QA Automation Engineer with 4 years building automated test frameworks using Python, pytest, Selenium, Cypress, and Playwright integrated into CI/CD pipelines.",
+    "resume_skills": [
+      "pytest",
+      "selenium",
+      "cypress",
+      "playwright",
+      "python",
+      "javascript",
+      "ci/cd",
+      "automation testing"
+    ],
+    "candidate_exp_years": 5.5,
+    "jd_title": "Senior Software QA Automation Engineer",
+    "jd_text": "Role: Senior Software QA Automation Engineer. Design robust automated end-to-end test suites for web platforms. Strong hands-on experience in Selenium, Cypress or Playwright, Python pytest, and CI/CD.",
+    "jd_required_skills": [
+      "pytest",
+      "selenium",
+      "cypress",
+      "python"
+    ],
+    "jd_preferred_skills": [
+      "playwright",
+      "ci/cd",
+      "javascript"
+    ],
+    "required_exp_years": 3.6,
+    "ground_truth_score": 96.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 94,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Lead",
+    "resume_text": "Lead QA Automation Engineer with 4 years building automated test frameworks using Python, pytest, Selenium, Cypress, and Playwright integrated into CI/CD pipelines.",
+    "resume_skills": [
+      "pytest",
+      "selenium",
+      "cypress",
+      "playwright",
+      "python",
+      "javascript",
+      "ci/cd",
+      "automation testing"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Lead Software QA Automation Engineer",
+    "jd_text": "Role: Lead Software QA Automation Engineer. Design robust automated end-to-end test suites for web platforms. Strong hands-on experience in Selenium, Cypress or Playwright, Python pytest, and CI/CD.",
+    "jd_required_skills": [
+      "pytest",
+      "selenium",
+      "cypress",
+      "python"
+    ],
+    "jd_preferred_skills": [
+      "playwright",
+      "ci/cd",
+      "javascript"
+    ],
+    "required_exp_years": 4.2,
+    "ground_truth_score": 97.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 95,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal QA Automation Engineer with 4 years building automated test frameworks using Python, pytest, Selenium, Cypress, and Playwright integrated into CI/CD pipelines.",
+    "resume_skills": [
+      "pytest",
+      "selenium",
+      "cypress",
+      "playwright",
+      "python",
+      "javascript",
+      "ci/cd",
+      "automation testing"
+    ],
+    "candidate_exp_years": 8.0,
+    "jd_title": "Staff / Principal Software QA Automation Engineer",
+    "jd_text": "Role: Staff / Principal Software QA Automation Engineer. Design robust automated end-to-end test suites for web platforms. Strong hands-on experience in Selenium, Cypress or Playwright, Python pytest, and CI/CD.",
+    "jd_required_skills": [
+      "pytest",
+      "selenium",
+      "cypress",
+      "python"
+    ],
+    "jd_preferred_skills": [
+      "playwright",
+      "ci/cd",
+      "javascript"
+    ],
+    "required_exp_years": 4.8,
+    "ground_truth_score": 95.0,
+    "ground_truth_category": "High Match"
+  },
+  {
+    "pair_id": 96,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Junior",
+    "resume_text": "Junior Manual QA Tester with 3 years writing detailed test cases, executing regression testing for web apps, and logging defect tickets in Jira.",
+    "resume_skills": [
+      "manual testing",
+      "test cases",
+      "jira",
+      "regression testing",
+      "qa"
+    ],
+    "candidate_exp_years": 2.0,
+    "jd_title": "Junior QA Automation Engineer (Python & Selenium)",
+    "jd_text": "Role: Junior QA Automation Engineer (Python & Selenium). Transition manual testing workflows into robust automated test suites using Selenium WebDriver and Python pytest. 2+ years experience.",
+    "jd_required_skills": [
+      "python",
+      "selenium",
+      "pytest",
+      "automation testing"
+    ],
+    "jd_preferred_skills": [
+      "jira",
+      "git",
+      "ci/cd"
+    ],
+    "required_exp_years": 1.4,
+    "ground_truth_score": 44.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 97,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Manual QA Tester with 3 years writing detailed test cases, executing regression testing for web apps, and logging defect tickets in Jira.",
+    "resume_skills": [
+      "manual testing",
+      "test cases",
+      "jira",
+      "regression testing",
+      "qa"
+    ],
+    "candidate_exp_years": 3.0,
+    "jd_title": "Mid-Level QA Automation Engineer (Python & Selenium)",
+    "jd_text": "Role: Mid-Level QA Automation Engineer (Python & Selenium). Transition manual testing workflows into robust automated test suites using Selenium WebDriver and Python pytest. 2+ years experience.",
+    "jd_required_skills": [
+      "python",
+      "selenium",
+      "pytest",
+      "automation testing"
+    ],
+    "jd_preferred_skills": [
+      "jira",
+      "git",
+      "ci/cd"
+    ],
+    "required_exp_years": 2.0,
+    "ground_truth_score": 48.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 98,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Senior",
+    "resume_text": "Senior Manual QA Tester with 3 years writing detailed test cases, executing regression testing for web apps, and logging defect tickets in Jira.",
+    "resume_skills": [
+      "manual testing",
+      "test cases",
+      "jira",
+      "regression testing",
+      "qa"
+    ],
+    "candidate_exp_years": 4.5,
+    "jd_title": "Senior QA Automation Engineer (Python & Selenium)",
+    "jd_text": "Role: Senior QA Automation Engineer (Python & Selenium). Transition manual testing workflows into robust automated test suites using Selenium WebDriver and Python pytest. 2+ years experience.",
+    "jd_required_skills": [
+      "python",
+      "selenium",
+      "pytest",
+      "automation testing"
+    ],
+    "jd_preferred_skills": [
+      "jira",
+      "git",
+      "ci/cd"
+    ],
+    "required_exp_years": 2.4,
+    "ground_truth_score": 50.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 99,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Lead",
+    "resume_text": "Lead Manual QA Tester with 3 years writing detailed test cases, executing regression testing for web apps, and logging defect tickets in Jira.",
+    "resume_skills": [
+      "manual testing",
+      "test cases",
+      "jira",
+      "regression testing",
+      "qa"
+    ],
+    "candidate_exp_years": 5.5,
+    "jd_title": "Lead QA Automation Engineer (Python & Selenium)",
+    "jd_text": "Role: Lead QA Automation Engineer (Python & Selenium). Transition manual testing workflows into robust automated test suites using Selenium WebDriver and Python pytest. 2+ years experience.",
+    "jd_required_skills": [
+      "python",
+      "selenium",
+      "pytest",
+      "automation testing"
+    ],
+    "jd_preferred_skills": [
+      "jira",
+      "git",
+      "ci/cd"
+    ],
+    "required_exp_years": 2.8,
+    "ground_truth_score": 51.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 100,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Manual QA Tester with 3 years writing detailed test cases, executing regression testing for web apps, and logging defect tickets in Jira.",
+    "resume_skills": [
+      "manual testing",
+      "test cases",
+      "jira",
+      "regression testing",
+      "qa"
+    ],
+    "candidate_exp_years": 7.0,
+    "jd_title": "Staff / Principal QA Automation Engineer (Python & Selenium)",
+    "jd_text": "Role: Staff / Principal QA Automation Engineer (Python & Selenium). Transition manual testing workflows into robust automated test suites using Selenium WebDriver and Python pytest. 2+ years experience.",
+    "jd_required_skills": [
+      "python",
+      "selenium",
+      "pytest",
+      "automation testing"
+    ],
+    "jd_preferred_skills": [
+      "jira",
+      "git",
+      "ci/cd"
+    ],
+    "required_exp_years": 3.2,
+    "ground_truth_score": 49.0,
+    "ground_truth_category": "Moderate Match"
+  },
+  {
+    "pair_id": 101,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Junior",
+    "resume_text": "Junior Elementary School Teacher with 5 years creating lesson plans, classroom management, parent communications, and student grading.",
+    "resume_skills": [
+      "curriculum design",
+      "teaching",
+      "classroom management",
+      "communication"
+    ],
+    "candidate_exp_years": 4.0,
+    "jd_title": "Junior Lead SDET / QA Architect",
+    "jd_text": "Role: Junior Lead SDET / QA Architect. Architect enterprise load testing and performance test frameworks using Python, Locust, JMeter, and Dockerized test runners.",
+    "jd_required_skills": [
+      "python",
+      "pytest",
+      "selenium",
+      "performance testing"
+    ],
+    "jd_preferred_skills": [
+      "docker",
+      "ci/cd",
+      "jmeter"
+    ],
+    "required_exp_years": 3.5,
+    "ground_truth_score": 5.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 102,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Mid-Level",
+    "resume_text": "Mid-Level Elementary School Teacher with 5 years creating lesson plans, classroom management, parent communications, and student grading.",
+    "resume_skills": [
+      "curriculum design",
+      "teaching",
+      "classroom management",
+      "communication"
+    ],
+    "candidate_exp_years": 5.0,
+    "jd_title": "Mid-Level Lead SDET / QA Architect",
+    "jd_text": "Role: Mid-Level Lead SDET / QA Architect. Architect enterprise load testing and performance test frameworks using Python, Locust, JMeter, and Dockerized test runners.",
+    "jd_required_skills": [
+      "python",
+      "pytest",
+      "selenium",
+      "performance testing"
+    ],
+    "jd_preferred_skills": [
+      "docker",
+      "ci/cd",
+      "jmeter"
+    ],
+    "required_exp_years": 5.0,
+    "ground_truth_score": 5.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 103,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Senior",
+    "resume_text": "Senior Elementary School Teacher with 5 years creating lesson plans, classroom management, parent communications, and student grading.",
+    "resume_skills": [
+      "curriculum design",
+      "teaching",
+      "classroom management",
+      "communication"
+    ],
+    "candidate_exp_years": 6.5,
+    "jd_title": "Senior Lead SDET / QA Architect",
+    "jd_text": "Role: Senior Lead SDET / QA Architect. Architect enterprise load testing and performance test frameworks using Python, Locust, JMeter, and Dockerized test runners.",
+    "jd_required_skills": [
+      "python",
+      "pytest",
+      "selenium",
+      "performance testing"
+    ],
+    "jd_preferred_skills": [
+      "docker",
+      "ci/cd",
+      "jmeter"
+    ],
+    "required_exp_years": 6.0,
+    "ground_truth_score": 7.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 104,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Lead",
+    "resume_text": "Lead Elementary School Teacher with 5 years creating lesson plans, classroom management, parent communications, and student grading.",
+    "resume_skills": [
+      "curriculum design",
+      "teaching",
+      "classroom management",
+      "communication"
+    ],
+    "candidate_exp_years": 7.5,
+    "jd_title": "Lead Lead SDET / QA Architect",
+    "jd_text": "Role: Lead Lead SDET / QA Architect. Architect enterprise load testing and performance test frameworks using Python, Locust, JMeter, and Dockerized test runners.",
+    "jd_required_skills": [
+      "python",
+      "pytest",
+      "selenium",
+      "performance testing"
+    ],
+    "jd_preferred_skills": [
+      "docker",
+      "ci/cd",
+      "jmeter"
+    ],
+    "required_exp_years": 7.0,
+    "ground_truth_score": 8.0,
+    "ground_truth_category": "Low Match"
+  },
+  {
+    "pair_id": 105,
+    "domain": "Software QA & Test Automation",
+    "seniority": "Staff / Principal",
+    "resume_text": "Staff / Principal Elementary School Teacher with 5 years creating lesson plans, classroom management, parent communications, and student grading.",
+    "resume_skills": [
+      "curriculum design",
+      "teaching",
+      "classroom management",
+      "communication"
+    ],
+    "candidate_exp_years": 9.0,
+    "jd_title": "Staff / Principal Lead SDET / QA Architect",
+    "jd_text": "Role: Staff / Principal Lead SDET / QA Architect. Architect enterprise load testing and performance test frameworks using Python, Locust, JMeter, and Dockerized test runners.",
+    "jd_required_skills": [
+      "python",
+      "pytest",
+      "selenium",
+      "performance testing"
+    ],
+    "jd_preferred_skills": [
+      "docker",
+      "ci/cd",
+      "jmeter"
+    ],
+    "required_exp_years": 8.0,
+    "ground_truth_score": 6.0,
+    "ground_truth_category": "Low Match"
+  }
+]

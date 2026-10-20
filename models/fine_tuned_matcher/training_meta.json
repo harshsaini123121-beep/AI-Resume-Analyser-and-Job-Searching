@@ -1,6 +1,0 @@
-{
-  "status": "dataset_prepared_training_ready",
-  "dataset_pairs_generated": 110,
-  "base_model": "all-MiniLM-L6-v2",
-  "description": "Domain-specific positive and negative resume-job training pairs generated and prepared for fine-tuning."
-}

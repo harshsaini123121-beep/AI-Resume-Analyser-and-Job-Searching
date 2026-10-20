@@ -86,10 +86,8 @@ resume-analyser/
 │   │   ├── pdf_generator.py   # Branded 2-page PDF report generator
 │   │   └── llm_feedback.py    # AI coaching & resilient offline rule fallback
 │   ├── routes/
-│   │   ├── resume.py          # /api/resume/upload, /api/resume/analyse, /api/history
-│   │   └── jobs.py            # /api/match, /api/jobs/recommend, /api/jobs/list
-│   └── training/
-│       └── train_matcher.py   # Model fine-tuning pipeline on labeled pairs
+│   │   ├── resume.py          # /api/v1/resume/* endpoints
+│   │   └── jobs.py            # /api/v1/match, /api/v1/jobs/recommend, batch screening
 ├── data/
 │   ├── skills.json            # 534 skills across 12 domains + 57 synonyms
 │   ├── jobs.csv               # 721 real-world job postings

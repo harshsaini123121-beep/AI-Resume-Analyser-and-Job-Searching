@@ -1,34 +1,139 @@
 {
-  "benchmark_dataset_size": 20,
-  "generated_at": "2026-10-19T19:35:34.578535+00:00",
-  "models": [
+  "generated_at": "2026-10-20T03:33:03.648049+00:00",
+  "splits": {
+    "dev": {
+      "split_name": "Development Split",
+      "split_size": 50,
+      "metrics": [
+        {
+          "model_architecture": "Keyword (Jaccard)",
+          "engine": "Set Intersection / Exact Word Boundary",
+          "mae": 22.65,
+          "spearman_rho": 0.823,
+          "precision_at_3": 100.0,
+          "precision_at_5": 100.0,
+          "ndcg_at_5": 0.986,
+          "accuracy_pct": 52.0
+        },
+        {
+          "model_architecture": "TF-IDF",
+          "engine": "Sparse N-Gram TF-IDF Cosine",
+          "mae": 43.8,
+          "spearman_rho": 0.866,
+          "precision_at_3": 100.0,
+          "precision_at_5": 100.0,
+          "ndcg_at_5": 0.955,
+          "accuracy_pct": 30.0
+        },
+        {
+          "model_architecture": "Dense Embeddings",
+          "engine": "all-MiniLM-L6-v2 (Dense)",
+          "mae": 17.21,
+          "spearman_rho": 0.887,
+          "precision_at_3": 100.0,
+          "precision_at_5": 100.0,
+          "ndcg_at_5": 0.975,
+          "accuracy_pct": 76.0
+        },
+        {
+          "model_architecture": "Hybrid (Our Model)",
+          "engine": "Hybrid [all-MiniLM-L6-v2 + Ontology + Tenure]",
+          "mae": 8.21,
+          "spearman_rho": 0.933,
+          "precision_at_3": 100.0,
+          "precision_at_5": 100.0,
+          "ndcg_at_5": 0.975,
+          "accuracy_pct": 90.0
+        }
+      ]
+    },
+    "test": {
+      "split_name": "Held-Out Test Split",
+      "split_size": 55,
+      "metrics": [
+        {
+          "model_architecture": "Keyword (Jaccard)",
+          "engine": "Set Intersection / Exact Word Boundary",
+          "mae": 27.17,
+          "spearman_rho": 0.676,
+          "precision_at_3": 66.7,
+          "precision_at_5": 80.0,
+          "ndcg_at_5": 0.885,
+          "accuracy_pct": 40.0
+        },
+        {
+          "model_architecture": "TF-IDF",
+          "engine": "Sparse N-Gram TF-IDF Cosine",
+          "mae": 38.12,
+          "spearman_rho": 0.762,
+          "precision_at_3": 100.0,
+          "precision_at_5": 100.0,
+          "ndcg_at_5": 0.981,
+          "accuracy_pct": 38.2
+        },
+        {
+          "model_architecture": "Dense Embeddings",
+          "engine": "all-MiniLM-L6-v2 (Dense)",
+          "mae": 13.91,
+          "spearman_rho": 0.899,
+          "precision_at_3": 100.0,
+          "precision_at_5": 100.0,
+          "ndcg_at_5": 0.983,
+          "accuracy_pct": 78.2
+        },
+        {
+          "model_architecture": "Hybrid (Our Model)",
+          "engine": "Hybrid [all-MiniLM-L6-v2 + Ontology + Tenure]",
+          "mae": 10.33,
+          "spearman_rho": 0.94,
+          "precision_at_3": 100.0,
+          "precision_at_5": 100.0,
+          "ndcg_at_5": 0.981,
+          "accuracy_pct": 72.7
+        }
+      ]
+    }
+  },
+  "final_reported_test_metrics": [
     {
       "model_architecture": "Keyword (Jaccard)",
       "engine": "Set Intersection / Exact Word Boundary",
-      "mae": 22.59,
-      "spearman_rho": 0.798,
-      "accuracy_pct": 60.0
+      "mae": 27.17,
+      "spearman_rho": 0.676,
+      "precision_at_3": 66.7,
+      "precision_at_5": 80.0,
+      "ndcg_at_5": 0.885,
+      "accuracy_pct": 40.0
     },
     {
       "model_architecture": "TF-IDF",
       "engine": "Sparse N-Gram TF-IDF Cosine",
-      "mae": 43.66,
-      "spearman_rho": 0.823,
-      "accuracy_pct": 30.0
+      "mae": 38.12,
+      "spearman_rho": 0.762,
+      "precision_at_3": 100.0,
+      "precision_at_5": 100.0,
+      "ndcg_at_5": 0.981,
+      "accuracy_pct": 38.2
     },
     {
       "model_architecture": "Dense Embeddings",
-      "engine": "TF-IDF (Fallback - Model Deferred)",
-      "mae": 43.66,
-      "spearman_rho": 0.823,
-      "accuracy_pct": 30.0
+      "engine": "all-MiniLM-L6-v2 (Dense)",
+      "mae": 13.91,
+      "spearman_rho": 0.899,
+      "precision_at_3": 100.0,
+      "precision_at_5": 100.0,
+      "ndcg_at_5": 0.983,
+      "accuracy_pct": 78.2
     },
     {
       "model_architecture": "Hybrid (Our Model)",
-      "engine": "Hybrid [TF-IDF Fallback + Skills + Exp]",
-      "mae": 30.52,
-      "spearman_rho": 0.81,
-      "accuracy_pct": 30.0
+      "engine": "Hybrid [all-MiniLM-L6-v2 + Ontology + Tenure]",
+      "mae": 10.33,
+      "spearman_rho": 0.94,
+      "precision_at_3": 100.0,
+      "precision_at_5": 100.0,
+      "ndcg_at_5": 0.981,
+      "accuracy_pct": 72.7
     }
   ]
 }

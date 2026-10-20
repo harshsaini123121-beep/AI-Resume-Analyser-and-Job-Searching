@@ -1,6 +1,7 @@
 """
 Matching engine combining semantic embeddings (sentence-transformers / TF-IDF)
-with structured skill overlap and experience weighting.
+with structured skill overlap, required vs preferred skill separation,
+sliding-window token chunking, and experience weighting.
 """
 
 import os
@@ -49,31 +50,65 @@ def is_tfidf_fallback_active() -> bool:
     return _MODEL_LOAD_FAILED
 
 
+def chunk_text(text: str, chunk_size: int = 180, overlap: int = 40) -> List[str]:
+    """
+    Splits text into overlapping sliding-window chunks (approx 240-280 tokens).
+    Prevents truncation on long multi-page resumes and extensive job descriptions.
+    """
+    words = text.strip().split()
+    if len(words) <= chunk_size:
+        return [text]
+    chunks = []
+    step = max(1, chunk_size - overlap)
+    for i in range(0, len(words), step):
+        chunk = " ".join(words[i:i + chunk_size])
+        chunks.append(chunk)
+        if i + chunk_size >= len(words):
+            break
+    return chunks
+
 
 def compute_semantic_similarity(text1: str, text2: str) -> float:
     """
     Computes semantic cosine similarity (0.0 to 1.0) between two text passages.
-    Uses sentence-transformers if available; falls back to TF-IDF cosine similarity.
+    Uses sliding-window token chunking (~256 tokens) with aggregated max/mean similarity
+    to capture all sections of long multi-page resumes and extensive job descriptions.
     """
     if not text1.strip() or not text2.strip():
         return 0.0
 
+    chunks1 = chunk_text(text1)
+    chunks2 = chunk_text(text2)
+
     model = get_embedding_model()
     if model is not None:
         try:
-            embeddings = model.encode([text1, text2], convert_to_numpy=True)
-            sim = cosine_similarity([embeddings[0]], [embeddings[1]])[0][0]
-            # Clip between 0.0 and 1.0
-            return float(np.clip(sim, 0.0, 1.0))
-        except Exception as e:
-            print(f"[Matcher] Embeddings failed, using TF-IDF fallback: {e}")
+            embs1 = model.encode(chunks1, convert_to_numpy=True)
+            embs2 = model.encode(chunks2, convert_to_numpy=True)
 
-    # Fallback: TF-IDF Cosine Similarity
+            # Cosine similarity matrix between all combinations of chunks
+            sim_matrix = cosine_similarity(embs1, embs2)
+
+            # Aggregated score: 65% peak alignment (max chunk match) + 35% global topical fit (mean match)
+            max_sim = float(np.max(sim_matrix))
+            mean_sim = float(np.mean(sim_matrix))
+            aggregated = 0.65 * max_sim + 0.35 * mean_sim
+            return float(np.clip(aggregated, 0.0, 1.0))
+        except Exception as e:
+            print(f"[Matcher] Dense embeddings failed, using TF-IDF fallback: {e}")
+
+    # Fallback: TF-IDF Cosine Similarity with chunking
     try:
+        all_chunks = chunks1 + chunks2
         vectorizer = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
-        tfidf_matrix = vectorizer.fit_transform([text1, text2])
-        sim = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])[0][0]
-        return float(np.clip(sim, 0.0, 1.0))
+        tfidf_matrix = vectorizer.fit_transform(all_chunks)
+        mat1 = tfidf_matrix[:len(chunks1)]
+        mat2 = tfidf_matrix[len(chunks1):]
+        sim_matrix = cosine_similarity(mat1, mat2)
+        max_sim = float(np.max(sim_matrix))
+        mean_sim = float(np.mean(sim_matrix))
+        aggregated = 0.65 * max_sim + 0.35 * mean_sim
+        return float(np.clip(aggregated, 0.0, 1.0))
     except Exception:
         # Ultimate fallback: Jaccard word set similarity
         words1 = set(clean_text(text1).lower().split())
@@ -91,13 +126,11 @@ def parse_job_skills(jd_text: str, explicit_skills: Optional[List[str]] = None) 
     if explicit_skills and len(explicit_skills) > 0:
         cleaned_skills = []
         for s in explicit_skills:
-            # Handle semicolon/comma separated lists within strings
             sub_skills = [part.strip().lower() for part in s.replace(";", ",").split(",") if part.strip()]
             cleaned_skills.extend(sub_skills)
         if cleaned_skills:
             return sorted(list(set(cleaned_skills)))
 
-    # Otherwise extract from description text
     return extract_skills(jd_text)
 
 
@@ -106,6 +139,7 @@ def compute_match(
     resume_skills: List[str],
     jd_text: str,
     jd_skills: Optional[List[str]] = None,
+    jd_preferred_skills: Optional[List[str]] = None,
     candidate_exp_years: float = 0.0,
     required_exp_years: float = 0.0,
     skill_weight: Optional[float] = None,
@@ -114,8 +148,8 @@ def compute_match(
 ) -> Dict[str, Any]:
     """
     Performs hybrid matching between a resume and target job description:
-    1. Skill overlap (matched vs missing)
-    2. Semantic embedding cosine similarity
+    1. Skill overlap (separating required vs preferred/nice-to-have skills)
+    2. Semantic embedding cosine similarity with sliding-window chunking
     3. Experience requirement ratio
     4. Weighted final score and verdict categorization
     """
@@ -123,25 +157,41 @@ def compute_match(
     w_semantic = semantic_weight if semantic_weight is not None else settings.SEMANTIC_WEIGHT
     w_exp = exp_weight if exp_weight is not None else settings.EXPERIENCE_WEIGHT
 
-    # Normalize skill lists
+    # Normalize skill sets
     resume_skill_set = set(s.strip().lower() for s in resume_skills if s.strip())
     resolved_jd_skills = parse_job_skills(jd_text, jd_skills)
-    jd_skill_set = set(s.strip().lower() for s in resolved_jd_skills if s.strip())
+    req_skill_set = set(s.strip().lower() for s in resolved_jd_skills if s.strip())
+    pref_skill_set = set(s.strip().lower() for s in (jd_preferred_skills or []) if s.strip())
 
-    # Skill overlap
-    matched_skills = sorted(list(resume_skill_set.intersection(jd_skill_set)))
-    missing_skills = sorted(list(jd_skill_set - resume_skill_set))
-    additional_skills = sorted(list(resume_skill_set - jd_skill_set))
+    # Skill overlaps
+    matched_req_skills = sorted(list(resume_skill_set.intersection(req_skill_set)))
+    missing_req_skills = sorted(list(req_skill_set - resume_skill_set))
+
+    matched_pref_skills = sorted(list(resume_skill_set.intersection(pref_skill_set)))
+    missing_pref_skills = sorted(list(pref_skill_set - resume_skill_set))
+
+    all_target_skills = req_skill_set.union(pref_skill_set)
+    matched_skills = sorted(list(resume_skill_set.intersection(all_target_skills)))
+    missing_skills = missing_req_skills
+    additional_skills = sorted(list(resume_skill_set - all_target_skills))
 
     low_confidence = False
-    if len(jd_skill_set) > 0:
-        skill_score = len(matched_skills) / len(jd_skill_set)
+    if len(req_skill_set) > 0:
+        req_ratio = len(matched_req_skills) / len(req_skill_set)
+        if len(pref_skill_set) > 0:
+            pref_ratio = len(matched_pref_skills) / len(pref_skill_set)
+            # 75% weight on required mandatory skills, 25% on preferred/bonus skills
+            skill_score = 0.75 * req_ratio + 0.25 * pref_ratio
+        else:
+            skill_score = req_ratio
     else:
-        # If JD has no detected specific skills, do not invent an arbitrary 0.5 score
-        skill_score = 0.0
-        low_confidence = True
+        if len(pref_skill_set) > 0:
+            skill_score = len(matched_pref_skills) / len(pref_skill_set)
+        else:
+            skill_score = 0.0
+            low_confidence = True
 
-    # Semantic similarity
+    # Semantic similarity using chunked sliding window
     semantic_score = compute_semantic_similarity(resume_text, jd_text)
 
     # Experience match ratio
@@ -195,6 +245,10 @@ def compute_match(
         "experience_score": round(exp_score, 3),
         "matched_skills": matched_skills,
         "missing_skills": missing_skills,
+        "matched_preferred_skills": matched_pref_skills,
+        "missing_preferred_skills": missing_pref_skills,
+        "required_skills_count": len(req_skill_set),
+        "preferred_skills_count": len(pref_skill_set),
         "additional_skills": additional_skills,
         "candidate_experience_years": candidate_exp_years,
         "required_experience_years": required_exp_years,
