@@ -16,3 +16,4 @@ python-multipart==0.0.32
 requests==2.34.2
 fpdf2==2.8.9
 sentence-transformers==6.1.0
+slowapi==0.1.9

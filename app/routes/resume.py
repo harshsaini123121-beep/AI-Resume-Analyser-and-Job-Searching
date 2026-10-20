@@ -1,14 +1,16 @@
 """
 Resume processing routes: upload, extraction, ATS scoring, and history retrieval.
-Enforces file format, size, non-empty content validation, and database audit persistence.
+Enforces file format, magic-byte inspection, size limits, and scoped authenticated history.
 """
 
 import os
 import json
 from typing import List, Optional
-from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
+from fastapi import APIRouter, UploadFile, File, HTTPException, Depends, Security, Request, status
+from fastapi.security import APIKeyHeader
 from sqlalchemy.orm import Session
 
+from app.config import settings
 from app.database import get_db
 from app.models import ResumeRecord
 from app.services.parser import extract_document, ResumeParsingError
@@ -25,6 +27,21 @@ router = APIRouter(prefix="/resume", tags=["Resume"])
 
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 MB
 SUPPORTED_EXTENSIONS = {".pdf", ".docx", ".txt"}
+
+API_KEY_HEADER = APIKeyHeader(name="X-API-Key", auto_error=False)
+
+
+def get_current_user_or_api_key(api_key: Optional[str] = Security(API_KEY_HEADER)) -> str:
+    """Validates API Key header for protected history and mutation endpoints."""
+    configured_key = settings.API_KEY
+    if not configured_key:
+        return "default_user"
+    if not api_key or api_key != configured_key:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized: Missing or invalid X-API-Key header."
+        )
+    return "api_client_default"
 
 
 def _validate_uploaded_file(file: UploadFile, content: bytes) -> str:
@@ -52,10 +69,9 @@ def _validate_uploaded_file(file: UploadFile, content: bytes) -> str:
 
 
 @router.post("/upload", response_model=ResumeUploadResponse)
-async def upload_resume(file: UploadFile = File(...)):
+async def upload_resume(request: Request, file: UploadFile = File(...)):
     """
-    Uploads a resume file (PDF, DOCX, TXT), extracts text and parses structured attributes:
-    contact info, education, years of experience, section headers, and skills.
+    Uploads a resume file (PDF, DOCX, TXT), validates magic bytes, and extracts structured attributes.
     """
     content = await file.read()
     _validate_uploaded_file(file, content)
@@ -63,27 +79,29 @@ async def upload_resume(file: UploadFile = File(...)):
     try:
         doc = extract_document(content, file.filename)
     except ResumeParsingError as e:
-        raise HTTPException(status_code=422, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected parsing error: {str(e)}")
 
     extracted_data = extract_resume_data(doc["text"])
 
     return ResumeUploadResponse(
-        filename=file.filename,
+        filename=doc["filename"],
         extracted_data=ExtractedDataResponse(**extracted_data)
     )
 
 
 @router.post("/analyse", response_model=FullAnalysisResponse)
 async def analyse_resume(
+    request: Request,
     file: UploadFile = File(...),
+    caller_id: str = Depends(get_current_user_or_api_key),
     db: Session = Depends(get_db)
 ):
     """
     Performs full ATS compliance analysis on an uploaded resume:
     evaluates against 100-point rubric, computes category breakdowns,
-    generates warnings, and records the analysis into database history.
+    and records the analysis into scoped database audit history.
     """
     content = await file.read()
     _validate_uploaded_file(file, content)
@@ -91,16 +109,18 @@ async def analyse_resume(
     try:
         doc = extract_document(content, file.filename or "resume.pdf")
     except ResumeParsingError as e:
-        raise HTTPException(status_code=422, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected parsing error: {str(e)}")
 
     extracted_data = extract_resume_data(doc["text"])
     ats_score_result = calculate_ats_score(doc["text"], extracted_data)
 
-    # Persist in SQLite audit history
+    # Persist in SQLite audit history with sanitized filename and owner isolation
     record = ResumeRecord(
-        filename=file.filename or "resume.pdf",
+        storage_uuid=doc.get("storage_uuid"),
+        filename=doc.get("filename", "resume.pdf"),
+        owner_id=caller_id,
         candidate_name=extracted_data.get("candidate_name"),
         email=extracted_data.get("email"),
         phone=extracted_data.get("phone"),
@@ -122,9 +142,16 @@ async def analyse_resume(
 
 
 @router.get("/history")
-def get_resume_history(limit: int = 20, db: Session = Depends(get_db)):
-    """Returns recent resume analyses saved in the database."""
-    records = db.query(ResumeRecord).order_by(ResumeRecord.created_at.desc()).limit(limit).all()
+def get_resume_history(
+    limit: int = 20,
+    caller_id: str = Depends(get_current_user_or_api_key),
+    db: Session = Depends(get_db)
+):
+    """Returns recent resume analyses scoped to the authenticated caller."""
+    records = db.query(ResumeRecord).filter(
+        ResumeRecord.owner_id == caller_id
+    ).order_by(ResumeRecord.created_at.desc()).limit(limit).all()
+
     history = []
     for r in records:
         skills = []
@@ -145,3 +172,26 @@ def get_resume_history(limit: int = 20, db: Session = Depends(get_db)):
             "created_at": r.created_at.isoformat() if r.created_at else None
         })
     return {"history": history}
+
+
+@router.delete("/{record_id}")
+def delete_resume_record(
+    record_id: int,
+    caller_id: str = Depends(get_current_user_or_api_key),
+    db: Session = Depends(get_db)
+):
+    """Deletes an audit record belonging to the authenticated caller."""
+    record = db.query(ResumeRecord).filter(
+        ResumeRecord.id == record_id,
+        ResumeRecord.owner_id == caller_id
+    ).first()
+
+    if not record:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Resume record #{record_id} not found or access denied."
+        )
+
+    db.delete(record)
+    db.commit()
+    return {"status": "deleted", "id": record_id, "message": "Resume record removed successfully."}

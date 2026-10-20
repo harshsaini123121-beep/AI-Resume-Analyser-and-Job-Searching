@@ -6,7 +6,10 @@ Extracts clean text and document metadata (page count, format, encoding).
 import io
 import os
 from pathlib import Path
+import re
 from typing import Union, BinaryIO, Dict, Any, Tuple, Optional
+import uuid
+import zipfile
 
 from app.services.cleaner import clean_text
 
@@ -14,6 +17,60 @@ from app.services.cleaner import clean_text
 class ResumeParsingError(Exception):
     """Custom exception raised when resume text extraction fails."""
     pass
+
+
+def validate_magic_bytes(content: bytes, ext: str) -> None:
+    """
+    Validates file content headers (magic bytes) to prevent extension-spoofing attacks
+    (e.g., Windows executable .exe or binary renamed to .txt or .pdf).
+    """
+    if len(content) == 0:
+        raise ResumeParsingError("The file is empty (0 bytes).")
+
+    ext_lower = ext.lower().strip()
+    if not ext_lower.startswith("."):
+        ext_lower = f".{ext_lower}"
+
+    if ext_lower == ".pdf":
+        if not content.startswith(b"%PDF"):
+            raise ResumeParsingError("Invalid PDF header signature. File content is not a valid PDF document.")
+    elif ext_lower in (".docx", ".doc"):
+        if ext_lower == ".docx":
+            if not content.startswith(b"PK\x03\x04"):
+                raise ResumeParsingError("Invalid DOCX signature. File content is not a valid OpenXML document.")
+            try:
+                with zipfile.ZipFile(io.BytesIO(content)) as zf:
+                    if "word/document.xml" not in zf.namelist():
+                        raise ResumeParsingError("Corrupt DOCX archive: missing word/document.xml structure.")
+            except zipfile.BadZipFile:
+                raise ResumeParsingError("Invalid or corrupted DOCX archive.")
+    elif ext_lower in (".txt", ".md", ".rtf"):
+        # Detect binary PE executable header (MZ) or ELF
+        if content.startswith(b"MZ") or content.startswith(b"\x7fELF"):
+            raise ResumeParsingError("Binary executable content detected. Only plain text resumes are accepted.")
+        # Check for binary null bytes in initial sample
+        sample = content[:1024]
+        if b"\x00" in sample:
+            raise ResumeParsingError("Binary content detected in text file (contains NUL bytes).")
+
+
+def sanitize_filename(filename: str) -> Tuple[str, str]:
+    """
+    Sanitizes raw uploaded filenames:
+    - Generates a UUID for internal file isolation
+    - Strips directory traversal components (.., /, \\)
+    - Strips HTML tags and non-whitelisted characters
+    Returns (storage_uuid, clean_display_name).
+    """
+    storage_uuid = str(uuid.uuid4())
+    raw_name = Path(filename or "resume.pdf").name
+    # Strip HTML tags
+    clean_name = re.sub(r"<[^>]*>", "", raw_name)
+    # Strip invalid path/script characters
+    clean_name = re.sub(r"[^\w\.\-\_]", "_", clean_name).strip("._")
+    if not clean_name:
+        clean_name = "resume.pdf"
+    return storage_uuid, clean_name
 
 
 def _normalize_stream(file_source: Union[str, Path, BinaryIO, bytes]) -> io.BytesIO:
@@ -213,27 +270,30 @@ def extract_document(
 ) -> Dict[str, Any]:
     """
     Unified router that selects the proper parser based on the file extension,
-    extracts the raw text, validates non-empty content, and returns text with metadata.
+    validates magic bytes, extracts the raw text, validates non-empty content,
+    and returns text with sanitized metadata.
     """
     if not filename:
         raise ResumeParsingError("Filename cannot be empty.")
 
-    ext = os.path.splitext(filename)[1].lower()
+    storage_uuid, clean_filename = sanitize_filename(filename)
+    ext = os.path.splitext(clean_filename)[1].lower()
+
+    # Normalize stream and read raw bytes for magic-byte validation
+    stream = _normalize_stream(file_source)
+    content_bytes = stream.getvalue()
+    validate_magic_bytes(content_bytes, ext)
 
     if ext == ".pdf":
-        raw_text, page_count = extract_document_from_pdf(file_source)
+        raw_text, page_count = extract_document_from_pdf(content_bytes)
     elif ext in (".docx", ".doc"):
         if ext == ".doc":
-            try:
-                raw_text, page_count = extract_document_from_docx(file_source)
-            except Exception:
-                raise ResumeParsingError(
-                    "Legacy .doc binary format is not supported. Please save/convert as .docx or .pdf."
-                )
-        else:
-            raw_text, page_count = extract_document_from_docx(file_source)
+            raise ResumeParsingError(
+                "Legacy .doc binary format is not supported. Please save/convert as .docx or .pdf."
+            )
+        raw_text, page_count = extract_document_from_docx(content_bytes)
     elif ext in (".txt", ".md", ".rtf"):
-        raw_text, page_count = extract_document_from_txt(file_source)
+        raw_text, page_count = extract_document_from_txt(content_bytes)
     else:
         raise ResumeParsingError(
             f"Unsupported file format '{ext}'. Supported formats: .pdf, .docx, .txt"
@@ -247,7 +307,9 @@ def extract_document(
         "text": cleaned,
         "page_count": page_count,
         "format": ext,
-        "raw_length": len(raw_text)
+        "raw_length": len(raw_text),
+        "storage_uuid": storage_uuid,
+        "filename": clean_filename
     }
 
 

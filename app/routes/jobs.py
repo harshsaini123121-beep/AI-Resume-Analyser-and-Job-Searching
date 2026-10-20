@@ -48,18 +48,18 @@ def match_resume_with_job(
         required_exp_years=request.required_exp_years
     )
 
-    # Generate AI feedback
+    # Generate AI feedback using server-side configured key
     ai_feedback_data = get_ai_feedback(
         resume_text=request.resume_text,
         jd_text=request.jd_text,
         matched_skills=match_result["matched_skills"],
-        missing_skills=match_result["missing_skills"],
-        api_key=request.api_key
+        missing_skills=match_result["missing_skills"]
     )
 
     # Persist in match history
     try:
         record = MatchHistoryRecord(
+            owner_id="default_user",
             job_title=request.jd_text.splitlines()[0][:100] if request.jd_text else "Target Position",
             match_percentage=match_result["match_percentage"],
             verdict=match_result["verdict"],

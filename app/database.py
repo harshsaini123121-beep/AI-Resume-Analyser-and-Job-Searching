@@ -2,7 +2,7 @@
 Database connection and session handling using SQLAlchemy.
 """
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import declarative_base, sessionmaker
 from app.config import settings
 
@@ -13,6 +13,25 @@ engine = create_engine(settings.DATABASE_URL, connect_args=connect_args)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+
+def init_db(bind_engine=None):
+    """Initializes tables and automatically migrates missing schema columns for SQLite."""
+    target_engine = bind_engine or engine
+    Base.metadata.create_all(bind=target_engine)
+    if "sqlite" in str(target_engine.url):
+        with target_engine.connect() as conn:
+            try:
+                res = conn.execute(text("PRAGMA table_info(resume_records)")).fetchall()
+                col_names = [r[1] for r in res]
+                if col_names:
+                    if "storage_uuid" not in col_names:
+                        conn.execute(text("ALTER TABLE resume_records ADD COLUMN storage_uuid VARCHAR(64)"))
+                    if "owner_id" not in col_names:
+                        conn.execute(text("ALTER TABLE resume_records ADD COLUMN owner_id VARCHAR(64) DEFAULT 'default_user'"))
+                conn.commit()
+            except Exception:
+                pass
 
 
 def get_db():

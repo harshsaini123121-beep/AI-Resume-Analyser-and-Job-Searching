@@ -65,7 +65,6 @@ class JobMatchRequest(BaseModel):
     jd_text: str
     jd_skills: Optional[List[str]] = None
     required_exp_years: float = 0.0
-    api_key: Optional[str] = None
 
 
 class JobMatchResponse(BaseModel):

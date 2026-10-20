@@ -14,6 +14,7 @@ Production-grade SaaS UI with 100% genuine local ML inference:
 
 from datetime import datetime
 import hashlib
+import html
 import io
 import json
 import os
@@ -945,8 +946,8 @@ if "Analyze Resume" in nav_page:
                 if st.session_state.is_sample
                 else '<span class="status-pill-green">Analysis Completed</span>'
             )
-            timestamp_str = st.session_state.analysis_timestamp or datetime.now().strftime("%d %b %Y, %I:%M %p")
-            filename_str = st.session_state.active_filename or "resume.pdf"
+            timestamp_str = html.escape(st.session_state.analysis_timestamp or datetime.now().strftime("%d %b %Y, %I:%M %p"))
+            filename_str = html.escape(st.session_state.active_filename or "resume.pdf")
 
             # Render Outer Card
             st.markdown(f"""
@@ -1107,11 +1108,13 @@ if "Analyze Resume" in nav_page:
                         pct = int((score / max_s) * 100) if max_s > 0 else 100
                         bar_color = "#10b981" if pct >= 80 else "#2563eb" if pct >= 60 else "#f59e0b"
 
+                        escaped_cat = html.escape(str(cat_name))
+                        escaped_details = html.escape(str(info.get('details', '')))
                         st.markdown(f"""
                         <div class="cat-bar-container">
                             <div class="cat-header-flex">
-                                <span style="color: #0f172a;">{cat_name}</span>
-                                <span style="color: #64748b;">{score}/{max_s} pts ({pct}%) • <small>{info.get('details', '')}</small></span>
+                                <span style="color: #0f172a;">{escaped_cat}</span>
+                                <span style="color: #64748b;">{score}/{max_s} pts ({pct}%) • <small>{escaped_details}</small></span>
                             </div>
                             <div class="cat-progress-bg">
                                 <div class="cat-progress-fill" style="width: {pct}%; background-color: {bar_color};"></div>
@@ -1139,7 +1142,7 @@ if "Analyze Resume" in nav_page:
                 st.markdown(f"#### Identified Technical Stack ({len(skills_list)} Detected)")
 
                 if skills_list:
-                    chips_html = "".join([f'<span class="badge-chip badge-matched">✓ {s}</span>' for s in skills_list])
+                    chips_html = "".join([f'<span class="badge-chip badge-matched">✓ {html.escape(str(s))}</span>' for s in skills_list])
                     st.markdown(f"<div style='margin-bottom: 1.5rem;'>{chips_html}</div>", unsafe_allow_html=True)
                 else:
                     st.warning("No standard technical skills were detected. Consider adding a clear 'Skills' section.")
@@ -1208,12 +1211,14 @@ if "Analyze Resume" in nav_page:
                             evidence = explain_match_evidence(data.get("raw_text", ""), str(target_job["description"]), top_n_requirements=3)
                             for ev in evidence:
                                 border_c = "#10b981" if ev["status"] == "Strong Evidence" else "#3b82f6"
+                                escaped_req = html.escape(str(ev['job_requirement']))
+                                escaped_ev = html.escape(str(ev['resume_evidence']))
                                 st.markdown(f"""
                                 <div style="background: #f8fafc; border-left: 4px solid {border_c}; border-radius: 8px; padding: 0.85rem; margin-bottom: 0.75rem;">
                                     <div style="font-size: 0.8rem; font-weight: 700; color: #64748b;">JOB REQUIREMENT:</div>
-                                    <div style="font-size: 0.9rem; color: #0f172a; font-weight: 600; margin-bottom: 0.4rem;">"{ev['job_requirement']}"</div>
+                                    <div style="font-size: 0.9rem; color: #0f172a; font-weight: 600; margin-bottom: 0.4rem;">"{escaped_req}"</div>
                                     <div style="font-size: 0.8rem; font-weight: 700; color: #2563eb;">CANDIDATE EVIDENCE:</div>
-                                    <div style="font-size: 0.88rem; color: #334155;">"{ev['resume_evidence']}"</div>
+                                    <div style="font-size: 0.88rem; color: #334155;">"{escaped_ev}"</div>
                                 </div>
                                 """, unsafe_allow_html=True)
 
@@ -1333,12 +1338,14 @@ elif "Job Matching" in nav_page:
         st.markdown("#### Sentence-Level Evidence Mapping")
         for ev in ev_list:
             border = "#10b981" if ev["status"] == "Strong Evidence" else "#3b82f6"
+            escaped_req = html.escape(str(ev['job_requirement']))
+            escaped_ev = html.escape(str(ev['resume_evidence']))
             st.markdown(f"""
             <div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 4px solid {border}; border-radius: 12px; padding: 1.1rem; margin-bottom: 0.85rem;">
                 <div style="font-weight: 700; color: #0f172a; margin-bottom: 0.2rem;">Requirement:</div>
-                <div style="color: #475569; margin-bottom: 0.5rem;">"{ev['job_requirement']}"</div>
+                <div style="color: #475569; margin-bottom: 0.5rem;">"{escaped_req}"</div>
                 <div style="font-weight: 700; color: #0f172a; margin-bottom: 0.2rem;">Resume Proof:</div>
-                <div style="color: #1e293b; font-weight: 600;">"{ev['resume_evidence']}"</div>
+                <div style="color: #1e293b; font-weight: 600;">"{escaped_ev}"</div>
             </div>
             """, unsafe_allow_html=True)
 
