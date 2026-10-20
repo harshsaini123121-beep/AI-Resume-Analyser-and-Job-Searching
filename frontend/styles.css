@@ -604,3 +604,194 @@ header [data-testid="stToolbar"] [data-testid="stToolbarActions"] {
         align-items: flex-start;
     }
 }
+
+/* ==========================================================================
+   Home Page ATS Score Check & ResumeLab Dashboard Components
+   ========================================================================== */
+.home-upload-container {
+    border: 2px dashed #bfdbfe;
+    background-color: #f8fafc;
+    border-radius: 14px;
+    padding: 1.75rem 1.25rem 1.25rem 1.25rem;
+    text-align: center;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    margin-bottom: 1rem;
+}
+
+.home-upload-container:hover {
+    border-color: #2563eb;
+    background-color: #f0f7ff;
+}
+
+.home-upload-icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #eff6ff;
+    color: #2563eb;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
+}
+
+.home-upload-title {
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 2px;
+}
+
+.home-upload-subtitle {
+    font-size: 0.82rem;
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.home-sample-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.25rem;
+    margin-bottom: 2px;
+}
+
+.home-sample-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.home-sample-link {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+}
+
+.home-sample-subtitle {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.home-ats-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+}
+
+.home-ats-docbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 0.85rem;
+}
+
+.home-ats-docinfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.home-ats-docicon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #2563eb;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    flex-shrink: 0;
+}
+
+.home-ats-badge-completed {
+    background-color: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+    border-radius: 9999px;
+    padding: 2px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.quick-insight-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
+}
+
+.quick-insight-icon-blue {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+}
+
+.quick-insight-icon-green {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #ecfdf5;
+    color: #059669;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+}
+
+.quick-insight-icon-purple {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #faf5ff;
+    color: #7c3aed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+}
+
+.quick-insight-number {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.1;
+}
+
+.quick-insight-unit {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.quick-insight-desc {
+    font-size: 0.72rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-top: 1px;
+}
+
