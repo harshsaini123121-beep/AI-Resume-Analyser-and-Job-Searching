@@ -19,11 +19,14 @@ import io
 import json
 import os
 import sys
+import time
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Tuple
 
 import streamlit as st
 import pandas as pd
+import plotly.graph_objects as go
+import plotly.express as px
 
 # Add project root to sys.path
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -125,6 +128,10 @@ RESUMELAB_CSS = """
     .bell-icon-container:hover {
         transform: scale(1.1);
     }
+    @keyframes bell-pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.75; }
+    }
     .bell-badge-dot {
         position: absolute;
         top: 1px;
@@ -135,6 +142,15 @@ RESUMELAB_CSS = """
         border-radius: 50%;
         border: 1.5px solid #0b0f19;
         box-shadow: 0 0 6px rgba(239, 68, 68, 0.85);
+        animation: bell-pulse 2s infinite ease-in-out;
+    }
+    .status-indicator-dot {
+        width: 7px;
+        height: 7px;
+        background-color: #10b981;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 0 5px rgba(16, 185, 129, 0.8);
     }
     .user-avatar {
         width: 36px;
@@ -198,7 +214,7 @@ RESUMELAB_CSS = """
     /* Page Header - compact spacing right below black header */
     .page-main-header {
         margin-top: 0 !important;
-        margin-bottom: 1.15rem !important;
+        margin-bottom: 1.25rem !important;
         padding-top: 0.15rem !important;
     }
     .page-title {
@@ -216,24 +232,7 @@ RESUMELAB_CSS = """
         margin-top: 0 !important;
         margin-bottom: 0 !important;
         font-weight: 400;
-    }
-
-    /* Page Header */
-    .page-main-header {
-        margin-bottom: 1.8rem;
-    }
-    .page-title {
-        font-size: 2.15rem;
-        font-weight: 800;
-        color: #0f172a;
-        letter-spacing: -0.025em;
-        margin-bottom: 0.35rem;
-    }
-    .page-subtitle {
-        font-size: 1.05rem;
-        color: #64748b;
-        margin-bottom: 0;
-        font-weight: 400;
+        line-height: 1.4 !important;
     }
 
     /* Card styling */
@@ -242,8 +241,12 @@ RESUMELAB_CSS = """
         border: 1px solid #e2e8f0;
         border-radius: 16px;
         padding: 1.75rem;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
         margin-bottom: 1.5rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .resumelab-card:hover {
+        box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
     }
 
     /* Upload Box (Dashed Container) */
@@ -444,6 +447,16 @@ RESUMELAB_CSS = """
         background-color: #fef2f2 !important;
         color: #991b1b !important;
         border: 1px solid #fecaca !important;
+    }
+    .badge-preferred {
+        background-color: #f5f3ff !important;
+        color: #6d28d9 !important;
+        border: 1px solid #ddd6fe !important;
+    }
+    .badge-info {
+        background-color: #eff6ff !important;
+        color: #1e40af !important;
+        border: 1px solid #bfdbfe !important;
     }
 
     /* Streamlit Sidebar Customization - Minimize vacant space above sidebar */
@@ -661,6 +674,153 @@ def render_donut_svg(score: float, max_score: float = 100.0) -> str:
     return svg_html
 
 
+def render_ats_category_chart(category_breakdown: dict) -> Optional[go.Figure]:
+    """Renders a polished, interactive horizontal bar chart for the 8 ATS categories."""
+    if not category_breakdown:
+        return None
+
+    categories = []
+    scores = []
+    max_scores = []
+    percentages = []
+    colors = []
+    hover_texts = []
+
+    for cat_name, info in category_breakdown.items():
+        score = info.get("score", 0)
+        max_s = info.get("max_score", 10)
+        pct = int((score / max_s) * 100) if max_s > 0 else 0
+        details = info.get("details", "")
+
+        categories.append(cat_name)
+        scores.append(score)
+        max_scores.append(max_s)
+        percentages.append(pct)
+
+        if pct >= 80:
+            colors.append("#10b981")  # Emerald
+        elif pct >= 60:
+            colors.append("#2563eb")  # Royal blue
+        elif pct >= 40:
+            colors.append("#f59e0b")  # Amber
+        else:
+            colors.append("#ef4444")  # Red
+
+        hover_texts.append(f"<b>{cat_name}</b><br>Score: {score}/{max_s} pts ({pct}%)<br>Details: {details}")
+
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        y=categories,
+        x=percentages,
+        orientation='h',
+        marker=dict(
+            color=colors,
+            line=dict(color='rgba(255, 255, 255, 0.6)', width=1)
+        ),
+        text=[f"{p}% ({s}/{m})" for p, s, m in zip(percentages, scores, max_scores)],
+        textposition='inside',
+        textfont=dict(family='Plus Jakarta Sans', size=11, color='#ffffff'),
+        hovertext=hover_texts,
+        hoverinfo='text'
+    ))
+
+    fig.update_layout(
+        margin=dict(l=10, r=10, t=10, b=10),
+        height=320,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        xaxis=dict(
+            range=[0, 100],
+            showgrid=True,
+            gridcolor='#f1f5f9',
+            tickfont=dict(family='Plus Jakarta Sans', size=11, color='#64748b'),
+            ticksuffix='%'
+        ),
+        yaxis=dict(
+            autorange='reversed',
+            tickfont=dict(family='Plus Jakarta Sans', size=12, color='#0f172a')
+        ),
+        font=dict(family='Plus Jakarta Sans')
+    )
+    return fig
+
+
+def render_skill_radar_chart(categories: dict, candidate_skills: list) -> Optional[go.Figure]:
+    """Renders a sleek Radar / Spider chart showing candidate skill density across domains."""
+    if not categories or not candidate_skills:
+        return None
+
+    candidate_skills_lower = set(str(s).lower() for s in candidate_skills)
+    domain_names = []
+    coverage_pcts = []
+
+    for domain, domain_skills in categories.items():
+        if isinstance(domain_skills, list) and len(domain_skills) > 0:
+            matched = sum(1 for s in domain_skills if str(s).lower() in candidate_skills_lower)
+            if matched > 0:
+                pct = min(100.0, round((matched / min(8, len(domain_skills))) * 100, 1))
+                domain_names.append(domain.replace('_', ' ').title())
+                coverage_pcts.append(pct)
+
+    if len(domain_names) < 3:
+        return None
+
+    radar_labels = domain_names + [domain_names[0]]
+    radar_vals = coverage_pcts + [coverage_pcts[0]]
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatterpolar(
+        r=radar_vals,
+        theta=radar_labels,
+        fill='toself',
+        fillcolor='rgba(37, 99, 235, 0.20)',
+        line=dict(color='#2563eb', width=2),
+        marker=dict(size=6, color='#1d4ed8')
+    ))
+
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(visible=True, range=[0, 100], showticklabels=False, linecolor='#e2e8f0'),
+            angularaxis=dict(tickfont=dict(family='Plus Jakarta Sans', size=11, color='#334155'))
+        ),
+        showlegend=False,
+        margin=dict(l=30, r=30, t=25, b=25),
+        height=280,
+        paper_bgcolor='rgba(0,0,0,0)'
+    )
+    return fig
+
+
+def render_match_signals_chart(skill_score: float, semantic_score: float, exp_score: float) -> go.Figure:
+    """Renders grouped bar visualizer showing individual signal contributions."""
+    signals = ["Skill Overlap (50%)", "Semantic Vector (40%)", "Tenure Alignment (10%)"]
+    vals = [round(skill_score * 100, 1), round(semantic_score * 100, 1), round(exp_score * 100, 1)]
+    colors = ["#10b981", "#2563eb", "#8b5cf6"]
+
+    fig = go.Figure(go.Bar(
+        x=signals,
+        y=vals,
+        marker=dict(color=colors),
+        text=[f"{v}%" for v in vals],
+        textposition='auto',
+        textfont=dict(family='Plus Jakarta Sans', size=12, color='#ffffff')
+    ))
+    fig.update_layout(
+        margin=dict(l=10, r=10, t=15, b=10),
+        height=230,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        yaxis=dict(
+            range=[0, 100],
+            showgrid=True,
+            gridcolor='#f1f5f9',
+            ticksuffix='%'
+        ),
+        font=dict(family='Plus Jakarta Sans')
+    )
+    return fig
+
+
 # -----------------------------------------------------------------------------
 # Session State Initialization (Starts in Clean Empty State)
 # -----------------------------------------------------------------------------
@@ -708,13 +868,13 @@ def reset_analysis_state():
 # -----------------------------------------------------------------------------
 with st.sidebar:
     st.markdown("""
-    <div style="display: flex; align-items: center; gap: 0.65rem; margin-top: 0; margin-bottom: 1.15rem; padding: 0.1rem 0.2rem;">
-        <div style="width: 36px; height: 36px; border-radius: 8px; background: #2563eb; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 800;">
+    <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 0; margin-bottom: 1.25rem; padding: 0.1rem 0.2rem;">
+        <div style="width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 800; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);">
             📄
         </div>
         <div>
-            <div style="font-size: 1.25rem; font-weight: 800; color: #0f172a; line-height: 1;">ResumeLab</div>
-            <div style="font-size: 0.72rem; color: #64748b;">AI Resume Analyzer</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: #0f172a; line-height: 1.1;">ResumeLab</div>
+            <div style="font-size: 0.72rem; color: #64748b; font-weight: 500;">AI Resume & Job Matching</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -731,6 +891,24 @@ with st.sidebar:
         ],
         label_visibility="collapsed"
     )
+
+    st.markdown("---")
+    st.markdown("""
+    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem; margin-top: 0.5rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem;">
+            <span style="font-size: 0.74rem; font-weight: 700; color: #475569; letter-spacing: 0.03em;">SYSTEM STATUS</span>
+            <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 0.72rem; font-weight: 700; color: #10b981;">
+                <span class="status-indicator-dot"></span> ONLINE
+            </span>
+        </div>
+        <div style="font-size: 0.72rem; color: #64748b; line-height: 1.5;">
+            <div>• <b>API:</b> 127.0.0.1:8000</div>
+            <div>• <b>Model:</b> all-MiniLM-L6-v2</div>
+            <div>• <b>Dataset:</b> 721 Live Roles</div>
+            <div>• <b>Engine:</b> Hybrid Dual-Signal</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 
@@ -1129,28 +1307,30 @@ if "Analyze Resume" in nav_page:
                         st.rerun()
 
                 with btn_col2:
-                    # Generate production PDF report with identical live data
-                    pdf_bytes = generate_pdf_report(
-                        candidate_name=data.get("candidate_name", "Applicant"),
-                        email=data.get("email"),
-                        phone=data.get("phone"),
-                        ats_score=ats.get("total_score", 0),
-                        ats_grade=ats.get("grade", "N/A"),
-                        category_breakdown=ats.get("category_breakdown", {}),
-                        strengths=ats.get("strengths", []),
-                        issues=ats.get("issues", []),
-                        suggestions=ats.get("suggestions", []),
-                        skills=data.get("skills", [])
-                    )
-                    safe_dl_name = filename_str.rsplit(".", 1)[0]
-                    st.download_button(
-                        label="📥 Download Report",
-                        data=pdf_bytes,
-                        file_name=f"{safe_dl_name}_Audit_Report.pdf",
-                        mime="application/pdf",
-                        type="primary",
-                        width="stretch"
-                    )
+                    try:
+                        pdf_bytes = api_client.generate_pdf_report(
+                            candidate_name=data.get("candidate_name", "Applicant"),
+                            email=data.get("email"),
+                            phone=data.get("phone"),
+                            ats_score=ats.get("total_score", 0),
+                            ats_grade=ats.get("grade", "N/A"),
+                            category_breakdown=ats.get("category_breakdown", {}),
+                            strengths=ats.get("strengths", []),
+                            issues=ats.get("issues", []),
+                            suggestions=ats.get("suggestions", []),
+                            skills=data.get("skills", [])
+                        )
+                        safe_dl_name = filename_str.rsplit(".", 1)[0]
+                        st.download_button(
+                            label="📥 Download Report",
+                            data=pdf_bytes,
+                            file_name=f"{safe_dl_name}_Audit_Report.pdf",
+                            mime="application/pdf",
+                            type="primary",
+                            width="stretch"
+                        )
+                    except Exception as pex:
+                        st.caption(f"PDF download unavailable: {pex}")
 
                 # Expandable Detailed Analysis Drawer
                 if st.session_state.show_detailed_analysis:
@@ -1158,25 +1338,9 @@ if "Analyze Resume" in nav_page:
                     st.markdown("#### 📊 ATS Scoring Rubric Breakdown (8 Dimensions)")
 
                     cats = ats.get("category_breakdown", {})
-                    for cat_name, info in cats.items():
-                        score = info.get("score", 0)
-                        max_s = info.get("max_score", 10)
-                        pct = int((score / max_s) * 100) if max_s > 0 else 100
-                        bar_color = "#10b981" if pct >= 80 else "#2563eb" if pct >= 60 else "#f59e0b"
-
-                        escaped_cat = html.escape(str(cat_name))
-                        escaped_details = html.escape(str(info.get('details', '')))
-                        st.markdown(f"""
-                        <div class="cat-bar-container">
-                            <div class="cat-header-flex">
-                                <span style="color: #0f172a;">{escaped_cat}</span>
-                                <span style="color: #64748b;">{score}/{max_s} pts ({pct}%) • <small>{escaped_details}</small></span>
-                            </div>
-                            <div class="cat-progress-bg">
-                                <div class="cat-progress-fill" style="width: {pct}%; background-color: {bar_color};"></div>
-                            </div>
-                        </div>
-                        """, unsafe_allow_html=True)
+                    cat_fig = render_ats_category_chart(cats)
+                    if cat_fig:
+                        st.plotly_chart(cat_fig, use_container_width=True, config={"displayModeBar": False})
 
                     d_c1, d_c2 = st.columns(2)
                     with d_c1:
@@ -1199,18 +1363,23 @@ if "Analyze Resume" in nav_page:
 
                 if skills_list:
                     chips_html = "".join([f'<span class="badge-chip badge-matched">✓ {html.escape(str(s))}</span>' for s in skills_list])
-                    st.markdown(f"<div style='margin-bottom: 1.5rem;'>{chips_html}</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='margin-bottom: 1.25rem;'>{chips_html}</div>", unsafe_allow_html=True)
                 else:
                     st.warning("No standard technical skills were detected. Consider adding a clear 'Skills' section.")
 
-                st.markdown("#### 🎯 Domain Coverage")
+                st.markdown("#### 🎯 Domain Coverage & Density")
                 try:
                     skill_db = api_client.get_skills_taxonomy()
                     categories = skill_db.get("categories", {})
                 except Exception:
                     categories = {}
-                resume_skills_lower = set(s.lower() for s in skills_list)
 
+                # Render Plotly Skill Radar
+                radar_fig = render_skill_radar_chart(categories, skills_list)
+                if radar_fig:
+                    st.plotly_chart(radar_fig, use_container_width=True, config={"displayModeBar": False})
+
+                resume_skills_lower = set(s.lower() for s in skills_list)
                 found_any_domain = False
                 for domain, domain_skills in categories.items():
                     if isinstance(domain_skills, list):
@@ -1267,6 +1436,26 @@ if "Analyze Resume" in nav_page:
                                 with m4:
                                     st.metric("Tenure Match", f"{int(match_res['experience_score'] * 100)}%")
 
+                                # Grouped signal contribution chart
+                                sig_fig = render_match_signals_chart(
+                                    match_res['skill_score'],
+                                    match_res['semantic_score'],
+                                    match_res['experience_score']
+                                )
+                                st.plotly_chart(sig_fig, use_container_width=True, config={"displayModeBar": False})
+
+                                # Skill Overlap Breakdown
+                                matched_sk = match_res.get("matched_skills", [])
+                                missing_sk = match_res.get("missing_skills", [])
+                                if matched_sk or missing_sk:
+                                    st.markdown("##### 🎯 Skill Overlap Breakdown")
+                                    if matched_sk:
+                                        m_chips = "".join([f'<span class="badge-chip badge-matched">✓ {html.escape(str(s))}</span>' for s in matched_sk])
+                                        st.markdown(f"**Matched Required Skills ({len(matched_sk)}):**<br>{m_chips}", unsafe_allow_html=True)
+                                    if missing_sk:
+                                        ms_chips = "".join([f'<span class="badge-chip badge-missing">✗ {html.escape(str(s))}</span>' for s in missing_sk])
+                                        st.markdown(f"**Missing Required Skills ({len(missing_sk)}):**<br>{ms_chips}", unsafe_allow_html=True)
+
                                 st.markdown("##### 🔍 Sentence-Level Evidence Mapping")
                                 evidence = api_client.get_xai_evidence(
                                     resume_text=data.get("raw_text", ""),
@@ -1274,15 +1463,20 @@ if "Analyze Resume" in nav_page:
                                     top_n_requirements=3
                                 )
                                 for ev in evidence:
-                                    border_c = "#10b981" if ev["status"] == "Strong Evidence" else "#3b82f6"
-                                    escaped_req = html.escape(str(ev['job_requirement']))
-                                    escaped_ev = html.escape(str(ev['resume_evidence']))
+                                    is_strong = ev.get("status") == "Strong Evidence"
+                                    border_c = "#10b981" if is_strong else "#3b82f6"
+                                    status_badge = '<span class="status-pill-green">Strong Match</span>' if is_strong else '<span class="status-pill-amber">Moderate Inferred</span>'
+                                    escaped_req = html.escape(str(ev.get('job_requirement', '')))
+                                    escaped_ev = html.escape(str(ev.get('resume_evidence', '')))
                                     st.markdown(f"""
-                                    <div style="background: #f8fafc; border-left: 4px solid {border_c}; border-radius: 8px; padding: 0.85rem; margin-bottom: 0.75rem;">
-                                        <div style="font-size: 0.8rem; font-weight: 700; color: #64748b;">JOB REQUIREMENT:</div>
-                                        <div style="font-size: 0.9rem; color: #0f172a; font-weight: 600; margin-bottom: 0.4rem;">"{escaped_req}"</div>
-                                        <div style="font-size: 0.8rem; font-weight: 700; color: #2563eb;">CANDIDATE EVIDENCE:</div>
-                                        <div style="font-size: 0.88rem; color: #334155;">"{escaped_ev}"</div>
+                                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 4px solid {border_c}; border-radius: 10px; padding: 0.95rem; margin-bottom: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                                            <span style="font-size: 0.76rem; font-weight: 700; color: #64748b; letter-spacing: 0.02em;">REQUISITION REQUIREMENT</span>
+                                            {status_badge}
+                                        </div>
+                                        <div style="font-size: 0.9rem; color: #0f172a; font-weight: 600; margin-bottom: 0.5rem; line-height: 1.35;">"{escaped_req}"</div>
+                                        <div style="font-size: 0.76rem; font-weight: 700; color: #2563eb; letter-spacing: 0.02em; margin-bottom: 0.15rem;">CANDIDATE RESUME PROOF</div>
+                                        <div style="font-size: 0.88rem; color: #334155; line-height: 1.4; background: #f8fafc; padding: 0.45rem 0.65rem; border-radius: 6px;">"{escaped_ev}"</div>
                                     </div>
                                     """, unsafe_allow_html=True)
                             except Exception as ex:
@@ -1417,17 +1611,46 @@ elif "Job Matching" in nav_page:
         with m4:
             st.metric("Tenure Match", f"{int(res['experience_score'] * 100)}%")
 
-        st.markdown("#### Sentence-Level Evidence Mapping")
+        # Signal distribution chart
+        sig_fig = render_match_signals_chart(res['skill_score'], res['semantic_score'], res['experience_score'])
+        st.plotly_chart(sig_fig, use_container_width=True, config={"displayModeBar": False})
+
+        # Skill Overlap Chips
+        matched_sk = res.get("matched_skills", [])
+        missing_sk = res.get("missing_skills", [])
+        if matched_sk or missing_sk:
+            sk_c1, sk_c2 = st.columns(2)
+            with sk_c1:
+                st.markdown(f"**Matched Requisition Skills ({len(matched_sk)}):**")
+                if matched_sk:
+                    m_chips = "".join([f'<span class="badge-chip badge-matched">✓ {html.escape(str(s))}</span>' for s in matched_sk])
+                    st.markdown(f"<div>{m_chips}</div>", unsafe_allow_html=True)
+                else:
+                    st.info("No required skills directly overlapped.")
+            with sk_c2:
+                st.markdown(f"**Missing Required Skills ({len(missing_sk)}):**")
+                if missing_sk:
+                    ms_chips = "".join([f'<span class="badge-chip badge-missing">✗ {html.escape(str(s))}</span>' for s in missing_sk])
+                    st.markdown(f"<div>{ms_chips}</div>", unsafe_allow_html=True)
+                else:
+                    st.success("All required skills covered!")
+
+        st.markdown("<br>#### 🔍 Explainable AI (XAI) Sentence-Level Proof", unsafe_allow_html=True)
         for ev in ev_list:
-            border = "#10b981" if ev["status"] == "Strong Evidence" else "#3b82f6"
-            escaped_req = html.escape(str(ev['job_requirement']))
-            escaped_ev = html.escape(str(ev['resume_evidence']))
+            is_strong = ev.get("status") == "Strong Evidence"
+            border = "#10b981" if is_strong else "#3b82f6"
+            status_chip = '<span class="status-pill-green">Strong Evidence</span>' if is_strong else '<span class="status-pill-amber">Moderate Inferred</span>'
+            escaped_req = html.escape(str(ev.get('job_requirement', '')))
+            escaped_ev = html.escape(str(ev.get('resume_evidence', '')))
             st.markdown(f"""
-            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 4px solid {border}; border-radius: 12px; padding: 1.1rem; margin-bottom: 0.85rem;">
-                <div style="font-weight: 700; color: #0f172a; margin-bottom: 0.2rem;">Requirement:</div>
-                <div style="color: #475569; margin-bottom: 0.5rem;">"{escaped_req}"</div>
-                <div style="font-weight: 700; color: #0f172a; margin-bottom: 0.2rem;">Resume Proof:</div>
-                <div style="color: #1e293b; font-weight: 600;">"{escaped_ev}"</div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 4px solid {border}; border-radius: 12px; padding: 1.15rem; margin-bottom: 0.85rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                    <span style="font-size: 0.76rem; font-weight: 700; color: #64748b; letter-spacing: 0.03em;">TARGET REQUISITION REQUIREMENT</span>
+                    {status_chip}
+                </div>
+                <div style="font-size: 0.95rem; color: #0f172a; font-weight: 600; margin-bottom: 0.6rem; line-height: 1.4;">"{escaped_req}"</div>
+                <div style="font-size: 0.76rem; font-weight: 700; color: #2563eb; letter-spacing: 0.03em; margin-bottom: 0.2rem;">CANDIDATE RESUME EVIDENCE</div>
+                <div style="font-size: 0.9rem; color: #334155; line-height: 1.45; background: #f8fafc; padding: 0.55rem 0.75rem; border-radius: 8px;">"{escaped_ev}"</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -1523,9 +1746,12 @@ elif "Batch Screening" in nav_page:
             t_skills = [s.strip().lower() for s in str(req_row["required_skills"]).replace(";", ",").split(",") if s.strip()]
             req_exp = float(req_row.get("experience_required", 0.0) or 0.0)
 
+            candidates_payload = [{"filename": fname, "text": text} for fname, text, _ in candidates_to_eval]
+            batch_response = None
+
+            # Attempt real-time asynchronous background screening with live progress
             try:
-                candidates_payload = [{"filename": fname, "text": text} for fname, text, _ in candidates_to_eval]
-                batch_response = api_client.batch_screen(
+                async_job = api_client.batch_screen_async(
                     job_id=str(req_row["job_id"]),
                     jd_title=str(req_row["title"]),
                     jd_text=str(req_row["description"]),
@@ -1533,26 +1759,83 @@ elif "Batch Screening" in nav_page:
                     experience_required=req_exp,
                     candidates=candidates_payload
                 )
+                batch_task_id = async_job.get("job_id")
+
+                progress_container = st.empty()
+                progress_bar = progress_container.progress(5, text="Submitting candidate batch to background queue...")
+
+                for _ in range(120):  # poll up to 60s
+                    time.sleep(0.3)
+                    poll_res = api_client.get_batch_progress(batch_task_id)
+                    pct = int(poll_res.get("progress_pct", 0))
+                    cur_file = poll_res.get("current_file") or "Processing candidates..."
+                    progress_bar.progress(min(100, max(5, pct)), text=f"Screening: {cur_file} ({pct}%)")
+
+                    if poll_res.get("status") == "completed":
+                        batch_response = poll_res
+                        progress_bar.progress(100, text="✨ Screening complete!")
+                        time.sleep(0.4)
+                        progress_container.empty()
+                        break
+                    elif poll_res.get("status") == "failed":
+                        progress_container.empty()
+                        raise RuntimeError(poll_res.get("error") or "Background batch screening failed")
+            except Exception:
+                # Fallback to synchronous batch screening
+                try:
+                    with st.spinner("Executing candidate batch screening..."):
+                        batch_response = api_client.batch_screen(
+                            job_id=str(req_row["job_id"]),
+                            jd_title=str(req_row["title"]),
+                            jd_text=str(req_row["description"]),
+                            required_skills=t_skills,
+                            experience_required=req_exp,
+                            candidates=candidates_payload
+                        )
+                except Exception as ex:
+                    st.error(f"Batch screening failed via API: {ex}")
+                    batch_response = None
+
+            if batch_response:
+                results_list = batch_response.get("results", [])
+                ranked_results = sorted(results_list, key=lambda x: x.get("match_percentage", 0), reverse=True)
+
+                medals = ["🥇 #1", "🥈 #2", "🥉 #3"]
                 rows = [
                     {
-                        "Candidate": res["candidate_name"],
-                        "Filename": res["filename"],
-                        "Match Score": f"{res['match_percentage']}%",
-                        "ATS Score": f"{res['ats_score']}/100",
-                        "Experience": f"{res['experience_years']:.1f} yrs" if res['experience_years'] > 0 else "Not detected",
-                        "Skills Matched": res["skills_matched_count"],
-                        "Missing Skills": ", ".join(res["missing_skills"][:3]) if res.get("missing_skills") else "None"
+                        "Rank": medals[i] if i < len(medals) else f"#{i+1}",
+                        "Candidate": res.get("candidate_name", "Applicant"),
+                        "Filename": res.get("filename", ""),
+                        "Match Score": f"{res.get('match_percentage', 0)}%",
+                        "ATS Score": f"{res.get('ats_score', 0)}/100",
+                        "Experience": f"{res.get('experience_years', 0.0):.1f} yrs" if res.get('experience_years') and res.get('experience_years') > 0 else "Not detected",
+                        "Skills Matched": res.get("skills_matched_count", 0),
+                        "Missing Skills": ", ".join(res.get("missing_skills", [])[:3]) if res.get("missing_skills") else "None"
                     }
-                    for res in batch_response.get("results", [])
+                    for i, res in enumerate(ranked_results)
                 ]
-            except Exception as ex:
-                st.error(f"Batch screening failed via API: {ex}")
+            else:
                 rows = []
 
             st.session_state.last_batch_cache_key = cache_signature
             st.session_state.last_batch_rows = rows
 
-        st.dataframe(pd.DataFrame(rows), width="stretch")
+        if rows:
+            st.markdown("#### 🏆 Candidate Leaderboard")
+            df_batch = pd.DataFrame(rows)
+            st.dataframe(df_batch, width="stretch")
+
+            csv_data = df_batch.to_csv(index=False).encode('utf-8')
+            safe_title = "".join(c for c in req_row.get('title', 'Requisition') if c.isalnum() or c in (' ', '_')).rstrip().replace(' ', '_')
+            st.download_button(
+                label="📥 Export Leaderboard (CSV)",
+                data=csv_data,
+                file_name=f"Screening_Leaderboard_{safe_title}.csv",
+                mime="text/csv",
+                key="export_batch_leaderboard_btn"
+            )
+        else:
+            st.info("No candidates were evaluated in this batch.")
 
 
 # -----------------------------------------------------------------------------
@@ -1566,21 +1849,66 @@ elif "Resume Optimizer" in nav_page:
     </div>
     """, unsafe_allow_html=True)
 
-    bullet_input = st.text_area(
-        "Candidate Bullet Point",
-        value="Responsible for building data pipelines and helping the analytics team clean database tables.",
-        height=100
+    # Preset Samples for testing
+    preset_col1, preset_col2, preset_col3 = st.columns(3)
+    preset_bullet = None
+    with preset_col1:
+        if st.button("📝 Weak / Passive Example", width="stretch"):
+            st.session_state.opt_bullet_text = "Helped the team with data tasks and cleaned spreadsheets."
+    with preset_col2:
+        if st.button("⚖️ Moderate / Vague Example", width="stretch"):
+            st.session_state.opt_bullet_text = "Responsible for building machine learning models for user churn prediction."
+    with preset_col3:
+        if st.button("🚀 Strong Google X-Y-Z", width="stretch"):
+            st.session_state.opt_bullet_text = "Reduced customer churn by 18% (saving $340K annually) by engineering real-time gradient boosting models deployed on AWS."
+
+    initial_bullet = st.session_state.get(
+        "opt_bullet_text",
+        "Responsible for building data pipelines and helping the analytics team clean database tables."
     )
 
-    if st.button("Optimize Bullet Point", type="primary", width="stretch"):
+    bullet_input = st.text_area(
+        "Candidate Bullet Point",
+        value=initial_bullet,
+        height=100,
+        key="bullet_input_area"
+    )
+
+    if st.button("⚡ Audit & Optimize Bullet Point", type="primary", width="stretch"):
         try:
             opt = api_client.optimize_bullet(bullet_input)
-            st.metric("Impact Score", f"{opt['score']}/100", delta=opt.get("grade", ""))
+            
+            # Metric & Grade
+            m_col1, m_col2 = st.columns([1, 2])
+            with m_col1:
+                st.metric("Impact Score", f"{opt['score']}/100", delta=f"Grade: {opt.get('grade', 'C')}")
+            with m_col2:
+                # Rubric Checks
+                has_action = opt.get("has_action_verb", False)
+                has_metric = opt.get("has_quantifiable_metric", False)
+                has_context = opt.get("has_context_or_tech", False)
+                
+                c_action = '<span class="status-pill-green">✓ Strong Action Verb</span>' if has_action else '<span class="status-pill-amber">⚠️ Weak Verb</span>'
+                c_metric = '<span class="status-pill-green">✓ Quantifiable Metric</span>' if has_metric else '<span class="status-pill-amber">⚠️ No Metric</span>'
+                c_context = '<span class="status-pill-green">✓ Clear Scope / Tech</span>' if has_context else '<span class="status-pill-amber">⚠️ Vague Context</span>'
+                
+                st.markdown(f"""
+                <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem; margin-top: 4px;">
+                    <div style="font-size: 0.76rem; font-weight: 700; color: #64748b; margin-bottom: 0.35rem;">GOOGLE X-Y-Z RUBRIC CHECKS</div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        {c_action} {c_metric} {c_context}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
             st.markdown("#### Diagnostic Feedback")
             for fb in opt.get("feedback", []):
                 st.markdown(f"- {fb}")
-            st.markdown("#### ✨ Suggested High-Impact Rewrite:")
-            st.success(opt.get("improved_rewrite", ""))
+                
+            st.markdown("#### ✨ Suggested High-Impact Rewrite (Google X-Y-Z):")
+            rewrite = opt.get("improved_rewrite", "")
+            st.success(rewrite)
+            st.code(rewrite, language="markdown")
         except Exception as ex:
             st.error(f"Failed to optimize bullet point: {ex}")
 
@@ -1601,26 +1929,74 @@ elif "Job Recommendations" in nav_page:
         st.warning("Please upload a resume on the 'Analyze Resume' page first.")
         st.stop()
 
+    # Filters row
+    f_c1, f_c2 = st.columns([2, 1])
+    with f_c1:
+        search_filter = st.text_input("🔍 Search roles or keywords", placeholder="e.g. Python, Machine Learning, Data Engineer")
+    with f_c2:
+        top_k = st.selectbox("Max Recommendations", [5, 10, 15, 20], index=1)
+
     candidate_tenure = float(data.get("experience_years") or 0.0)
-    try:
-        rec_res = api_client.recommend_jobs(
-            resume_text=data.get("raw_text", ""),
-            resume_skills=data.get("skills", []),
-            candidate_exp_years=candidate_tenure,
-            top_n=10
-        )
-        recs = rec_res.get("recommendations", [])
-    except Exception as ex:
-        st.error(f"Failed to fetch recommendations: {ex}")
-        recs = []
+    with st.spinner("Retrieving top matching positions via Two-Stage Recommender..."):
+        try:
+            rec_res = api_client.recommend_jobs(
+                resume_text=data.get("raw_text", ""),
+                resume_skills=data.get("skills", []),
+                candidate_exp_years=candidate_tenure,
+                top_n=top_k,
+                search_query=search_filter.strip() if search_filter.strip() else None
+            )
+            recs = rec_res.get("recommendations", [])
+        except Exception as ex:
+            st.error(f"Failed to fetch recommendations: {ex}")
+            recs = []
 
     if recs:
-        for job in recs:
-            with st.expander(f"💼 {job['title']} — {job['company']} (Match: {job['match_percentage']}%)"):
-                st.markdown(f"**Location:** {job['location']} | **Compensation:** {job['salary']} | **Required Tenure:** {job['experience_required']} years")
-                st.markdown(f"{job['description'][:600]}...")
+        st.markdown(f"Displaying **{len(recs)} top matched positions** ranked by semantic fit & skill coverage:")
+        for idx, job in enumerate(recs):
+            match_pct = job.get("match_percentage", 0)
+            if match_pct >= 80:
+                m_pill = f'<span class="verdict-pill verdict-green">{match_pct}% Match</span>'
+                card_border = "#10b981"
+            elif match_pct >= 60:
+                m_pill = f'<span class="verdict-pill verdict-blue">{match_pct}% Match</span>'
+                card_border = "#2563eb"
+            else:
+                m_pill = f'<span class="verdict-pill verdict-amber">{match_pct}% Match</span>'
+                card_border = "#f59e0b"
+
+            req_sk = [s.strip() for s in str(job.get("required_skills", "")).replace(";", ",").split(",") if s.strip()]
+            candidate_sk_set = set(str(s).lower() for s in data.get("skills", []))
+            
+            matched_here = [s for s in req_sk if s.lower() in candidate_sk_set]
+            missing_here = [s for s in req_sk if s.lower() not in candidate_sk_set]
+
+            matched_chips = "".join([f'<span class="badge-chip badge-matched">✓ {html.escape(s)}</span>' for s in matched_here[:5]])
+            missing_chips = "".join([f'<span class="badge-chip badge-missing">✗ {html.escape(s)}</span>' for s in missing_here[:3]])
+
+            st.markdown(f"""
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid {card_border}; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                    <div>
+                        <div style="font-size: 1.15rem; font-weight: 800; color: #0f172a;">{html.escape(str(job.get('title')))}</div>
+                        <div style="font-size: 0.88rem; color: #64748b; font-weight: 600;">{html.escape(str(job.get('company')))}</div>
+                    </div>
+                    <div>{m_pill}</div>
+                </div>
+                <div style="display: flex; gap: 0.85rem; font-size: 0.8rem; color: #475569; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                    <span>📍 <b>{html.escape(str(job.get('location', 'Remote')))}</b></span>
+                    <span>💰 <b>{html.escape(str(job.get('salary', 'Competitive')))}</b></span>
+                    <span>⏳ <b>{job.get('experience_required', 0)} yrs experience</b></span>
+                </div>
+                <div style="margin-bottom: 0.5rem;">
+                    {matched_chips} {missing_chips}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            with st.expander(f"Inspect Description for {job.get('title')}"):
+                st.markdown(job.get("description", "No description available."))
     else:
-        st.info("No matching job positions could be found in the dataset.")
+        st.info("No matching job positions found matching your criteria.")
 
 
 # -----------------------------------------------------------------------------

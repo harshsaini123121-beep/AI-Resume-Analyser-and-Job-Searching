@@ -159,3 +159,57 @@ def test_api_client_offline_handling():
 
     with pytest.raises(APIConnectionError):
         dead_client.list_jobs()
+
+
+def test_frontend_plotly_charts_render_valid_figures():
+    """Verifies that frontend Plotly chart helpers generate well-formed figures."""
+    from frontend.streamlit_app import (
+        render_ats_category_chart,
+        render_skill_radar_chart,
+        render_match_signals_chart
+    )
+    import plotly.graph_objects as go
+
+    # 1. ATS Category Chart
+    sample_breakdown = {
+        "Contact Info": {"score": 10, "max_score": 10, "details": "Complete"},
+        "Keywords": {"score": 18, "max_score": 25, "details": "Good"},
+        "Impact Metrics": {"score": 5, "max_score": 15, "details": "Few metrics"}
+    }
+    cat_fig = render_ats_category_chart(sample_breakdown)
+    assert isinstance(cat_fig, go.Figure)
+    assert len(cat_fig.data) == 1
+    assert cat_fig.data[0].type == "bar"
+
+    # 2. Skill Radar Chart
+    sample_tax = {
+        "programming_languages": ["python", "java", "c++", "go"],
+        "web_frameworks": ["react", "fastapi", "django"],
+        "cloud_platforms": ["aws", "gcp", "azure"]
+    }
+    candidate_skills = ["python", "fastapi", "aws", "docker"]
+    radar_fig = render_skill_radar_chart(sample_tax, candidate_skills)
+    assert isinstance(radar_fig, go.Figure)
+    assert len(radar_fig.data) == 1
+    assert radar_fig.data[0].type == "scatterpolar"
+
+    # 3. Match Signals Chart
+    sig_fig = render_match_signals_chart(0.85, 0.72, 0.90)
+    assert isinstance(sig_fig, go.Figure)
+    assert len(sig_fig.data) == 1
+    assert sig_fig.data[0].type == "bar"
+    assert len(sig_fig.data[0].x) == 3
+
+
+def test_frontend_charts_empty_input_graceful_handling():
+    """Verifies that chart helpers handle empty data without raising exceptions."""
+    from frontend.streamlit_app import (
+        render_ats_category_chart,
+        render_skill_radar_chart
+    )
+
+    assert render_ats_category_chart({}) is None
+    assert render_ats_category_chart(None) is None
+    assert render_skill_radar_chart({}, ["python"]) is None
+    assert render_skill_radar_chart({"lang": ["python"]}, []) is None
+
