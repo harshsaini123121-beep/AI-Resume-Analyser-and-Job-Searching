@@ -59,21 +59,19 @@ def show_job_recommendations_page():
     with st.spinner("Finding best match positions from dataset..."):
         try:
             query = search_kw.strip() if search_kw.strip() else None
+            loc_arg = loc_filter if loc_filter != "All Locations" else None
             rec_res = api_client.recommend_jobs(
                 resume_text=data.get("raw_text", ""),
                 resume_skills=candidate_skills,
                 candidate_exp_years=candidate_exp,
                 top_n=max_recs,
+                location_filter=loc_arg,
                 search_query=query
             )
             recs = rec_res.get("recommendations", [])
         except Exception as e:
             st.error(f"Recommendation service offline: {e}")
             recs = []
-
-    # Apply location filtering if specified
-    if loc_filter != "All Locations" and recs:
-        recs = [r for r in recs if loc_filter.lower() in str(r.get("location", "")).lower()]
 
     # Apply secondary sort if specified
     if sort_by == "Lowest Experience Req" and recs:

@@ -144,7 +144,8 @@ def compute_match(
     required_exp_years: float = 0.0,
     skill_weight: Optional[float] = None,
     semantic_weight: Optional[float] = None,
-    exp_weight: Optional[float] = None
+    exp_weight: Optional[float] = None,
+    precomputed_semantic_score: Optional[float] = None
 ) -> Dict[str, Any]:
     """
     Performs hybrid matching between a resume and target job description:
@@ -191,8 +192,11 @@ def compute_match(
             skill_score = 0.0
             low_confidence = True
 
-    # Semantic similarity using chunked sliding window
-    semantic_score = compute_semantic_similarity(resume_text, jd_text)
+    # Semantic similarity: use precomputed score if supplied, otherwise compute via chunking
+    if precomputed_semantic_score is not None:
+        semantic_score = float(np.clip(precomputed_semantic_score, 0.0, 1.0))
+    else:
+        semantic_score = compute_semantic_similarity(resume_text, jd_text)
 
     # Experience match ratio
     if required_exp_years <= 0.0:

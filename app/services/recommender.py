@@ -12,7 +12,11 @@ import pandas as pd
 import numpy as np
 
 from app.services.matcher import compute_match
-from app.services.vector_indexer import build_or_load_vector_index, search_vector_index
+from app.services.vector_indexer import (
+    build_or_load_vector_index,
+    search_vector_index,
+    compute_vector_similarities
+)
 
 DEFAULT_JOBS_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "jobs.csv"
 
@@ -85,16 +89,18 @@ def recommend_jobs(
     csv_path: Optional[str] = None
 ) -> List[Dict[str, Any]]:
     """
-    Ranks jobs against the candidate profile using a two-stage recommendation pipeline:
-    1. Fast vector inner-product retrieval of top-50 candidates.
-    2. Detailed hybrid re-ranking (required skills, preferred skills, tenure fit).
+    Ranks jobs against the candidate profile using a high-performance two-stage recommendation pipeline:
+    1. Fast vector inner-product retrieval of candidate pool using pre-computed disk embeddings.
+    2. Detailed hybrid re-ranking (required skills, preferred skills, tenure fit, semantic alignment).
     """
     df = load_jobs_dataset(csv_path)
+    if df is None or df.empty:
+        return []
 
     # 1. Apply hard metadata filters
     filtered_df = df.copy()
 
-    if location_filter and location_filter.strip().lower() not in ("all", "any", ""):
+    if location_filter and location_filter.strip().lower() not in ("all", "any", "", "all locations"):
         filtered_df = filtered_df[
             filtered_df["location"].str.contains(location_filter.strip(), case=False, na=False)
         ]
@@ -112,33 +118,23 @@ def recommend_jobs(
     if filtered_df.empty:
         return []
 
-    # 2. Stage 1: Fast Vector Retrieval (Select top 50 candidates via dot product)
-    stage1_candidates = []
-    if len(filtered_df) <= 50:
-        stage1_candidates = filtered_df.to_dict(orient="records")
-    else:
-        # Pre-filter candidate IDs matching metadata filters
-        valid_job_ids = set(filtered_df["job_id"].astype(str))
-        query_text = f"{resume_text[:1200]} Skills: {', '.join(resume_skills[:20])}"
+    # 2. Stage 1: Fast Vector Retrieval using pre-computed dense index
+    query_text = f"{resume_text[:1200]} Skills: {', '.join(resume_skills[:20])}"
+    vector_sim_map = compute_vector_similarities(query_text, csv_path=csv_path)
 
-        # Retrieve top semantically relevant jobs
-        vector_results = search_vector_index(query_text, top_k=len(df))
-        for job_dict, sim_score in vector_results:
-            if str(job_dict["job_id"]) in valid_job_ids:
-                stage1_candidates.append(job_dict)
-                if len(stage1_candidates) >= 50:
-                    break
+    candidates = filtered_df.to_dict(orient="records")
+    for cand in candidates:
+        cand_id = str(cand.get("job_id", ""))
+        cand["_vector_sim"] = vector_sim_map.get(cand_id, 0.4)
 
-        # Fallback safeguard in case vector search yielded fewer results than 50
-        if len(stage1_candidates) < min(50, len(filtered_df)):
-            existing_ids = {str(j["job_id"]) for j in stage1_candidates}
-            remaining = filtered_df[~filtered_df["job_id"].astype(str).isin(existing_ids)]
-            needed = min(50, len(filtered_df)) - len(stage1_candidates)
-            stage1_candidates.extend(remaining.head(needed).to_dict(orient="records"))
+    # Sort by vector similarity first to prioritize top semantically relevant roles
+    candidates.sort(key=lambda x: x["_vector_sim"], reverse=True)
+    # Stage 1 candidate pool for full hybrid re-ranking
+    candidate_pool = candidates[:min(len(candidates), max(50, top_n * 3))]
 
     # 3. Stage 2: Detailed Hybrid Re-ranking
     results = []
-    for row in stage1_candidates:
+    for row in candidate_pool:
         raw_skills = [
             s.strip().lower()
             for s in str(row.get("required_skills", "")).replace(";", ",").split(",")
@@ -157,7 +153,8 @@ def recommend_jobs(
             jd_skills=raw_skills,
             jd_preferred_skills=raw_preferred,
             candidate_exp_years=candidate_exp_years,
-            required_exp_years=float(row.get("experience_required", 0.0))
+            required_exp_years=float(row.get("experience_required", 0.0)),
+            precomputed_semantic_score=row["_vector_sim"]
         )
 
         results.append({

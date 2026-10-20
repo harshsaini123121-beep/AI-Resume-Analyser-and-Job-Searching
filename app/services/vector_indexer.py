@@ -120,12 +120,16 @@ def build_or_load_vector_index(
     return _CACHED_EMBEDDINGS, _CACHED_JOBS_LIST
 
 
-def search_vector_index(query_text: str, top_k: int = 50) -> List[Tuple[Dict[str, Any], float]]:
+def search_vector_index(
+    query_text: str,
+    top_k: int = 50,
+    csv_path: Optional[str] = None
+) -> List[Tuple[Dict[str, Any], float]]:
     """
     Finds the top_k most semantically relevant jobs for a given query or resume text
     using inner-product cosine similarity over normalized vector embeddings.
     """
-    embeddings, jobs = build_or_load_vector_index()
+    embeddings, jobs = build_or_load_vector_index(csv_path=csv_path)
     if embeddings is None or len(jobs) == 0:
         return []
 
@@ -141,10 +145,45 @@ def search_vector_index(query_text: str, top_k: int = 50) -> List[Tuple[Dict[str
         # TF-IDF sparse similarity fallback
         global _TFIDF_VECTORIZER, _TFIDF_MATRIX
         if _TFIDF_VECTORIZER is None:
-            build_or_load_vector_index(force_rebuild=True)
+            build_or_load_vector_index(csv_path=csv_path, force_rebuild=True)
         query_vec = _TFIDF_VECTORIZER.transform([query_text])
         sims = cosine_similarity(_TFIDF_MATRIX, query_vec).flatten()
 
     top_indices = np.argsort(sims)[::-1][:top_k]
     results = [(jobs[idx], float(sims[idx])) for idx in top_indices]
     return results
+
+
+def compute_vector_similarities(
+    query_text: str,
+    csv_path: Optional[str] = None
+) -> Dict[str, float]:
+    """
+    Computes vector cosine similarity between query_text and all indexed jobs.
+    Returns a dict mapping job_id (str) -> similarity_score (float in [0.0, 1.0]).
+    Executes in single-digit milliseconds via vectorized matrix dot product.
+    """
+    embeddings, jobs = build_or_load_vector_index(csv_path=csv_path)
+    if embeddings is None or len(jobs) == 0:
+        return {}
+
+    model = get_embedding_model()
+
+    if model is not None and isinstance(embeddings, np.ndarray):
+        query_vec = model.encode([query_text], convert_to_numpy=True)
+        norm = np.linalg.norm(query_vec)
+        if norm > 0:
+            query_vec = query_vec / norm
+        sims = np.dot(embeddings, query_vec.T).flatten()
+    else:
+        global _TFIDF_VECTORIZER, _TFIDF_MATRIX
+        if _TFIDF_VECTORIZER is None:
+            build_or_load_vector_index(csv_path=csv_path, force_rebuild=True)
+        query_vec = _TFIDF_VECTORIZER.transform([query_text])
+        sims = cosine_similarity(_TFIDF_MATRIX, query_vec).flatten()
+
+    return {
+        str(jobs[idx]["job_id"]): float(np.clip(sims[idx], 0.0, 1.0))
+        for idx in range(len(jobs))
+    }
+

@@ -42,7 +42,7 @@ class ResumeLabClient:
         self,
         base_url: str = DEFAULT_BASE_URL,
         api_key: str = DEFAULT_API_KEY,
-        timeout: float = 30.0,
+        timeout: float = 60.0,
         max_retries: int = 2
     ):
         self.base_url = base_url.rstrip("/")
