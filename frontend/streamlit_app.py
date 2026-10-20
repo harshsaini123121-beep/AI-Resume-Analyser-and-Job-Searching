@@ -43,10 +43,54 @@ st.set_page_config(
 # -----------------------------------------------------------------------------
 # 2. Design System Injection (System Font Stack, Design Tokens, WCAG AA Contrast)
 # -----------------------------------------------------------------------------
+import streamlit.components.v1 as components
+
 CSS_FILE = Path(__file__).parent / "styles.css"
 if CSS_FILE.exists():
     css_content = CSS_FILE.read_text(encoding="utf-8")
     st.markdown(f"<style>{css_content}</style>", unsafe_allow_html=True)
+
+# Ensure Left Sidebar is expanded and enforce Light Theme
+components.html("""
+<script>
+(function() {
+    function enforceLightAndSidebar() {
+        try {
+            const pDoc = window.parent ? window.parent.document : document;
+            if (!pDoc) return;
+            
+            // 1. Ensure left sidebar panel is expanded
+            try {
+                window.parent.sessionStorage.removeItem("stSidebarNavState");
+                window.parent.sessionStorage.removeItem("stSidebarState");
+                if (window.parent.localStorage) {
+                    window.parent.localStorage.setItem('stActiveTheme', JSON.stringify('Light'));
+                }
+            } catch(e) {}
+
+            const expandBtn = pDoc.querySelector('[data-testid="stExpandSidebarButton"], button[data-testid="stExpandSidebarButton"], button[aria-label="Expand sidebar"], [data-testid="stSidebarCollapsedControl"] button, [data-testid="collapsedControl"] button');
+            if (expandBtn) {
+                expandBtn.click();
+            }
+
+            // 2. Lock Light Theme attributes
+            const app = pDoc.querySelector('.stApp');
+            if (app && app.getAttribute('data-theme') !== 'light') {
+                app.setAttribute('data-theme', 'light');
+            }
+            if (pDoc.documentElement && pDoc.documentElement.getAttribute('data-theme') !== 'light') {
+                pDoc.documentElement.setAttribute('data-theme', 'light');
+            }
+        } catch(err) {
+            // Silently ignore cross-origin or transient initialization errors
+        }
+    }
+
+    enforceLightAndSidebar();
+    setInterval(enforceLightAndSidebar, 500);
+})();
+</script>
+""", height=0, width=0)
 
 # -----------------------------------------------------------------------------
 # 3. Session State Initialization

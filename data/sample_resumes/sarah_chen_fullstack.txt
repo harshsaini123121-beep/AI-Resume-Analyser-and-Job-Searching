@@ -22,7 +22,7 @@ January 2022 - Present
 
 Software Engineer | DevWorks Software | Dallas, TX
 June 2020 - December 2021
-- Developed RESTful APIs using Python, Django, and PostgreSQL for customer billing management, processing over $4M in monthly transactions.
+- Developed RESTful APIs using Python, Django, and PostgreSQL for customer billing management, processing over ₹35 Crore in monthly transactions.
 - Built reusable frontend component libraries in React and Tailwind CSS, increasing engineering delivery speed by 25%.
 - Collaborated in cross-functional agile teams of 8 engineers, participating in bi-weekly sprint planning, retrospectives, and peer code reviews.
 

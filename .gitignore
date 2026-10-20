@@ -58,3 +58,8 @@ data/*.pkl
 data/*.hash
 data/jobs_embeddings.*
 data/jobs_meta.*
+
+# Scratch and debug files
+scratch/
+check_theme.py
+

@@ -169,10 +169,10 @@ def calculate_ats_score(resume_text: str, extracted_data: Dict[str, Any]) -> Dic
         strengths.append("Measurable outcomes included in bullet points.")
     elif quant_count >= 1:
         quant_pts = 6
-        suggestions.append("Add more quantitative metrics (e.g., '% improved', '$ saved', 'number of users served').")
+        suggestions.append("Add more quantitative metrics (e.g., '% improved', '₹ saved / cost reduced', 'number of users served').")
     else:
         quant_pts = 0
-        issues.append("No quantified achievements found (percentages, dollar amounts, scale).")
+        issues.append("No quantified achievements found (percentages, Rupee (₹) amounts, scale).")
         suggestions.append("Quantify your impact using the XYZ formula: 'Accomplished [X] as measured by [Y], by doing [Z]'.")
 
     category_scores["Quantified Impact"] = {

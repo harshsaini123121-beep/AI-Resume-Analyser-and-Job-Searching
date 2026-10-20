@@ -5,6 +5,8 @@ Recommendation cards with Title, Company, Match %, Top 3 Matched / Missing skill
 """
 import html
 from pathlib import Path
+import re
+from typing import Any
 
 import streamlit as st
 
@@ -13,6 +15,30 @@ from frontend.components.empty_state import render_empty_state
 from frontend.components.skill_chips import render_skill_chips
 
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+
+
+def format_inr_salary(val: Any) -> str:
+    """Ensures salary is always displayed in Indian Rupees (₹)."""
+    if not val or not isinstance(val, str) or val.strip().lower() in ("", "nan"):
+        return "Competitive (₹ Industry Standard)"
+    s = val.strip()
+    if "$" in s:
+        nums = re.findall(r'\$?\s*(\d+(?:,\d+)*(?:\.\d+)?)\s*k?', s, re.IGNORECASE)
+        cleaned = []
+        for n in nums:
+            v = float(n.replace(',', ''))
+            if v < 500:
+                v *= 1000
+            cleaned.append(v)
+        if len(cleaned) >= 2:
+            low = max(6, int(round(cleaned[0] / 5200)))
+            high = max(low + 3, int(round(cleaned[1] / 4800)))
+            return f"₹{low} - ₹{high} LPA"
+        elif len(cleaned) == 1:
+            lpa = max(6, int(round(cleaned[0] / 5000)))
+            return f"₹{lpa} LPA"
+        return s.replace("$", "₹")
+    return s
 
 
 def show_job_recommendations_page():
@@ -39,21 +65,19 @@ def show_job_recommendations_page():
     """, unsafe_allow_html=True)
 
     # Filter and Sort Controls Bar
-    st.markdown('<div class="card-container">', unsafe_allow_html=True)
-    st.markdown('<div style="font-weight: 700; font-size: var(--font-sm); color: var(--color-text); margin-bottom: 8px;">Filter & Sort Opportunities</div>', unsafe_allow_html=True)
+    with st.container(border=True):
+        st.markdown('<div style="font-weight: 700; font-size: var(--font-sm); color: var(--color-text); margin-bottom: 8px;">Filter & Sort Opportunities</div>', unsafe_allow_html=True)
 
-    f_col1, f_col2, f_col3, f_col4 = st.columns([1.5, 1.0, 1.0, 1.0])
+        f_col1, f_col2, f_col3, f_col4 = st.columns([1.5, 1.0, 1.0, 1.0])
 
-    with f_col1:
-        search_kw = st.text_input("🔍 Keyword Search", placeholder="e.g. Python, Machine Learning, AWS", key="rec_search_kw")
-    with f_col2:
-        loc_filter = st.selectbox("Location", ["All Locations", "Remote", "Bangalore", "San Francisco", "New York", "London"], key="rec_loc_filter")
-    with f_col3:
-        max_recs = st.selectbox("Show Results", [5, 10, 15, 20], index=1, key="rec_max_results")
-    with f_col4:
-        sort_by = st.selectbox("Sort Order", ["Highest Match %", "Lowest Experience Req"], key="rec_sort_order")
-
-    st.markdown('</div>', unsafe_allow_html=True)
+        with f_col1:
+            search_kw = st.text_input("🔍 Keyword Search", placeholder="e.g. Python, Machine Learning, AWS", key="rec_search_kw")
+        with f_col2:
+            loc_filter = st.selectbox("Location", ["All Locations", "Remote", "Bangalore", "San Francisco", "New York", "London"], key="rec_loc_filter")
+        with f_col3:
+            max_recs = st.selectbox("Show Results", [5, 10, 15, 20], index=1, key="rec_max_results")
+        with f_col4:
+            sort_by = st.selectbox("Sort Order", ["Highest Match %", "Lowest Experience Req"], key="rec_sort_order")
 
     # Fetch Recommendations via API
     with st.spinner("Finding best match positions from dataset..."):
@@ -90,7 +114,7 @@ def show_job_recommendations_page():
         title = job.get("title", "Position")
         company = job.get("company", "Company")
         location = job.get("location", "Remote")
-        salary = job.get("salary", "Competitive")
+        salary = format_inr_salary(job.get("salary", "Competitive"))
         exp_req = job.get("experience_required", 0)
         desc = job.get("description", "No detailed description provided.")
 
@@ -112,8 +136,8 @@ def show_job_recommendations_page():
         matched_skills = [s for s in req_skills if s.lower() in candidate_lower][:3]
         missing_skills = [s for s in req_skills if s.lower() not in candidate_lower][:3]
 
-        st.markdown(f"""
-        <div class="card-container" style="border-left: 5px solid {border_c}; margin-bottom: 14px;">
+        with st.container(border=True):
+            st.markdown(f"""
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
                 <div>
                     <div style="font-size: var(--font-lg); font-weight: 800; color: var(--color-text);">{html.escape(title)}</div>
@@ -126,22 +150,20 @@ def show_job_recommendations_page():
                 <span>💰 <b>{html.escape(salary)}</b></span>
                 <span>⏳ <b>{exp_req} yrs required</b></span>
             </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
-        if matched_skills or missing_skills:
-            st.markdown(render_skill_chips(matched=matched_skills, missing=missing_skills), unsafe_allow_html=True)
+            if matched_skills or missing_skills:
+                st.markdown(render_skill_chips(matched=matched_skills, missing=missing_skills), unsafe_allow_html=True)
 
-        with st.expander(f"💡 Why this job? (Role Overview & Evidence)"):
-            st.markdown(f"""
-            **Matching Rationale:**
-            - You match **{len(matched_skills)}** of the core technical requirements ({', '.join(matched_skills) if matched_skills else 'General competencies'}).
-            - Experience tenure: Candidate has **{candidate_exp:.1f} years** vs **{exp_req} years** required.
-            
-            **Job Description Summary:**
-            {desc}
-            """)
-
-        st.markdown('</div>', unsafe_allow_html=True)
+            with st.expander(f"💡 Why this job? (Role Overview & Evidence)"):
+                st.markdown(f"""
+                **Matching Rationale:**
+                - You match **{len(matched_skills)}** of the core technical requirements ({', '.join(matched_skills) if matched_skills else 'General competencies'}).
+                - Experience tenure: Candidate has **{candidate_exp:.1f} years** vs **{exp_req} years** required.
+                
+                **Job Description Summary:**
+                {desc}
+                """)
 
 
 show_job_recommendations_page()

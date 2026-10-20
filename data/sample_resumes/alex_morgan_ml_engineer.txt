@@ -16,7 +16,7 @@ PROFESSIONAL EXPERIENCE
 Senior Machine Learning Engineer | NeuralScale AI | San Francisco, CA
 March 2022 - Present
 - Architected and deployed an enterprise Retrieval-Augmented Generation (RAG) system utilizing PyTorch, LangChain, and Pinecone, boosting answer accuracy by 34% and reducing hallucinations.
-- Spearheaded the fine-tuning of open-source 7B and 13B parameter LLMs using LoRA and QLoRA on AWS EKS with Kubernetes, reducing annual API costs by $180,000.
+- Spearheaded the fine-tuning of open-source 7B and 13B parameter LLMs using LoRA and QLoRA on AWS EKS with Kubernetes, reducing annual API costs by ₹1.5 Crore.
 - Implemented automated CI/CD and MLOps deployment pipelines with MLflow and Docker, accelerating model release velocity from 2 weeks to 2 days.
 - Optimized multi-GPU inference using TensorRT and vLLM, decreasing 99th percentile response latency from 450ms to 95ms under peak traffic.
 

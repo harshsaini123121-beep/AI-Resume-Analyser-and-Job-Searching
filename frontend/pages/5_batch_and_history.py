@@ -53,46 +53,42 @@ def show_batch_and_history_page():
     # SUB-VIEW 1: BATCH SCREENING
     # -------------------------------------------------------------
     if "Batch Screening" in mode:
-        st.markdown('<div class="card-container">', unsafe_allow_html=True)
-        st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">1. Target Job Requisition</div>', unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">1. Target Job Requisition</div>', unsafe_allow_html=True)
 
-        jobs_df = get_jobs_dataframe()
-        if jobs_df.empty:
-            st.warning("Job requisition dataset is currently unavailable.")
-            return
+            jobs_df = get_jobs_dataframe()
+            if jobs_df.empty:
+                st.warning("Job requisition dataset is currently unavailable.")
+                return
 
-        job_options = [f"{r['job_id']}: {r['title']} @ {r['company']}" for _, r in jobs_df.head(40).iterrows()]
-        selected_job_str = st.selectbox("Select Benchmark Role", job_options, key="batch_job_select")
-        target_job_row = jobs_df[jobs_df["job_id"] == selected_job_str.split(":")[0].strip()].iloc[0]
-
-        st.markdown('</div>', unsafe_allow_html=True)
+            job_options = [f"{r['job_id']}: {r['title']} @ {r['company']}" for _, r in jobs_df.head(40).iterrows()]
+            selected_job_str = st.selectbox("Select Benchmark Role", job_options, key="batch_job_select")
+            target_job_row = jobs_df[jobs_df["job_id"] == selected_job_str.split(":")[0].strip()].iloc[0]
 
         # Batch Upload Section
-        st.markdown('<div class="card-container">', unsafe_allow_html=True)
-        st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">2. Upload Candidate Cohort</div>', unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">2. Upload Candidate Cohort</div>', unsafe_allow_html=True)
 
-        uploaded_files = st.file_uploader(
-            "Upload Multiple Resumes (PDF, DOCX, TXT)",
-            type=["pdf", "docx", "txt"],
-            accept_multiple_files=True,
-            key="batch_multi_uploader",
-            help="Select up to 20 candidate resumes to screen in parallel."
-        )
+            uploaded_files = st.file_uploader(
+                "Upload Multiple Resumes (PDF, DOCX, TXT)",
+                type=["pdf", "docx", "txt"],
+                accept_multiple_files=True,
+                key="batch_multi_uploader",
+                help="Select up to 20 candidate resumes to screen in parallel."
+            )
 
-        col_sample_batch, _ = st.columns([1.5, 2])
-        with col_sample_batch:
-            if st.button("📁 Load 3 Pre-Packaged Demo Candidates", type="secondary", key="load_sample_batch_btn"):
-                sample_dir = ROOT_DIR / "data" / "sample_resumes"
-                preloaded = []
-                for p in sample_dir.glob("*.txt"):
-                    try:
-                        preloaded.append((p.name, p.read_text(encoding="utf-8")))
-                    except Exception:
-                        pass
-                st.session_state.batch_preloaded = preloaded
-                st.toast("Loaded sample candidate resumes!", icon="📂")
-
-        st.markdown('</div>', unsafe_allow_html=True)
+            col_sample_batch, _ = st.columns([1.5, 2])
+            with col_sample_batch:
+                if st.button("📁 Load 3 Pre-Packaged Demo Candidates", type="secondary", key="load_sample_batch_btn"):
+                    sample_dir = ROOT_DIR / "data" / "sample_resumes"
+                    preloaded = []
+                    for p in sample_dir.glob("*.txt"):
+                        try:
+                            preloaded.append((p.name, p.read_text(encoding="utf-8")))
+                        except Exception:
+                            pass
+                    st.session_state.batch_preloaded = preloaded
+                    st.toast("Loaded sample candidate resumes!", icon="📂")
 
         candidates_payload = []
         file_hashes = []
@@ -190,146 +186,142 @@ def show_batch_and_history_page():
                 st.session_state.batch_cached_results = ranked
 
             if ranked:
-                st.markdown('<div class="card-container">', unsafe_allow_html=True)
-                st.markdown('<div style="font-weight: 800; font-size: var(--font-lg); color: var(--color-text); margin-bottom: 12px;">🏆 Candidate Screening Leaderboard</div>', unsafe_allow_html=True)
+                with st.container(border=True):
+                    st.markdown('<div style="font-weight: 800; font-size: var(--font-lg); color: var(--color-text); margin-bottom: 12px;">🏆 Candidate Screening Leaderboard</div>', unsafe_allow_html=True)
 
-                medals = ["🥇 #1", "🥈 #2", "🥉 #3"]
-                table_rows = []
-                for idx, r in enumerate(ranked):
-                    rank_str = medals[idx] if idx < len(medals) else f"#{idx+1}"
-                    exp_val = r.get("experience_years", 0.0)
-                    exp_str = f"{exp_val:.1f} yrs" if exp_val and exp_val > 0 else "Not detected"
-                    missing_str = ", ".join(r.get("missing_skills", [])[:3]) if r.get("missing_skills") else "None"
+                    medals = ["🥇 #1", "🥈 #2", "🥉 #3"]
+                    table_rows = []
+                    for idx, r in enumerate(ranked):
+                        rank_str = medals[idx] if idx < len(medals) else f"#{idx+1}"
+                        exp_val = r.get("experience_years", 0.0)
+                        exp_str = f"{exp_val:.1f} yrs" if exp_val and exp_val > 0 else "Not detected"
+                        missing_str = ", ".join(r.get("missing_skills", [])[:3]) if r.get("missing_skills") else "None"
 
-                    table_rows.append({
-                        "Rank": rank_str,
-                        "Candidate": r.get("candidate_name") or "Applicant",
-                        "Filename": r.get("filename", ""),
-                        "Match Score": f"{r.get('match_percentage', 0)}%",
-                        "ATS Score": f"{r.get('ats_score', 0)}/100",
-                        "Experience": exp_str,
-                        "Skills Matched": r.get("skills_matched_count", 0),
-                        "Top Skill Gaps": missing_str
-                    })
+                        table_rows.append({
+                            "Rank": rank_str,
+                            "Candidate": r.get("candidate_name") or "Applicant",
+                            "Filename": r.get("filename", ""),
+                            "Match Score": f"{r.get('match_percentage', 0)}%",
+                            "ATS Score": f"{r.get('ats_score', 0)}/100",
+                            "Experience": exp_str,
+                            "Skills Matched": r.get("skills_matched_count", 0),
+                            "Top Skill Gaps": missing_str
+                        })
 
-                df_leaderboard = pd.DataFrame(table_rows)
-                st.dataframe(df_leaderboard, width="stretch")
+                    df_leaderboard = pd.DataFrame(table_rows)
+                    st.dataframe(df_leaderboard, width="stretch")
 
-                # CSV Export Button
-                csv_bytes = df_leaderboard.to_csv(index=False).encode("utf-8")
-                clean_title = "".join(c for c in target_job_row["title"] if c.isalnum() or c == "_")
-                st.download_button(
-                    label="📥 Export Leaderboard to CSV",
-                    data=csv_bytes,
-                    file_name=f"Leaderboard_{clean_title}.csv",
-                    mime="text/csv",
-                    key="dl_batch_csv_btn"
-                )
+                    # CSV Export Button
+                    csv_bytes = df_leaderboard.to_csv(index=False).encode("utf-8")
+                    clean_title = "".join(c for c in target_job_row["title"] if c.isalnum() or c == "_")
+                    st.download_button(
+                        label="📥 Export Leaderboard to CSV",
+                        data=csv_bytes,
+                        file_name=f"Leaderboard_{clean_title}.csv",
+                        mime="text/csv",
+                        key="dl_batch_csv_btn"
+                    )
 
-                # Expandable Candidate Details
-                st.markdown("<hr style='border: none; border-top: 1px solid var(--color-border); margin: 16px 0;'>", unsafe_allow_html=True)
-                st.markdown('<div style="font-weight: 700; font-size: var(--font-base); margin-bottom: 8px;">Candidate Detail Drilldown</div>', unsafe_allow_html=True)
+                    # Expandable Candidate Details
+                    st.markdown("<hr style='border: none; border-top: 1px solid var(--color-border); margin: 16px 0;'>", unsafe_allow_html=True)
+                    st.markdown('<div style="font-weight: 700; font-size: var(--font-base); margin-bottom: 8px;">Candidate Detail Drilldown</div>', unsafe_allow_html=True)
 
-                for r in ranked:
-                    with st.expander(f"{r.get('candidate_name', 'Applicant')} — {r.get('match_percentage', 0)}% Match ({r.get('filename')})"):
-                        d_col1, d_col2 = st.columns(2)
-                        with d_col1:
-                            st.write(f"**ATS Score:** {r.get('ats_score', 0)} / 100")
-                            st.write(f"**Experience:** {r.get('experience_years', 0.0):.1f} years")
-                        with d_col2:
-                            st.write(f"**Missing Skills:** {', '.join(r.get('missing_skills', [])) if r.get('missing_skills') else 'None'}")
-                            if st.button("Set as Active Resume", key=f"set_active_{r.get('filename')}"):
-                                try:
-                                    ana = api_client.analyse_resume(r.get("raw_text", "").encode("utf-8"), r.get("filename", "resume.txt"))
-                                    st.session_state.resume_data = ana["extracted_data"]
-                                    st.session_state.ats_result = ana["ats_score"]
-                                    st.session_state.active_filename = r.get("filename")
-                                    st.toast(f"Active resume set to {r.get('candidate_name')}!", icon="✅")
-                                    st.switch_page("pages/2_results.py")
-                                except Exception as e:
-                                    st.error(f"Failed to activate: {e}")
-
-                st.markdown('</div>', unsafe_allow_html=True)
+                    for r in ranked:
+                        with st.expander(f"{r.get('candidate_name', 'Applicant')} — {r.get('match_percentage', 0)}% Match ({r.get('filename')})"):
+                            d_col1, d_col2 = st.columns(2)
+                            with d_col1:
+                                st.write(f"**ATS Score:** {r.get('ats_score', 0)} / 100")
+                                st.write(f"**Experience:** {r.get('experience_years', 0.0):.1f} years")
+                            with d_col2:
+                                st.write(f"**Missing Skills:** {', '.join(r.get('missing_skills', [])) if r.get('missing_skills') else 'None'}")
+                                if st.button("Set as Active Resume", key=f"set_active_{r.get('filename')}"):
+                                    try:
+                                        ana = api_client.analyse_resume(r.get("raw_text", "").encode("utf-8"), r.get("filename", "resume.txt"))
+                                        st.session_state.resume_data = ana["extracted_data"]
+                                        st.session_state.ats_result = ana["ats_score"]
+                                        st.session_state.active_filename = r.get("filename")
+                                        st.toast(f"Active resume set to {r.get('candidate_name')}!", icon="✅")
+                                        st.switch_page("pages/2_results.py")
+                                    except Exception as e:
+                                        st.error(f"Failed to activate: {e}")
 
     # -------------------------------------------------------------
     # SUB-VIEW 2: AUDIT HISTORY & REPORTS
     # -------------------------------------------------------------
     else:
-        st.markdown('<div class="card-container">', unsafe_allow_html=True)
-        st.markdown('<div style="font-weight: 800; font-size: var(--font-lg); color: var(--color-text); margin-bottom: 12px;">📊 Candidate Audit Database</div>', unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div style="font-weight: 800; font-size: var(--font-lg); color: var(--color-text); margin-bottom: 12px;">📊 Candidate Audit Database</div>', unsafe_allow_html=True)
 
-        try:
-            records = api_client.get_history(limit=50)
-        except Exception as e:
-            st.error(f"History service unavailable: {e}")
-            records = []
+            try:
+                records = api_client.get_history(limit=50)
+            except Exception as e:
+                st.error(f"History service unavailable: {e}")
+                records = []
 
-        if records:
-            # Score-Over-Time Trend Chart
-            df_hist = pd.DataFrame(records)
-            if "created_at" in df_hist.columns and "ats_score" in df_hist.columns:
-                try:
-                    df_hist["date_parsed"] = pd.to_datetime(df_hist["created_at"])
-                    df_sorted = df_hist.sort_values("date_parsed")
-
-                    trend_fig = px.line(
-                        df_sorted,
-                        x="created_at",
-                        y="ats_score",
-                        title="ATS Score Trend Over Time",
-                        markers=True,
-                        hover_data=["candidate_name", "ats_grade"]
-                    )
-                    trend_fig.update_layout(
-                        height=260,
-                        margin=dict(l=10, r=10, t=30, b=10),
-                        paper_bgcolor='rgba(0,0,0,0)',
-                        plot_bgcolor='rgba(0,0,0,0)',
-                        xaxis=dict(showgrid=True, gridcolor='#f1f5f9', title="Timestamp"),
-                        yaxis=dict(range=[0, 100], showgrid=True, gridcolor='#f1f5f9', title="ATS Score")
-                    )
-                    st.plotly_chart(trend_fig, use_container_width=True, config={"displayModeBar": False})
-                except Exception:
-                    pass
-
-            # Table of History Records
-            table_records = [
-                {
-                    "ID": r["id"],
-                    "Candidate": r.get("candidate_name") or "Applicant",
-                    "Filename": r.get("filename") or "resume.pdf",
-                    "ATS Score": f"{r.get('ats_score', 0)}/100",
-                    "Grade": r.get("ats_grade") or "C",
-                    "Experience": f"{r.get('experience_years', 0.0):.1f} yrs" if r.get("experience_years") else "Not detected",
-                    "Date": r.get("created_at") or "-"
-                }
-                for r in records
-            ]
-            st.dataframe(pd.DataFrame(table_records), width="stretch")
-
-            # Record Deletion with Confirmation Checkbox
-            st.markdown("<hr style='border: none; border-top: 1px solid var(--color-border); margin: 16px 0;'>", unsafe_allow_html=True)
-            st.markdown('<div style="font-weight: 700; font-size: var(--font-base); margin-bottom: 8px;">🗑️ Record Management & Compliance Deletion</div>', unsafe_allow_html=True)
-
-            del_c1, del_c2 = st.columns([2.5, 1.0])
-            with del_c1:
-                rec_map = {f"Record #{r['id']} — {r.get('candidate_name', 'Applicant')} ({r.get('filename')})": r["id"] for r in records}
-                chosen_rec_label = st.selectbox("Select Record", list(rec_map.keys()), key="del_rec_selector")
-            with del_c2:
-                confirm_del = st.checkbox("Confirm Permanent Deletion", key="confirm_del_box")
-                if st.button("Delete Audit Record", type="secondary", disabled=not confirm_del):
-                    rec_id = rec_map[chosen_rec_label]
+            if records:
+                # Score-Over-Time Trend Chart
+                df_hist = pd.DataFrame(records)
+                if "created_at" in df_hist.columns and "ats_score" in df_hist.columns:
                     try:
-                        api_client.delete_history_record(rec_id)
-                        st.success(f"Record #{rec_id} permanently deleted.")
-                        st.rerun()
-                    except Exception as dex:
-                        st.error(f"Failed to delete: {dex}")
+                        df_hist["date_parsed"] = pd.to_datetime(df_hist["created_at"])
+                        df_sorted = df_hist.sort_values("date_parsed")
 
-        else:
-            st.info("No audit history found in database. Upload and analyze resumes to populate audit records.")
+                        trend_fig = px.line(
+                            df_sorted,
+                            x="created_at",
+                            y="ats_score",
+                            title="ATS Score Trend Over Time",
+                            markers=True,
+                            hover_data=["candidate_name", "ats_grade"]
+                        )
+                        trend_fig.update_layout(
+                            height=260,
+                            margin=dict(l=10, r=10, t=30, b=10),
+                            paper_bgcolor='rgba(0,0,0,0)',
+                            plot_bgcolor='rgba(0,0,0,0)',
+                            xaxis=dict(showgrid=True, gridcolor='#f1f5f9', title="Timestamp"),
+                            yaxis=dict(range=[0, 100], showgrid=True, gridcolor='#f1f5f9', title="ATS Score")
+                        )
+                        st.plotly_chart(trend_fig, use_container_width=True, config={"displayModeBar": False})
+                    except Exception:
+                        pass
 
-        st.markdown('</div>', unsafe_allow_html=True)
+                # Table of History Records
+                table_records = [
+                    {
+                        "ID": r["id"],
+                        "Candidate": r.get("candidate_name") or "Applicant",
+                        "Filename": r.get("filename") or "resume.pdf",
+                        "ATS Score": f"{r.get('ats_score', 0)}/100",
+                        "Grade": r.get("ats_grade") or "C",
+                        "Experience": f"{r.get('experience_years', 0.0):.1f} yrs" if r.get("experience_years") else "Not detected",
+                        "Date": r.get("created_at") or "-"
+                    }
+                    for r in records
+                ]
+                st.dataframe(pd.DataFrame(table_records), width="stretch")
+
+                # Record Deletion with Confirmation Checkbox
+                st.markdown("<hr style='border: none; border-top: 1px solid var(--color-border); margin: 16px 0;'>", unsafe_allow_html=True)
+                st.markdown('<div style="font-weight: 700; font-size: var(--font-base); margin-bottom: 8px;">🗑️ Record Management & Compliance Deletion</div>', unsafe_allow_html=True)
+
+                del_c1, del_c2 = st.columns([2.5, 1.0])
+                with del_c1:
+                    rec_map = {f"Record #{r['id']} — {r.get('candidate_name', 'Applicant')} ({r.get('filename')})": r["id"] for r in records}
+                    chosen_rec_label = st.selectbox("Select Record", list(rec_map.keys()), key="del_rec_selector")
+                with del_c2:
+                    confirm_del = st.checkbox("Confirm Permanent Deletion", key="confirm_del_box")
+                    if st.button("Delete Audit Record", type="secondary", disabled=not confirm_del):
+                        rec_id = rec_map[chosen_rec_label]
+                        try:
+                            api_client.delete_history_record(rec_id)
+                            st.success(f"Record #{rec_id} permanently deleted.")
+                            st.rerun()
+                        except Exception as dex:
+                            st.error(f"Failed to delete: {dex}")
+
+            else:
+                st.info("No audit history found in database. Upload and analyze resumes to populate audit records.")
 
 
 show_batch_and_history_page()

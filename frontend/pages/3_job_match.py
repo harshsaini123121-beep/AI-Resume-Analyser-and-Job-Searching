@@ -85,46 +85,43 @@ def show_job_match_page():
     col_resume, col_jd = st.columns([1.0, 1.2], gap="large")
 
     with col_resume:
-        st.markdown('<div class="card-container">', unsafe_allow_html=True)
-        st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 6px;">📄 Active Candidate</div>', unsafe_allow_html=True)
-        st.markdown(f"""
-        <div style="font-size: var(--font-lg); font-weight: 800; color: var(--color-text);">{html.escape(candidate_name)}</div>
-        <div style="font-size: var(--font-xs); color: var(--color-muted); margin-bottom: 12px;">{html.escape(st.session_state.get('active_filename', 'resume.pdf'))}</div>
-        <div style="display: flex; gap: 12px; margin-bottom: 12px; font-size: var(--font-sm); color: var(--color-text-secondary);">
-            <span>💼 <b>{candidate_exp:.1f} Yrs Experience</b></span>
-            <span>🛠️ <b>{len(candidate_skills)} Skills Detected</b></span>
-        </div>
-        """, unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 6px;">📄 Active Candidate</div>', unsafe_allow_html=True)
+            st.markdown(f"""
+            <div style="font-size: var(--font-lg); font-weight: 800; color: var(--color-text);">{html.escape(candidate_name)}</div>
+            <div style="font-size: var(--font-xs); color: var(--color-muted); margin-bottom: 12px;">{html.escape(st.session_state.get('active_filename', 'resume.pdf'))}</div>
+            <div style="display: flex; gap: 12px; margin-bottom: 12px; font-size: var(--font-sm); color: var(--color-text-secondary);">
+                <span>💼 <b>{candidate_exp:.1f} Yrs Experience</b></span>
+                <span>🛠️ <b>{len(candidate_skills)} Skills Detected</b></span>
+            </div>
+            """, unsafe_allow_html=True)
 
-        st.markdown('<div style="font-weight: 600; font-size: var(--font-xs); color: var(--color-muted); margin-bottom: 6px;">IDENTIFIED SKILLS</div>', unsafe_allow_html=True)
-        if candidate_skills:
-            st.markdown(render_skill_chips(matched=candidate_skills[:16]), unsafe_allow_html=True)
-        else:
-            st.caption("No technical skills detected.")
-        st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown('<div style="font-weight: 600; font-size: var(--font-xs); color: var(--color-muted); margin-bottom: 6px;">IDENTIFIED SKILLS</div>', unsafe_allow_html=True)
+            if candidate_skills:
+                st.markdown(render_skill_chips(matched=candidate_skills[:16]), unsafe_allow_html=True)
+            else:
+                st.caption("No technical skills detected.")
 
     with col_jd:
-        st.markdown('<div class="card-container">', unsafe_allow_html=True)
-        st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">🎯 Target Job Description</div>', unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">🎯 Target Job Description</div>', unsafe_allow_html=True)
 
-        jobs_df = get_jobs_dataframe()
-        selected_job_row = None
+            jobs_df = get_jobs_dataframe()
+            selected_job_row = None
 
-        if not jobs_df.empty:
-            job_titles = [f"{r['job_id']}: {r['title']} @ {r['company']}" for _, r in jobs_df.head(40).iterrows()]
-            chosen_job_str = st.selectbox("Select Pre-loaded Job Requisition", job_titles, key="match_job_selector")
-            matched_rows = jobs_df[jobs_df["job_id"] == chosen_job_str.split(":")[0].strip()]
-            if not matched_rows.empty:
-                selected_job_row = matched_rows.iloc[0]
+            if not jobs_df.empty:
+                job_titles = [f"{r['job_id']}: {r['title']} @ {r['company']}" for _, r in jobs_df.head(40).iterrows()]
+                chosen_job_str = st.selectbox("Select Pre-loaded Job Requisition", job_titles, key="match_job_selector")
+                matched_rows = jobs_df[jobs_df["job_id"] == chosen_job_str.split(":")[0].strip()]
+                if not matched_rows.empty:
+                    selected_job_row = matched_rows.iloc[0]
 
-        custom_jd_input = st.text_area(
-            "Or Paste Custom Job Description",
-            height=120,
-            placeholder="Paste raw requisition or job post text here...",
-            key="match_custom_jd_input"
-        )
-
-        st.markdown('</div>', unsafe_allow_html=True)
+            custom_jd_input = st.text_area(
+                "Or Paste Custom Job Description",
+                height=120,
+                placeholder="Paste raw requisition or job post text here...",
+                key="match_custom_jd_input"
+            )
 
     # Determine JD text and required skills
     if custom_jd_input.strip():
@@ -176,92 +173,87 @@ def show_job_match_page():
         ev_items = st.session_state.get("active_job_evidence", [])
         j_label = st.session_state.get("active_job_label", "Selected Requisition")
 
-        st.markdown(f'<div class="card-container" style="border-left: 5px solid var(--color-primary); margin-top: 16px;">', unsafe_allow_html=True)
-        st.markdown(f'<div style="font-weight: 800; font-size: var(--font-lg); color: var(--color-text); margin-bottom: 12px;">Match Evaluation for {html.escape(j_label)}</div>', unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown(f'<div style="font-weight: 800; font-size: var(--font-lg); color: var(--color-text); margin-bottom: 12px;">Match Evaluation for {html.escape(j_label)}</div>', unsafe_allow_html=True)
 
-        res_col1, res_col2 = st.columns([1.0, 1.8], gap="medium")
-        with res_col1:
-            st.markdown(render_score_ring(res.get("match_percentage", 0), size=130), unsafe_allow_html=True)
+            res_col1, res_col2 = st.columns([1.0, 1.8], gap="medium")
+            with res_col1:
+                st.markdown(render_score_ring(res.get("match_percentage", 0), size=130), unsafe_allow_html=True)
 
-        with res_col2:
-            st.markdown(f"""
-            <div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 6px;">
-                Alignment Verdict: <span style="color: var(--color-primary);">{res.get('verdict', 'Evaluated')}</span>
-            </div>
-            <div style="font-size: var(--font-sm); color: var(--color-muted); margin-bottom: 12px;">
-                Weighted combination of Skill Overlap (50%), MiniLM Semantic Fit (40%), and Experience Alignment (10%).
-            </div>
-            """, unsafe_allow_html=True)
-            sig_fig = render_match_signals_chart(
-                res.get("skill_score", 0.0),
-                res.get("semantic_score", 0.0),
-                res.get("experience_score", 0.0)
-            )
-            st.plotly_chart(sig_fig, use_container_width=True, config={"displayModeBar": False})
-
-        st.markdown('</div>', unsafe_allow_html=True)
+            with res_col2:
+                st.markdown(f"""
+                <div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 6px;">
+                    Alignment Verdict: <span style="color: var(--color-primary);">{res.get('verdict', 'Evaluated')}</span>
+                </div>
+                <div style="font-size: var(--font-sm); color: var(--color-muted); margin-bottom: 12px;">
+                    Weighted combination of Skill Overlap (50%), MiniLM Semantic Fit (40%), and Experience Alignment (10%).
+                </div>
+                """, unsafe_allow_html=True)
+                sig_fig = render_match_signals_chart(
+                    res.get("skill_score", 0.0),
+                    res.get("semantic_score", 0.0),
+                    res.get("experience_score", 0.0)
+                )
+                st.plotly_chart(sig_fig, use_container_width=True, config={"displayModeBar": False})
 
         # Skill Overlap Chips
-        st.markdown('<div class="card-container">', unsafe_allow_html=True)
-        st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">🎯 Skill Alignment Breakdown</div>', unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">🎯 Skill Alignment Breakdown</div>', unsafe_allow_html=True)
 
-        matched_skills = res.get("matched_skills", [])
-        missing_skills = res.get("missing_skills", [])
-        candidate_lower = set(s.lower() for s in candidate_skills)
-        target_lower = set(s.lower() for s in (jd_skills or []))
-        bonus_skills = [s for s in candidate_skills if s.lower() not in target_lower][:6]
+            matched_skills = res.get("matched_skills", [])
+            missing_skills = res.get("missing_skills", [])
+            candidate_lower = set(s.lower() for s in candidate_skills)
+            target_lower = set(s.lower() for s in (jd_skills or []))
+            bonus_skills = [s for s in candidate_skills if s.lower() not in target_lower][:6]
 
-        st.markdown(render_skill_chips(
-            matched=matched_skills,
-            missing=missing_skills,
-            bonus=bonus_skills
-        ), unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown(render_skill_chips(
+                matched=matched_skills,
+                missing=missing_skills,
+                bonus=bonus_skills
+            ), unsafe_allow_html=True)
 
         # Sentence-Level Evidence Mapping Cards
-        st.markdown('<div class="card-container">', unsafe_allow_html=True)
-        st.markdown("""
-        <div style="font-weight: 800; font-size: var(--font-base); color: var(--color-text); margin-bottom: 4px;">
-            🔍 Explainable AI (XAI) Sentence-Level Evidence Mapping
-        </div>
-        <p style="font-size: var(--font-sm); color: var(--color-muted); margin-bottom: 12px;">
-            Every target job requirement is paired with the exact sentence from the candidate's resume that serves as qualifying proof.
-        </p>
-        """, unsafe_allow_html=True)
-
-        if ev_items:
-            for ev in ev_items:
-                st.markdown(render_evidence_card(
-                    requirement=ev.get("job_requirement", ""),
-                    candidate_proof=ev.get("resume_evidence", ""),
-                    status=ev.get("status", "Strong Evidence")
-                ), unsafe_allow_html=True)
-        else:
-            st.info("No sentence-level proof cards generated. Ensure the resume has detailed project and experience descriptions.")
-
-        # "Improve for this job" button
-        st.markdown("<hr style='border: none; border-top: 1px solid var(--color-border); margin: 16px 0;'>", unsafe_allow_html=True)
-        imp_col1, imp_col2 = st.columns([2.5, 1.0])
-        with imp_col1:
+        with st.container(border=True):
             st.markdown("""
-            <div style="font-weight: 700; font-size: var(--font-sm); color: var(--color-text);">
-                Targeted Bullet Point Optimizer
+            <div style="font-weight: 800; font-size: var(--font-base); color: var(--color-text); margin-bottom: 4px;">
+                🔍 Explainable AI (XAI) Sentence-Level Evidence Mapping
             </div>
-            <div style="font-size: var(--font-xs); color: var(--color-muted);">
-                Tailor weak bullets to address missing skills for this target requisition.
-            </div>
+            <p style="font-size: var(--font-sm); color: var(--color-muted); margin-bottom: 12px;">
+                Every target job requirement is paired with the exact sentence from the candidate's resume that serves as qualifying proof.
+            </p>
             """, unsafe_allow_html=True)
-        with imp_col2:
-            if st.button("✨ Improve For This Job", type="primary", key="improve_for_job_btn"):
-                st.toast("Pre-filling optimizer with missing target skills...", icon="🎯")
-                if missing_skills:
-                    first_missing = missing_skills[0].title()
-                    st.session_state.opt_bullet_text = f"Built and maintained core production services utilizing {first_missing}, improving system throughput by 25%."
-                else:
-                    st.session_state.opt_bullet_text = "Delivered critical software systems aligned with company objectives."
-                st.switch_page("pages/2_results.py")
 
-        st.markdown('</div>', unsafe_allow_html=True)
+            if ev_items:
+                for ev in ev_items:
+                    st.markdown(render_evidence_card(
+                        requirement=ev.get("job_requirement", ""),
+                        candidate_proof=ev.get("resume_evidence", ""),
+                        status=ev.get("status", "Strong Evidence")
+                    ), unsafe_allow_html=True)
+            else:
+                st.info("No sentence-level proof cards generated. Ensure the resume has detailed project and experience descriptions.")
+
+            # "Improve for this job" button
+            st.markdown("<hr style='border: none; border-top: 1px solid var(--color-border); margin: 16px 0;'>", unsafe_allow_html=True)
+            imp_col1, imp_col2 = st.columns([2.5, 1.0])
+            with imp_col1:
+                st.markdown("""
+                <div style="font-weight: 700; font-size: var(--font-sm); color: var(--color-text);">
+                    Targeted Bullet Point Optimizer
+                </div>
+                <div style="font-size: var(--font-xs); color: var(--color-muted);">
+                    Tailor weak bullets to address missing skills for this target requisition.
+                </div>
+                """, unsafe_allow_html=True)
+            with imp_col2:
+                if st.button("✨ Improve For This Job", type="primary", key="improve_for_job_btn"):
+                    st.toast("Pre-filling optimizer with missing target skills...", icon="🎯")
+                    if missing_skills:
+                        first_missing = missing_skills[0].title()
+                        st.session_state.opt_bullet_text = f"Built and maintained core production services utilizing {first_missing}, improving system throughput by 25%."
+                    else:
+                        st.session_state.opt_bullet_text = "Delivered critical software systems aligned with company objectives."
+                    st.switch_page("pages/2_results.py")
 
 
 show_job_match_page()

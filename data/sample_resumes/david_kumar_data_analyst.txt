@@ -3,7 +3,7 @@ Email: david.kumar@analytics.net | Phone: +1 (555) 345-6789 | Atlanta, GA
 LinkedIn: linkedin.com/in/davidkumar-analytics | Portfolio: davidkumar-data.com
 
 SUMMARY
-Analytical and detail-oriented Data Analyst with 2 years of experience transforming raw multi-source business data into actionable executive insights. Proficient in SQL, Python, Pandas, Power BI, and Tableau with a proven record of identifying $350K in operational cost savings.
+Analytical and detail-oriented Data Analyst with 2 years of experience transforming raw multi-source business data into actionable executive insights. Proficient in SQL, Python, Pandas, Power BI, and Tableau with a proven record of identifying ₹30 Lakhs in operational cost savings.
 
 TECHNICAL SKILLS
 - Languages: SQL, Python, R

@@ -79,7 +79,7 @@ def analyze_bullet_point(bullet_text: str) -> Dict[str, Any]:
             score += 10
 
     # 2. Measurable Metric Check [Y] (35 pts)
-    metric_pattern = r"(?:\d+(?:\.\d+)?%|\$\s*\d+(?:,\d+)*(?:\.\d+)?|\b\d+x\b|\b\d+\s*(?:k|m|million|billion|users|clients|queries|hours|days|engineers|repositories)\b|\b\d{2,}\b)"
+    metric_pattern = r"(?:\d+(?:\.\d+)?%|[\$₹]\s*\d+(?:,\d+)*(?:\.\d+)?|\b\d+x\b|\b\d+\s*(?:k|m|lakh|crore|lpa|inr|million|billion|users|clients|queries|hours|days|engineers|repositories)\b|\b\d{2,}\b)"
     metrics_found = re.findall(metric_pattern, text, re.IGNORECASE)
     has_metrics = len(metrics_found) > 0
 

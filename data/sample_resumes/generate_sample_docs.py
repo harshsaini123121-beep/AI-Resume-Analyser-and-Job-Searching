@@ -46,7 +46,7 @@ for name in samples:
         if not line_str:
             pdf.ln(3)
             continue
-        clean_line = line_str.encode("latin-1", "replace").decode("latin-1")
+        clean_line = line_str.replace("₹", "Rs. ").encode("latin-1", "replace").decode("latin-1")
         if clean_line.isupper() and len(clean_line) < 40:
             pdf.set_font("Helvetica", style="B", size=12)
             pdf.ln(2)

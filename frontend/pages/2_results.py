@@ -112,60 +112,56 @@ def show_results_page():
     ats_grade = ats.get("grade", "C")
 
     # 1. Candidate Summary Card with "Replace resume" action
-    st.markdown('<div class="card-container" style="border-left: 5px solid var(--color-primary);">', unsafe_allow_html=True)
-    c_col1, c_col2 = st.columns([2.5, 1.0])
+    with st.container(border=True):
+        c_col1, c_col2 = st.columns([2.5, 1.0])
 
-    with c_col1:
-        status_tag = '<span class="status-pill status-pill-warning">Sample Resume</span>' if is_sample else '<span class="status-pill status-pill-success">Live Analysis</span>'
-        st.markdown(f"""
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
-            <span style="font-size: var(--font-xl); font-weight: 800; color: var(--color-text);">{html.escape(candidate_name)}</span>
-            {status_tag}
-        </div>
-        <div style="font-size: var(--font-sm); color: var(--color-muted); display: flex; gap: 16px; flex-wrap: wrap;">
-            <span>📄 <b>{html.escape(filename)}</b></span>
-            <span>✉️ <b>{html.escape(email)}</b></span>
-            <span>📞 <b>{html.escape(phone)}</b></span>
-            <span>🕒 <b>{html.escape(timestamp)}</b></span>
-        </div>
-        """, unsafe_allow_html=True)
+        with c_col1:
+            status_tag = '<span class="status-pill status-pill-warning">Sample Resume</span>' if is_sample else '<span class="status-pill status-pill-success">Live Analysis</span>'
+            st.markdown(f"""
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                <span style="font-size: var(--font-xl); font-weight: 800; color: var(--color-text);">{html.escape(candidate_name)}</span>
+                {status_tag}
+            </div>
+            <div style="font-size: var(--font-sm); color: var(--color-muted); display: flex; gap: 16px; flex-wrap: wrap;">
+                <span>📄 <b>{html.escape(filename)}</b></span>
+                <span>✉️ <b>{html.escape(email)}</b></span>
+                <span>📞 <b>{html.escape(phone)}</b></span>
+                <span>🕒 <b>{html.escape(timestamp)}</b></span>
+            </div>
+            """, unsafe_allow_html=True)
 
-    with c_col2:
-        st.markdown('<div style="text-align: right; padding-top: 4px;">', unsafe_allow_html=True)
-        rep_col1, rep_col2 = st.columns(2)
-        with rep_col1:
-            if st.button("🔄 Replace", key="replace_resume_action", type="secondary", help="Upload a different resume"):
-                st.session_state.resume_data = None
-                st.session_state.ats_result = None
-                st.session_state.active_filename = None
-                st.session_state.processed_file_hash = None
-                st.switch_page("pages/1_home.py")
-        with rep_col2:
-            try:
-                pdf_bytes = api_client.generate_pdf_report(
-                    candidate_name=candidate_name,
-                    email=email,
-                    phone=phone,
-                    ats_score=total_score,
-                    ats_grade=ats_grade,
-                    category_breakdown=ats.get("category_breakdown", {}),
-                    strengths=ats.get("strengths", []),
-                    issues=ats.get("issues", []),
-                    suggestions=ats.get("suggestions", []),
-                    skills=data.get("skills", [])
-                )
-                st.download_button(
-                    label="📥 PDF",
-                    data=pdf_bytes,
-                    file_name=f"ATS_Audit_{candidate_name.replace(' ', '_')}.pdf",
-                    mime="application/pdf",
-                    key="download_pdf_report_btn"
-                )
-            except Exception as e:
-                st.caption(f"PDF unavailable: {e}")
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    st.markdown('</div>', unsafe_allow_html=True)
+        with c_col2:
+            rep_col1, rep_col2 = st.columns(2)
+            with rep_col1:
+                if st.button("🔄 Replace", key="replace_resume_action", type="secondary", help="Upload a different resume"):
+                    st.session_state.resume_data = None
+                    st.session_state.ats_result = None
+                    st.session_state.active_filename = None
+                    st.session_state.processed_file_hash = None
+                    st.switch_page("pages/1_home.py")
+            with rep_col2:
+                try:
+                    pdf_bytes = api_client.generate_pdf_report(
+                        candidate_name=candidate_name,
+                        email=email,
+                        phone=phone,
+                        ats_score=total_score,
+                        ats_grade=ats_grade,
+                        category_breakdown=ats.get("category_breakdown", {}),
+                        strengths=ats.get("strengths", []),
+                        issues=ats.get("issues", []),
+                        suggestions=ats.get("suggestions", []),
+                        skills=data.get("skills", [])
+                    )
+                    st.download_button(
+                        label="📥 PDF",
+                        data=pdf_bytes,
+                        file_name=f"ATS_Audit_{candidate_name.replace(' ', '_')}.pdf",
+                        mime="application/pdf",
+                        key="download_pdf_report_btn"
+                    )
+                except Exception as e:
+                    st.caption(f"PDF unavailable: {e}")
 
     # 2. Four-Card Metric Row with One-Line Explanations
     st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 12px;">Core Resume Metrics</div>', unsafe_allow_html=True)
@@ -229,7 +225,7 @@ def show_results_page():
         3. **Work Experience with Dates (15 pts):** Standard job titles and chronological date ranges.
         4. **Education Credentials (10 pts):** Degree title, institution, and graduation year.
         5. **Technical & Domain Skills (20 pts):** Density of industry-standard competencies.
-        6. **Quantifiable Accomplishments (15 pts):** Metrics, dollar values, percentages, and KPIs.
+        6. **Quantifiable Accomplishments (15 pts):** Metrics, Indian Rupee (₹) amounts, percentages, and KPIs.
         7. **Action Verb Density (10 pts):** Active verbs starting bullet points (*spearheaded, delivered*).
         8. **ATS Formatting & Length (10 pts):** Clean parseable sections and 1–2 page length.
 
@@ -244,135 +240,127 @@ def show_results_page():
 
     # 3. "Fix First" Card with Top 3 Prioritized Issues
     issues = ats.get("issues", [])
-    st.markdown('<div class="card-container" style="border-left: 5px solid var(--color-warning);">', unsafe_allow_html=True)
-    st.markdown("""
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <div style="font-weight: 800; font-size: var(--font-base); color: var(--color-text);">
-            🚨 Fix First: Top Prioritized Recommendations
-        </div>
-        <span class="status-pill status-pill-warning">High Impact</span>
-    </div>
-    <p style="font-size: var(--font-sm); color: var(--color-muted); margin-bottom: 12px;">
-        Address these 3 high-leverage issues first to produce the biggest jump in recruiter callback rates.
-    </p>
-    """, unsafe_allow_html=True)
-
-    if issues:
-        prioritized = issues[:3]
-        badges = [
-            ("High Impact", "Low Effort", "var(--color-danger-bg)", "var(--color-danger-text)"),
-            ("High Impact", "Medium Effort", "var(--color-warning-bg)", "var(--color-warning-text)"),
-            ("Medium Impact", "Low Effort", "var(--color-primary-subtle)", "var(--color-primary)")
-        ]
-        for idx, issue_text in enumerate(prioritized):
-            impact, effort, bg, fg = badges[idx] if idx < len(badges) else ("Medium Impact", "Medium Effort", "#f1f5f9", "#475569")
-            st.markdown(f"""
-            <div style="background-color: var(--color-background); border: 1px solid var(--color-border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-                <div style="font-size: var(--font-sm); font-weight: 600; color: var(--color-text);">
-                    <span style="color: var(--color-danger); margin-right: 6px;">●</span> {html.escape(issue_text)}
-                </div>
-                <div style="display: flex; gap: 6px;">
-                    <span style="font-size: var(--font-xs); font-weight: 700; background: {bg}; color: {fg}; padding: 2px 8px; border-radius: 4px;">{impact}</span>
-                    <span style="font-size: var(--font-xs); font-weight: 600; background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 4px;">{effort}</span>
-                </div>
+    with st.container(border=True):
+        st.markdown("""
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="font-weight: 800; font-size: var(--font-base); color: var(--color-text);">
+                🚨 Fix First: Top Prioritized Recommendations
             </div>
-            """, unsafe_allow_html=True)
-    else:
-        st.markdown('<div style="font-size: var(--font-sm); color: var(--color-success-text); font-weight: 600;">✅ Excellent! No critical issues detected on this resume.</div>', unsafe_allow_html=True)
+            <span class="status-pill status-pill-warning">High Impact</span>
+        </div>
+        <p style="font-size: var(--font-sm); color: var(--color-muted); margin-bottom: 12px;">
+            Address these 3 high-leverage issues first to produce the biggest jump in recruiter callback rates.
+        </p>
+        """, unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)
+        if issues:
+            prioritized = issues[:3]
+            badges = [
+                ("High Impact", "Low Effort", "var(--color-danger-bg)", "var(--color-danger-text)"),
+                ("High Impact", "Medium Effort", "var(--color-warning-bg)", "var(--color-warning-text)"),
+                ("Medium Impact", "Low Effort", "var(--color-primary-subtle)", "var(--color-primary)")
+            ]
+            for idx, issue_text in enumerate(prioritized):
+                impact, effort, bg, fg = badges[idx] if idx < len(badges) else ("Medium Impact", "Medium Effort", "#f1f5f9", "#475569")
+                st.markdown(f"""
+                <div style="background-color: var(--color-background); border: 1px solid var(--color-border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: var(--font-sm); font-weight: 600; color: var(--color-text);">
+                        <span style="color: var(--color-danger); margin-right: 6px;">●</span> {html.escape(issue_text)}
+                    </div>
+                    <div style="display: flex; gap: 6px;">
+                        <span style="font-size: var(--font-xs); font-weight: 700; background: {bg}; color: {fg}; padding: 2px 8px; border-radius: 4px;">{impact}</span>
+                        <span style="font-size: var(--font-xs); font-weight: 600; background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 4px;">{effort}</span>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+        else:
+            st.markdown('<div style="font-size: var(--font-sm); color: var(--color-success-text); font-weight: 600;">✅ Excellent! No critical issues detected on this resume.</div>', unsafe_allow_html=True)
 
     # 4. Distinct Cards for Strengths, Skills, and Sections (NO nested tabs!)
     c_str, c_cat = st.columns([1, 1], gap="medium")
 
     with c_str:
-        st.markdown('<div class="card-container">', unsafe_allow_html=True)
-        st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">💪 Verified Resume Strengths</div>', unsafe_allow_html=True)
-        strengths = ats.get("strengths", [])
-        if strengths:
-            for s in strengths:
-                st.markdown(f"""
-                <div style="font-size: var(--font-sm); color: var(--color-text-secondary); margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px;">
-                    <span style="color: var(--color-success); font-weight: bold;">✓</span>
-                    <span>{html.escape(s)}</span>
-                </div>
-                """, unsafe_allow_html=True)
-        else:
-            st.caption("No standout strengths detected yet.")
-        st.markdown('</div>', unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">💪 Verified Resume Strengths</div>', unsafe_allow_html=True)
+            strengths = ats.get("strengths", [])
+            if strengths:
+                for s in strengths:
+                    st.markdown(f"""
+                    <div style="font-size: var(--font-sm); color: var(--color-text-secondary); margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px;">
+                        <span style="color: var(--color-success); font-weight: bold;">✓</span>
+                        <span>{html.escape(s)}</span>
+                    </div>
+                    """, unsafe_allow_html=True)
+            else:
+                st.caption("No standout strengths detected yet.")
 
     with c_cat:
-        st.markdown('<div class="card-container">', unsafe_allow_html=True)
-        st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">📊 8-Dimension Rubric Breakdown</div>', unsafe_allow_html=True)
-        cat_fig = render_ats_category_chart(ats.get("category_breakdown", {}))
-        if cat_fig:
-            st.plotly_chart(cat_fig, use_container_width=True, config={"displayModeBar": False})
-        st.markdown('</div>', unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">📊 8-Dimension Rubric Breakdown</div>', unsafe_allow_html=True)
+            cat_fig = render_ats_category_chart(ats.get("category_breakdown", {}))
+            if cat_fig:
+                st.plotly_chart(cat_fig, use_container_width=True, config={"displayModeBar": False})
 
     # Skills Card
-    st.markdown('<div class="card-container">', unsafe_allow_html=True)
-    st.markdown(f'<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">🛠️ Identified Technical Competencies ({len(data.get("skills", []))} Found)</div>', unsafe_allow_html=True)
-    skills = data.get("skills", [])
-    if skills:
-        st.markdown(render_skill_chips(matched=skills), unsafe_allow_html=True)
-    else:
-        st.caption("No standard technical skills were detected. Ensure skill keywords are explicitly listed.")
-    st.markdown('</div>', unsafe_allow_html=True)
+    with st.container(border=True):
+        st.markdown(f'<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">🛠️ Identified Technical Competencies ({len(data.get("skills", []))} Found)</div>', unsafe_allow_html=True)
+        skills = data.get("skills", [])
+        if skills:
+            st.markdown(render_skill_chips(matched=skills), unsafe_allow_html=True)
+        else:
+            st.caption("No standard technical skills were detected. Ensure skill keywords are explicitly listed.")
 
     # Document Sections Card
-    st.markdown('<div class="card-container">', unsafe_allow_html=True)
-    st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">📑 Detected Document Sections</div>', unsafe_allow_html=True)
-    sections = data.get("sections", {})
-    if sections:
-        sec_cols = st.columns(min(4, len(sections)))
-        for idx, (sec_name, sec_content) in enumerate(sections.items()):
-            col_target = sec_cols[idx % len(sec_cols)]
-            with col_target:
-                word_count = len(str(sec_content).split())
-                st.markdown(f"""
-                <div style="background-color: var(--color-background); border: 1px solid var(--color-border); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
-                    <div style="font-weight: 700; font-size: var(--font-sm); color: var(--color-primary);">{html.escape(sec_name.title())}</div>
-                    <div style="font-size: var(--font-xs); color: var(--color-muted);">{word_count} words detected</div>
-                </div>
-                """, unsafe_allow_html=True)
-    else:
-        st.caption("No standard section headers detected. Standard headers include: Experience, Education, Skills, Summary.")
-    st.markdown('</div>', unsafe_allow_html=True)
+    with st.container(border=True):
+        st.markdown('<div style="font-weight: 700; font-size: var(--font-base); color: var(--color-text); margin-bottom: 8px;">📑 Detected Document Sections</div>', unsafe_allow_html=True)
+        sections = data.get("sections", {})
+        if sections:
+            sec_cols = st.columns(min(4, len(sections)))
+            for idx, (sec_name, sec_content) in enumerate(sections.items()):
+                col_target = sec_cols[idx % len(sec_cols)]
+                with col_target:
+                    word_count = len(str(sec_content).split())
+                    st.markdown(f"""
+                    <div style="background-color: var(--color-background); border: 1px solid var(--color-border); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+                        <div style="font-weight: 700; font-size: var(--font-sm); color: var(--color-primary);">{html.escape(sec_name.title())}</div>
+                        <div style="font-size: var(--font-xs); color: var(--color-muted);">{word_count} words detected</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+        else:
+            st.caption("No standard section headers detected. Standard headers include: Experience, Education, Skills, Summary.")
 
     # 5. Bullet Optimizer Card (Google X-Y-Z Standard)
-    st.markdown('<div class="card-container">', unsafe_allow_html=True)
-    st.markdown("""
-    <div style="font-weight: 800; font-size: var(--font-base); color: var(--color-text); margin-bottom: 4px;">
-        🪄 Google X-Y-Z Bullet Point Optimizer
-    </div>
-    <p style="font-size: var(--font-sm); color: var(--color-muted); margin-bottom: 12px;">
-        Rewrite passive resume bullets into the executive formula: <i>"Accomplished [X] as measured by [Y], by doing [Z]"</i>.
-    </p>
-    """, unsafe_allow_html=True)
+    with st.container(border=True):
+        st.markdown("""
+        <div style="font-weight: 800; font-size: var(--font-base); color: var(--color-text); margin-bottom: 4px;">
+            🪄 Google X-Y-Z Bullet Point Optimizer
+        </div>
+        <p style="font-size: var(--font-sm); color: var(--color-muted); margin-bottom: 12px;">
+            Rewrite passive resume bullets into the executive formula: <i>"Accomplished [X] as measured by [Y], by doing [Z]"</i>.
+        </p>
+        """, unsafe_allow_html=True)
 
-    default_bullet = "Developed software applications and cleaned database tables for the data science team."
-    sample_text = st.text_area(
-        "Enter or Paste a Resume Bullet Point to Optimize",
-        value=default_bullet,
-        height=80,
-        key="results_bullet_opt_input"
-    )
+        default_bullet = "Developed software applications and cleaned database tables for the data science team."
+        sample_text = st.text_area(
+            "Enter or Paste a Resume Bullet Point to Optimize",
+            value=default_bullet,
+            height=80,
+            key="results_bullet_opt_input"
+        )
 
-    if st.button("⚡ Audit & Rewrite Bullet", type="secondary", key="run_bullet_opt_results"):
-        with st.spinner("Analyzing verb strength, quantifiable impact, and context..."):
-            try:
-                opt_res = api_client.optimize_bullet(sample_text)
-                st.markdown(f"""
-                <div style="background-color: var(--color-primary-subtle); border: 1px solid var(--color-border); border-radius: 8px; padding: 12px; margin-top: 10px;">
-                    <div style="font-size: var(--font-xs); font-weight: 700; color: var(--color-primary); margin-bottom: 4px;">RECOMMENDED REWRITE</div>
-                    <div style="font-size: var(--font-sm); font-weight: 600; color: var(--color-text); margin-bottom: 8px;">{html.escape(opt_res.get('improved_rewrite', ''))}</div>
-                    <div style="font-size: var(--font-xs); color: var(--color-muted);">Impact Score: <b>{opt_res.get('score', 0)}/100</b> ({opt_res.get('grade', 'C')})</div>
-                </div>
-                """, unsafe_allow_html=True)
-            except Exception as e:
-                st.error(f"Bullet optimizer service offline: {e}")
-
-    st.markdown('</div>', unsafe_allow_html=True)
+        if st.button("⚡ Audit & Rewrite Bullet", type="secondary", key="run_bullet_opt_results"):
+            with st.spinner("Analyzing verb strength, quantifiable impact, and context..."):
+                try:
+                    opt_res = api_client.optimize_bullet(sample_text)
+                    st.markdown(f"""
+                    <div style="background-color: var(--color-primary-subtle); border: 1px solid var(--color-border); border-radius: 8px; padding: 12px; margin-top: 10px;">
+                        <div style="font-size: var(--font-xs); font-weight: 700; color: var(--color-primary); margin-bottom: 4px;">RECOMMENDED REWRITE</div>
+                        <div style="font-size: var(--font-sm); font-weight: 600; color: var(--color-text); margin-bottom: 8px;">{html.escape(opt_res.get('improved_rewrite', ''))}</div>
+                        <div style="font-size: var(--font-xs); color: var(--color-muted);">Impact Score: <b>{opt_res.get('score', 0)}/100</b> ({opt_res.get('grade', 'C')})</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                except Exception as e:
+                    st.error(f"Bullet optimizer service offline: {e}")
 
 
 show_results_page()

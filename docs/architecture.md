@@ -42,7 +42,7 @@ graph TD
 - **Normalized Skill Ontology**: 534 technical and soft skills across 12 domains (Programming, Web, Data, ML/AI, Cloud/DevOps, Mobile, Security, QA, etc.).
 - **Synonym Resolution**: 57 canonical alias mappings (e.g., `k8s` → `kubernetes`, `tf` → `tensorflow`, `postgres` → `postgresql`).
 - **Standard Section Parser**: Detects and isolates Summary, Experience, Education, Skills, and Projects sections.
-- **Tenure & Metrics Calculator**: Extracts chronological employment periods, calculating total years of experience and quantifiable metrics (percentages, dollar amounts, KPIs).
+- **Tenure & Metrics Calculator**: Extracts chronological employment periods, calculating total years of experience and quantifiable metrics (percentages, Rupee (₹) amounts, KPIs).
 
 ### C. 100-Point ATS Scoring Rubric (`app/services/scorer.py`)
 Evaluates 8 quantitative dimensions:
@@ -51,7 +51,7 @@ Evaluates 8 quantitative dimensions:
 3. **Work Experience with Dates (15 pts)**: Standard job titles with verified start/end dates.
 4. **Education Credentials (10 pts)**: Degree designation, institution name, graduation year.
 5. **Technical & Domain Skills (20 pts)**: Density and breadth of relevant competencies.
-6. **Quantifiable Accomplishments (15 pts)**: Metrics, numbers, dollar amounts, and KPIs.
+6. **Quantifiable Accomplishments (15 pts)**: Metrics, numbers, Rupee (₹) amounts, and KPIs.
 7. **Action Verb Density (10 pts)**: Strong initial action verbs (*spearheaded, architected*).
 8. **ATS Formatting & Length (10 pts)**: Clean section headers and 1–2 page length.
 

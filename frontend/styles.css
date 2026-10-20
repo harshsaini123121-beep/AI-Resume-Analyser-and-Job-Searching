@@ -1,15 +1,17 @@
 /* ==========================================================================
    ResumeLab Design System & Token Architecture
-   Design tokens defined as CSS variables with system font stack & WCAG AA contrast
+   Design tokens defined as CSS variables with pure light theme & WCAG AA contrast
    ========================================================================== */
 
-:root {
+:root, .stApp {
+    color-scheme: light !important;
+
     /* Brand & Accent */
     --color-primary: #2563eb;
     --color-primary-hover: #1d4ed8;
     --color-primary-subtle: #eff6ff;
 
-    /* Neutrals & Surfaces */
+    /* Neutrals & Surfaces - PURE LIGHT PALETTE */
     --color-text: #0f172a;
     --color-text-secondary: #334155;
     --color-muted: #64748b;
@@ -55,7 +57,7 @@
     /* Card geometry: single consistent 12px radius and 1px border */
     --card-radius: 12px;
     --card-border: 1px solid var(--color-border);
-    --card-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
+    --card-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05);
     --card-shadow-hover: 0 4px 12px -2px rgba(15, 23, 42, 0.08);
 
     /* System Font Stack (No runtime Google Fonts network dependency) */
@@ -63,32 +65,58 @@
     --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
 
-/* Dark Mode Overrides */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-text: #f8fafc;
-        --color-text-secondary: #cbd5e1;
-        --color-muted: #94a3b8;
-        --color-border: #334155;
-        --color-surface: #1e293b;
-        --color-background: #0b0f19;
+/* Guarantee Light Theme override even if data-theme is toggled */
+:root[data-theme], .stApp[data-theme] {
+    color-scheme: light !important;
+    --color-text: #0f172a !important;
+    --color-text-secondary: #334155 !important;
+    --color-muted: #64748b !important;
+    --color-border: #e2e8f0 !important;
+    --color-surface: #ffffff !important;
+    --color-background: #f8fafc !important;
+    --color-primary-subtle: #eff6ff !important;
+}
 
-        --color-primary-subtle: #1e3a8a;
-        --color-success-bg: #064e3b;
-        --color-success-text: #6ee7b7;
-        --color-success-border: #059669;
+/* Suppress any Theme Selection Feature / Theme Switcher in Streamlit UI */
+[data-testid="stThemeSelector"],
+[data-testid="stSelectTheme"],
+div[aria-label="Theme"],
+li:has([aria-label*="theme" i]),
+button[aria-label*="theme" i],
+[data-testid="stToolbar"] button[aria-label*="theme" i],
+[data-testid="stCustomThemeConfig"] {
+    display: none !important;
+    visibility: hidden !important;
+}
 
-        --color-warning-bg: #78350f;
-        --color-warning-text: #fde68a;
-        --color-warning-border: #d97706;
+/* Eliminate any empty vacant card container boxes */
+.card-container:empty,
+div:empty.card-container,
+div[data-testid="stMarkdownContainer"] > div.card-container:empty {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+}
 
-        --color-danger-bg: #7f1d1d;
-        --color-danger-text: #fca5a5;
-        --color-danger-border: #dc2626;
+/* Native Streamlit Bordered Container matching ResumeLab Card Style */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    background-color: var(--color-surface) !important;
+    border: var(--card-border) !important;
+    border-radius: var(--card-radius) !important;
+    box-shadow: var(--card-shadow) !important;
+    margin-bottom: var(--space-3) !important;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
 
-        --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
-        --card-shadow-hover: 0 4px 14px -2px rgba(0, 0, 0, 0.5);
-    }
+div[data-testid="stVerticalBlockBorderWrapper"]:hover {
+    box-shadow: var(--card-shadow-hover) !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] > div {
+    background-color: transparent !important;
 }
 
 /* Global Font & Resets */
@@ -97,15 +125,31 @@ html, body, [class*="css"] {
 }
 
 .stApp {
-    background-color: var(--color-background) !important;
-    color: var(--color-text) !important;
+    background-color: var(--color-background);
+    color: var(--color-text);
 }
 
-/* Top Fixed Header styling matching black background with recruiter badge */
+/* Top Fixed Header styling matching theme background */
 header[data-testid="stHeader"], .stAppHeader {
-    background-color: #0b0f19 !important;
-    border-bottom: 1px solid #1e293b !important;
-    z-index: 999990 !important;
+    background-color: var(--color-background) !important;
+    border-bottom: 1px solid var(--color-border) !important;
+    z-index: 99 !important;
+}
+
+/* Ensure Sidebar stays visible and on top of header */
+[data-testid="stSidebar"] {
+    background-color: var(--color-surface) !important;
+    border-right: 1px solid var(--color-border) !important;
+    z-index: 1000 !important;
+}
+
+[data-testid="stExpandSidebarButton"],
+[data-testid="stSidebarCollapsedControl"],
+[data-testid="collapsedControl"] {
+    z-index: 1001 !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* Hide Streamlit Deploy button and toolbar clutter */
@@ -124,7 +168,7 @@ header [data-testid="stToolbar"] [data-testid="stToolbarActions"] {
     pointer-events: none !important;
 }
 
-/* Recruiter Profile pinned inside the black header bar */
+/* Recruiter Profile pinned inside the header bar */
 .top-navbar {
     position: fixed !important;
     top: 0 !important;
@@ -145,16 +189,16 @@ header [data-testid="stToolbar"] [data-testid="stToolbarActions"] {
     gap: 0.75rem;
     padding: 0.35rem 0.75rem;
     border-radius: 9999px;
-    background: #0f172a !important;
-    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    background: var(--color-surface) !important;
+    border: 1px solid var(--color-border) !important;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+    box-shadow: var(--card-shadow);
 }
 
 .user-profile-badge:hover {
-    background: #1e293b !important;
-    border-color: rgba(255, 255, 255, 0.3) !important;
+    background: var(--color-primary-subtle) !important;
+    border-color: var(--color-primary) !important;
 }
 
 .bell-icon-container {
@@ -164,7 +208,7 @@ header [data-testid="stToolbar"] [data-testid="stToolbarActions"] {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #f1f5f9;
+    color: var(--color-text);
     margin-right: 0.35rem;
     transition: transform 0.15s ease;
 }
@@ -186,7 +230,7 @@ header [data-testid="stToolbar"] [data-testid="stToolbarActions"] {
     height: 8px;
     background-color: #ef4444;
     border-radius: 50%;
-    border: 1.5px solid #0b0f19;
+    border: 1.5px solid var(--color-background);
     box-shadow: 0 0 6px rgba(239, 68, 68, 0.85);
     animation: bell-pulse 2s infinite ease-in-out;
 }
@@ -204,7 +248,7 @@ header [data-testid="stToolbar"] [data-testid="stToolbarActions"] {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     border: 1.5px solid #38bdf8;
     color: #ffffff !important;
     display: flex;
@@ -225,25 +269,25 @@ header [data-testid="stToolbar"] [data-testid="stToolbarActions"] {
 .user-name {
     font-size: 0.88rem;
     font-weight: 700;
-    color: #f8fafc !important;
+    color: var(--color-text) !important;
     letter-spacing: -0.01em;
 }
 
 .user-role {
     font-size: 0.72rem;
-    color: #94a3b8 !important;
+    color: var(--color-muted) !important;
     font-weight: 500;
 }
 
 .user-profile-caret {
     font-size: 0.65rem;
-    color: #94a3b8;
+    color: var(--color-muted);
     margin-left: 0.15rem;
     transition: color 0.15s ease;
 }
 
 .user-profile-badge:hover .user-profile-caret {
-    color: #f8fafc;
+    color: var(--color-text);
 }
 
 .block-container {

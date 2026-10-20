@@ -42,7 +42,7 @@ def load_jobs_dataset(csv_path: Optional[str] = None) -> pd.DataFrame:
                 "required_skills": "python; pytorch; machine learning",
                 "preferred_skills": "docker; kubernetes",
                 "experience_required": 3.0,
-                "salary": "$130,000 - $160,000"
+                "salary": "₹24 - ₹32 LPA"
             }
         ])
 
