@@ -55,14 +55,25 @@ def test_extract_document_pdf_metadata():
         assert "Alex Morgan" in doc["text"]
 
 
-def test_extract_document_docx():
+def test_extract_document_docx(tmp_path):
     sample_docx = ROOT_DIR / "data" / "sample_resumes" / "alex_morgan_ml_engineer.docx"
     if sample_docx.exists():
         doc = extract_document(sample_docx, "alex_morgan_ml_engineer.docx")
-        assert doc["format"] == ".docx"
-        # DOCX does not have fixed printer page metadata
-        assert doc["page_count"] is None
-        assert "Alex Morgan" in doc["text"]
+    else:
+        # Dynamically build a DOCX file to guarantee real execution
+        from docx import Document
+        dyn_path = tmp_path / "alex_morgan_ml_engineer.docx"
+        b = Document()
+        b.add_heading("Alex Morgan", level=1)
+        b.add_paragraph("Machine Learning Engineer with PyTorch experience.")
+        b.save(str(dyn_path))
+        doc = extract_document(dyn_path, "alex_morgan_ml_engineer.docx")
+
+    assert doc["format"] == ".docx"
+    # DOCX does not have fixed printer page metadata
+    assert doc["page_count"] is None
+    assert "Alex Morgan" in doc["text"]
+    assert len(doc["storage_uuid"]) == 36
 
 
 def test_extract_document_txt():
@@ -188,31 +199,59 @@ def test_extractor_missing_optional_fields():
     assert data["experience_years"] == 0.0
     assert data["word_count"] > 0
 
+    # Ensure full downstream pipeline processes incomplete data without crashing
+    ats = calculate_ats_score(minimal_text, data)
+    assert ats["total_score"] < 40
+    assert "Contact Info" in ats["category_breakdown"]
+    assert any("email" in s.lower() for s in ats["suggestions"])
+
 
 # -----------------------------------------------------------------------------
 # 5. ATS Scoring Rubric Verification
 # -----------------------------------------------------------------------------
 def test_ats_scorer_complete_vs_incomplete():
-    complete_sample = ROOT_DIR / "data" / "sample_resumes" / "software_engineer_resume.txt"
-    if complete_sample.exists():
-        raw_text = complete_sample.read_text(encoding="utf-8")
-        data = extract_resume_data(raw_text)
-        ats = calculate_ats_score(raw_text, data)
+    # 1. Complete comprehensive technical resume
+    complete_text = """
+    Jane Architect
+    Email: jane.architect@corp.com
+    Phone: (555) 123-4567
+    LinkedIn: linkedin.com/in/janearchitect
+    GitHub: github.com/janearchitect
 
-        assert 70 <= ats["total_score"] <= 100
-        assert len(ats["strengths"]) > 0
-        assert "Contact Info" in ats["category_breakdown"]
-        assert "Skills Density" in ats["category_breakdown"]
+    PROFESSIONAL SUMMARY
+    Senior Cloud Architect with 8 years of experience building high-scale distributed systems.
 
-    incomplete_sample = ROOT_DIR / "data" / "sample_resumes" / "incomplete_junior_resume.txt"
-    if incomplete_sample.exists():
-        raw_text_inc = incomplete_sample.read_text(encoding="utf-8")
-        data_inc = extract_resume_data(raw_text_inc)
-        ats_inc = calculate_ats_score(raw_text_inc, data_inc)
+    CORE SKILLS
+    Python, Go, AWS, Docker, Kubernetes, PostgreSQL, Terraform, CI/CD, Redis, React
 
-        assert ats_inc["total_score"] < 60
-        assert len(ats_inc["issues"]) > 0
-        assert len(ats_inc["suggestions"]) > 0
+    WORK EXPERIENCE
+    Staff Infrastructure Engineer at Global Cloud Inc
+    2019 - Present
+    - Architected multi-region Kubernetes clusters serving 10M daily requests with 99.99% uptime.
+    - Automated cloud deployments using Terraform and GitHub Actions, reducing deployment time by 60%.
+    - Spearheaded migration of legacy services to microservices, saving $250,000 in infrastructure costs.
+
+    EDUCATION
+    Master of Science in Computer Science
+    2017 - 2019
+    """
+    data_comp = extract_resume_data(complete_text)
+    ats_comp = calculate_ats_score(complete_text, data_comp)
+
+    assert ats_comp["total_score"] >= 75
+    assert len(ats_comp["strengths"]) >= 3
+    assert "Contact Info" in ats_comp["category_breakdown"]
+    assert "Quantified Impact" in ats_comp["category_breakdown"]
+    assert ats_comp["category_breakdown"]["Quantified Impact"]["score"] >= 10
+
+    # 2. Incomplete junior profile with missing critical sections and no metrics
+    incomplete_text = "Bob\nLooking for an internship in coding. Helped with website stuff."
+    data_inc = extract_resume_data(incomplete_text)
+    ats_inc = calculate_ats_score(incomplete_text, data_inc)
+
+    assert ats_inc["total_score"] < 40
+    assert len(ats_inc["issues"]) >= 3
+    assert len(ats_inc["suggestions"]) >= 3
 
 
 # -----------------------------------------------------------------------------
