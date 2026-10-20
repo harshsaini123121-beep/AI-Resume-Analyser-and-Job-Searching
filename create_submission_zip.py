@@ -48,7 +48,7 @@ REQUIRED_FILES = [
 ]
 
 EXCLUDE_DIRS = {
-    "venv", ".venv", "env", "__pycache__", ".pytest_cache", ".git", ".idea", ".vscode"
+    "venv", ".venv", "env", "__pycache__", ".pytest_cache", ".git", ".idea", ".vscode", "scratch"
 }
 
 EXCLUDE_EXTENSIONS = {
