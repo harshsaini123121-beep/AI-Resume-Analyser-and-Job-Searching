@@ -74,12 +74,26 @@ async def request_id_and_audit_middleware(request: Request, call_next):
     request.state.request_id = request_id
     response = await call_next(request)
     response.headers["X-Request-ID"] = request_id
+
+    # If calling legacy unversioned /api/* paths, attach standard HTTP deprecation headers
+    path = request.url.path
+    if path.startswith("/api/") and not path.startswith("/api/v1/"):
+        response.headers["Deprecation"] = "true"
+        response.headers["Sunset"] = "Wed, 01 Jan 2027 00:00:00 GMT"
+        successor = path.replace("/api/", "/api/v1/", 1)
+        response.headers["Link"] = f'<{successor}>; rel="successor-version"'
+
     return response
 
 
-# Mount API Routers
-app.include_router(resume_router, prefix=settings.API_V1_STR)
-app.include_router(jobs_router, prefix=settings.API_V1_STR)
+# Mount API v1 Routers (canonical primary paths)
+app.include_router(resume_router, prefix="/api/v1")
+app.include_router(jobs_router, prefix="/api/v1")
+
+# Mount legacy unversioned /api paths for full backwards compatibility
+app.include_router(resume_router, prefix="/api")
+app.include_router(jobs_router, prefix="/api")
+
 
 
 @app.get("/")

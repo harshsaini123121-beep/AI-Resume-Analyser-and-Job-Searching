@@ -15,7 +15,7 @@ load_dotenv(BASE_DIR / ".env")
 class Settings:
     PROJECT_NAME: str = "AI Resume Analyser & Job Matching System"
     VERSION: str = "1.0.0"
-    API_V1_STR: str = "/api"
+    API_V1_STR: str = "/api/v1"
 
     # API Keys & Auth
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")

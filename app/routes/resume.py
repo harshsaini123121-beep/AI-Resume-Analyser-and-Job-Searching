@@ -6,7 +6,7 @@ Enforces file format, magic-byte inspection, size limits, and scoped authenticat
 import os
 import json
 from typing import List, Optional
-from fastapi import APIRouter, UploadFile, File, HTTPException, Depends, Security, Request, status
+from fastapi import APIRouter, UploadFile, File, HTTPException, Depends, Security, Request, Response, status
 from fastapi.security import APIKeyHeader
 from sqlalchemy.orm import Session
 
@@ -14,13 +14,18 @@ from app.config import settings
 from app.database import get_db
 from app.models import ResumeRecord
 from app.services.parser import extract_document, ResumeParsingError
-from app.services.extractor import extract_resume_data
+from app.services.extractor import extract_resume_data, load_skills_database
 from app.services.scorer import calculate_ats_score
+from app.services.bullet_optimizer import analyze_bullet_point
+from app.services.pdf_generator import generate_pdf_report
 from app.schemas import (
     ResumeUploadResponse,
     FullAnalysisResponse,
     ExtractedDataResponse,
-    ATSScoreResponse
+    ATSScoreResponse,
+    BulletOptimizeRequest,
+    BulletOptimizeResponse,
+    PDFReportRequest
 )
 
 router = APIRouter(prefix="/resume", tags=["Resume"])
@@ -87,6 +92,7 @@ async def upload_resume(request: Request, file: UploadFile = File(...)):
 
     return ResumeUploadResponse(
         filename=doc["filename"],
+        page_count=doc.get("page_count", 1),
         extracted_data=ExtractedDataResponse(**extracted_data)
     )
 
@@ -136,6 +142,7 @@ async def analyse_resume(
     return FullAnalysisResponse(
         id=record.id,
         filename=record.filename,
+        page_count=doc.get("page_count", 1),
         extracted_data=ExtractedDataResponse(**extracted_data),
         ats_score=ATSScoreResponse(**ats_score_result)
     )
@@ -195,3 +202,44 @@ def delete_resume_record(
     db.delete(record)
     db.commit()
     return {"status": "deleted", "id": record_id, "message": "Resume record removed successfully."}
+
+
+@router.post("/bullet-optimize", response_model=BulletOptimizeResponse)
+def optimize_bullet(req: BulletOptimizeRequest):
+    """Audits and rewrites a single resume bullet point according to Google's X-Y-Z rubric."""
+    res = analyze_bullet_point(req.bullet_text)
+    return BulletOptimizeResponse(**res)
+
+
+@router.post("/report-pdf")
+def create_pdf_report(req: PDFReportRequest):
+    """Generates a professional downloadable PDF ATS audit report."""
+    try:
+        pdf_bytes = generate_pdf_report(
+            candidate_name=req.candidate_name,
+            email=req.email,
+            phone=req.phone,
+            ats_score=req.ats_score,
+            ats_grade=req.ats_grade,
+            category_breakdown=req.category_breakdown,
+            strengths=req.strengths,
+            issues=req.issues,
+            suggestions=req.suggestions,
+            skills=req.skills
+        )
+        safe_name = "".join(c for c in req.candidate_name if c.isalnum() or c in (" ", "_", "-")).strip().replace(" ", "_") or "Candidate"
+        return Response(
+            content=pdf_bytes,
+            media_type="application/pdf",
+            headers={"Content-Disposition": f'attachment; filename="ATS_Audit_{safe_name}.pdf"'}
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate PDF report: {str(e)}")
+
+
+@router.get("/skills-taxonomy")
+def get_skills_taxonomy():
+    """Returns the categorized skills taxonomy for domain coverage display."""
+    return load_skills_database()
+
+

@@ -12,13 +12,22 @@ from app.models import MatchHistoryRecord
 from app.services.matcher import compute_match
 from app.services.recommender import recommend_jobs, load_jobs_dataset
 from app.services.llm_feedback import get_ai_feedback
+from app.services.xai_explainer import explain_match_evidence
+from app.services.extractor import extract_resume_data, extract_skills, extract_experience_years
+from app.services.scorer import calculate_ats_score
 from app.schemas import (
     JobMatchRequest,
     JobMatchResponse,
     JobRecommendationRequest,
     JobRecommendationResponse,
     JobItem,
-    AIFeedbackResponse
+    AIFeedbackResponse,
+    XAIEvidenceRequest,
+    XAIEvidenceResponse,
+    XAIEvidenceItem,
+    BatchScreenRequest,
+    BatchScreenResponse,
+    BatchCandidateResult
 )
 
 router = APIRouter(prefix="", tags=["Jobs & Matching"])
@@ -137,3 +146,85 @@ def list_available_jobs(limit: int = Query(60, ge=1, le=100)):
             "required_skills": raw_skills
         })
     return {"jobs": jobs, "total": len(jobs)}
+
+
+@router.post("/match/xai-evidence", response_model=XAIEvidenceResponse)
+def get_xai_evidence(request: XAIEvidenceRequest):
+    """Generates sentence-level evidence mapping between job requirements and candidate resume."""
+    if not request.resume_text.strip() or not request.jd_text.strip():
+        raise HTTPException(status_code=400, detail="Resume text and JD text must not be empty.")
+    evidence = explain_match_evidence(
+        resume_text=request.resume_text,
+        jd_text=request.jd_text,
+        top_n_requirements=request.top_n_requirements
+    )
+    items = [XAIEvidenceItem(**e) for e in evidence]
+    return XAIEvidenceResponse(evidence=items)
+
+
+@router.post("/jobs/batch-screen", response_model=BatchScreenResponse)
+def batch_screen_candidates(request: BatchScreenRequest):
+    """
+    Screens multiple candidate resumes against a target job requisition,
+    evaluating ATS compliance, tenure match, and skill overlap.
+    """
+    if not request.candidates:
+        raise HTTPException(status_code=400, detail="Candidate list cannot be empty.")
+
+    req_skills = request.required_skills or []
+    # If not provided, try to extract from JD text or job_id
+    if not req_skills and request.job_id:
+        df = load_jobs_dataset()
+        job_rows = df[df["job_id"] == str(request.job_id)]
+        if not job_rows.empty:
+            req_skills = [
+                s.strip().lower()
+                for s in str(job_rows.iloc[0]["required_skills"]).replace(";", ",").split(",")
+                if s.strip()
+            ]
+
+    results = []
+    for cand in request.candidates:
+        text = cand.text
+        ext = extract_resume_data(text)
+        cand_exp = float(ext.get("experience_years") or 0.0)
+
+        match = compute_match(
+            resume_text=text,
+            resume_skills=ext.get("skills", []),
+            jd_text=request.jd_text,
+            jd_skills=req_skills,
+            candidate_exp_years=cand_exp,
+            required_exp_years=request.experience_required
+        )
+        ats = calculate_ats_score(text, ext)
+
+        results.append(BatchCandidateResult(
+            candidate_name=ext.get("candidate_name") or "Applicant",
+            filename=cand.filename,
+            match_percentage=match["match_percentage"],
+            ats_score=ats.get("total_score", 0),
+            experience_years=cand_exp,
+            skills_matched_count=len(match.get("matched_skills", [])),
+            missing_skills=match.get("missing_skills", [])[:5]
+        ))
+
+    # Sort descending by match percentage
+    results.sort(key=lambda x: x.match_percentage, reverse=True)
+
+    return BatchScreenResponse(
+        job_title=request.jd_title or "Target Role",
+        candidates_screened=len(results),
+        results=results
+    )
+
+
+@router.post("/jobs/extract-skills")
+def extract_skills_endpoint(payload: dict):
+    """Extracts skills and experience tenure from text via the taxonomy."""
+    text = str(payload.get("text", ""))
+    skills = extract_skills(text)
+    exp = extract_experience_years(text)
+    return {"skills": skills, "experience_years": exp}
+
+

@@ -30,16 +30,8 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-# Core services (100% offline local inference)
-from app.services.parser import extract_document, ResumeParsingError
-from app.services.extractor import extract_resume_data, extract_skills, extract_experience_years, load_skills_database
-from app.services.scorer import calculate_ats_score
-from app.services.matcher import compute_match
-from app.services.recommender import recommend_jobs, load_jobs_dataset
-from app.services.bullet_optimizer import analyze_bullet_point
-from app.services.pdf_generator import generate_pdf_report
-from app.services.xai_explainer import explain_match_evidence
-from app.config import settings
+# Typed API Client (UI contains zero direct business logic or service imports)
+from frontend.api_client import api_client, APIConnectionError, APIResponseError
 
 # -----------------------------------------------------------------------------
 # Streamlit Page Config & ResumeLab Design System
@@ -584,6 +576,43 @@ RESUMELAB_CSS = """
 """
 st.markdown(RESUMELAB_CSS, unsafe_allow_html=True)
 
+# -----------------------------------------------------------------------------
+# Backend API Liveness Verification (Service Unavailable Protection)
+# -----------------------------------------------------------------------------
+if not api_client.is_healthy():
+    st.error("⚠️ **Service Unavailable — Backend Disconnected**")
+    st.markdown("""
+    <div style="background: #fef2f2; border: 1px solid #fca5a5; border-radius: 12px; padding: 1.5rem; margin-top: 1rem; margin-bottom: 2rem;">
+        <div style="font-size: 1.25rem; font-weight: 800; color: #991b1b; margin-bottom: 0.5rem;">FastAPI Backend Is Offline</div>
+        <div style="font-size: 0.95rem; color: #7f1d1d; line-height: 1.6;">
+            The ResumeLab user interface operates strictly through the backend REST API (<code>http://127.0.0.1:8000</code>).
+            <br><br>
+            <strong>How to start the API server:</strong>
+            <ol style="margin-top: 0.5rem; margin-bottom: 0.5rem; padding-left: 1.25rem;">
+                <li>Open a terminal in the project directory.</li>
+                <li>Run: <code>.\\venv\\Scripts\\python.exe -m uvicorn app.main:app --port 8000</code></li>
+            </ol>
+            Once the server is running, refresh this page.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.stop()
+
+
+def get_jobs_dataframe() -> pd.DataFrame:
+    """Retrieves curated job positions from the backend API."""
+    try:
+        jobs = api_client.list_jobs(limit=100)
+        if jobs:
+            return pd.DataFrame(jobs)
+    except Exception:
+        pass
+    return pd.DataFrame(columns=[
+        "job_id", "title", "company", "location", "salary",
+        "experience_required", "description", "required_skills"
+    ])
+
+
 
 # -----------------------------------------------------------------------------
 # Circular SVG Donut Gauge Generator
@@ -778,14 +807,15 @@ if "Analyze Resume" in nav_page:
                 if st.session_state.get("processed_file_hash") != current_hash:
                     with st.spinner("Analyzing resume structure, extracting skills, and calculating ATS score..."):
                         try:
-                            doc = extract_document(raw_bytes, uploaded_file.name)
-                            data = extract_resume_data(doc["text"])
-                            ats = calculate_ats_score(doc["text"], data)
+                            analysis = api_client.analyse_resume(raw_bytes, uploaded_file.name)
+                            data = analysis["extracted_data"]
+                            ats = analysis["ats_score"]
+                            p_count = analysis.get("page_count", 1)
 
                             # Successful upload! Update state
                             st.session_state.resume_data = data
                             st.session_state.ats_result = ats
-                            st.session_state.page_count = doc.get("page_count")
+                            st.session_state.page_count = p_count
                             st.session_state.active_filename = uploaded_file.name
                             st.session_state.processed_file_hash = current_hash
                             st.session_state.is_sample = False
@@ -794,8 +824,10 @@ if "Analyze Resume" in nav_page:
                             st.session_state.active_job_match = None
                             st.session_state.active_job_evidence = None
                             st.session_state.rejected_replacement_notice = None
-                        except ResumeParsingError as rpe:
-                            upload_rejection_reason = f"Document Parsing Error: {str(rpe)}"
+                        except APIResponseError as are:
+                            upload_rejection_reason = f"Document Processing Error: {are.detail}"
+                        except APIConnectionError as ace:
+                            upload_rejection_reason = f"Backend Connection Error: {str(ace)}"
                         except Exception as ex:
                             upload_rejection_reason = f"Analysis failed: {str(ex)}"
 
@@ -828,22 +860,22 @@ if "Analyze Resume" in nav_page:
                     raw_text = sample_p.read_text(encoding="utf-8")
                     s_bytes = raw_text.encode("utf-8")
                     s_hash = hashlib.sha256(s_bytes).hexdigest()
-                    doc = extract_document(s_bytes, "software_engineer_resume.txt")
-                    data = extract_resume_data(doc["text"])
-                    ats = calculate_ats_score(doc["text"], data)
-
-                    st.session_state.resume_data = data
-                    st.session_state.ats_result = ats
-                    st.session_state.page_count = doc.get("page_count")
-                    st.session_state.active_filename = "software_engineer_resume.txt"
-                    st.session_state.processed_file_hash = s_hash
-                    st.session_state.is_sample = True
-                    st.session_state.analysis_timestamp = datetime.now().strftime("%d %b %Y, %I:%M %p")
-                    st.session_state.show_detailed_analysis = False
-                    st.session_state.active_job_match = None
-                    st.session_state.active_job_evidence = None
-                    st.session_state.rejected_replacement_notice = None
-                    st.rerun()
+                    try:
+                        analysis = api_client.analyse_resume(s_bytes, "software_engineer_resume.txt")
+                        st.session_state.resume_data = analysis["extracted_data"]
+                        st.session_state.ats_result = analysis["ats_score"]
+                        st.session_state.page_count = analysis.get("page_count", 1)
+                        st.session_state.active_filename = "software_engineer_resume.txt"
+                        st.session_state.processed_file_hash = s_hash
+                        st.session_state.is_sample = True
+                        st.session_state.analysis_timestamp = datetime.now().strftime("%d %b %Y, %I:%M %p")
+                        st.session_state.show_detailed_analysis = False
+                        st.session_state.active_job_match = None
+                        st.session_state.active_job_evidence = None
+                        st.session_state.rejected_replacement_notice = None
+                        st.rerun()
+                    except Exception as ex:
+                        st.error(f"Sample analysis failed: {ex}")
             st.markdown("</div>", unsafe_allow_html=True)
 
         # Sample Resume Card
@@ -868,22 +900,22 @@ if "Analyze Resume" in nav_page:
                     raw_text = sample_p.read_text(encoding="utf-8")
                     s_bytes = raw_text.encode("utf-8")
                     s_hash = hashlib.sha256(s_bytes).hexdigest()
-                    doc = extract_document(s_bytes, "software_engineer_resume.txt")
-                    data = extract_resume_data(doc["text"])
-                    ats = calculate_ats_score(doc["text"], data)
-
-                    st.session_state.resume_data = data
-                    st.session_state.ats_result = ats
-                    st.session_state.page_count = doc.get("page_count")
-                    st.session_state.active_filename = "software_engineer_resume.txt"
-                    st.session_state.processed_file_hash = s_hash
-                    st.session_state.is_sample = True
-                    st.session_state.analysis_timestamp = datetime.now().strftime("%d %b %Y, %I:%M %p")
-                    st.session_state.show_detailed_analysis = False
-                    st.session_state.active_job_match = None
-                    st.session_state.active_job_evidence = None
-                    st.session_state.rejected_replacement_notice = None
-                    st.rerun()
+                    try:
+                        analysis = api_client.analyse_resume(s_bytes, "software_engineer_resume.txt")
+                        st.session_state.resume_data = analysis["extracted_data"]
+                        st.session_state.ats_result = analysis["ats_score"]
+                        st.session_state.page_count = analysis.get("page_count", 1)
+                        st.session_state.active_filename = "software_engineer_resume.txt"
+                        st.session_state.processed_file_hash = s_hash
+                        st.session_state.is_sample = True
+                        st.session_state.analysis_timestamp = datetime.now().strftime("%d %b %Y, %I:%M %p")
+                        st.session_state.show_detailed_analysis = False
+                        st.session_state.active_job_match = None
+                        st.session_state.active_job_evidence = None
+                        st.session_state.rejected_replacement_notice = None
+                        st.rerun()
+                    except Exception as ex:
+                        st.error(f"Sample analysis failed: {ex}")
             st.markdown("</div>", unsafe_allow_html=True)
 
         st.markdown("</div>", unsafe_allow_html=True)
@@ -968,12 +1000,36 @@ if "Analyze Resume" in nav_page:
                 </div>
             """, unsafe_allow_html=True)
 
-            # "New Analysis" action button right under header
-            h_btn_col1, h_btn_col2 = st.columns([3, 1])
+            # Action buttons right under header (Download PDF & New Analysis)
+            h_btn_col1, h_btn_col2 = st.columns([2, 1])
+            with h_btn_col1:
+                try:
+                    pdf_bytes = api_client.generate_pdf_report(
+                        candidate_name=data.get("candidate_name") or "Applicant",
+                        email=data.get("email"),
+                        phone=data.get("phone"),
+                        ats_score=ats.get("total_score", 0),
+                        ats_grade=ats.get("grade") or "C",
+                        category_breakdown=ats.get("category_breakdown", {}),
+                        strengths=ats.get("strengths", []),
+                        issues=ats.get("issues", []),
+                        suggestions=ats.get("suggestions", []),
+                        skills=data.get("skills", [])
+                    )
+                    st.download_button(
+                        label="📥 Download ATS Audit PDF",
+                        data=pdf_bytes,
+                        file_name=f"ATS_Audit_{data.get('candidate_name', 'Applicant')}.pdf",
+                        mime="application/pdf",
+                        use_container_width=True
+                    )
+                except Exception as pex:
+                    st.caption(f"PDF generator offline: {pex}")
             with h_btn_col2:
                 if st.button("🔄 New Analysis", key="reset_analysis_btn", type="secondary", width="stretch"):
                     reset_analysis_state()
                     st.rerun()
+
 
             # Tabs: Overview, Skills, Job Match, Suggestions
             tab_overview, tab_skills, tab_match, tab_sug = st.tabs([
@@ -1148,8 +1204,11 @@ if "Analyze Resume" in nav_page:
                     st.warning("No standard technical skills were detected. Consider adding a clear 'Skills' section.")
 
                 st.markdown("#### 🎯 Domain Coverage")
-                skill_db = load_skills_database()
-                categories = skill_db.get("categories", {})
+                try:
+                    skill_db = api_client.get_skills_taxonomy()
+                    categories = skill_db.get("categories", {})
+                except Exception:
+                    categories = {}
                 resume_skills_lower = set(s.lower() for s in skills_list)
 
                 found_any_domain = False
@@ -1166,10 +1225,10 @@ if "Analyze Resume" in nav_page:
             # ---------------- TAB 3: JOB MATCH ----------------
             with tab_match:
                 st.markdown("#### Target Role Alignment & Explainable AI (XAI)")
-                jobs_df = load_jobs_dataset()
+                jobs_df = get_jobs_dataframe()
 
                 if jobs_df is None or jobs_df.empty:
-                    st.warning("No job positions are currently available in the database. Please verify data/jobs.csv.")
+                    st.warning("No job positions are currently available from the backend API.")
                 else:
                     job_options = [f"{r['job_id']}: {r['title']} @ {r['company']}" for _, r in jobs_df.head(25).iterrows()]
                     if not job_options:
@@ -1188,39 +1247,46 @@ if "Analyze Resume" in nav_page:
                             candidate_tenure = float(data.get("experience_years") or 0.0)
                             required_tenure = float(target_job.get("experience_required", 0.0) or 0.0)
 
-                            match_res = compute_match(
-                                resume_text=data.get("raw_text", ""),
-                                resume_skills=data.get("skills", []),
-                                jd_text=str(target_job["description"]),
-                                jd_skills=t_skills,
-                                candidate_exp_years=candidate_tenure,
-                                required_exp_years=required_tenure
-                            )
+                            try:
+                                match_res = api_client.match_resume_with_job(
+                                    resume_text=data.get("raw_text", ""),
+                                    resume_skills=data.get("skills", []),
+                                    candidate_exp_years=candidate_tenure,
+                                    jd_text=str(target_job["description"]),
+                                    jd_skills=t_skills,
+                                    required_exp_years=required_tenure
+                                )
 
-                            m1, m2, m3, m4 = st.columns(4)
-                            with m1:
-                                st.metric("Total Alignment", f"{match_res['match_percentage']}%")
-                            with m2:
-                                st.metric("Skill Match", f"{int(match_res['skill_score'] * 100)}%")
-                            with m3:
-                                st.metric("Semantic Fit", f"{int(match_res['semantic_score'] * 100)}%")
-                            with m4:
-                                st.metric("Tenure Match", f"{int(match_res['experience_score'] * 100)}%")
+                                m1, m2, m3, m4 = st.columns(4)
+                                with m1:
+                                    st.metric("Total Alignment", f"{match_res['match_percentage']}%")
+                                with m2:
+                                    st.metric("Skill Match", f"{int(match_res['skill_score'] * 100)}%")
+                                with m3:
+                                    st.metric("Semantic Fit", f"{int(match_res['semantic_score'] * 100)}%")
+                                with m4:
+                                    st.metric("Tenure Match", f"{int(match_res['experience_score'] * 100)}%")
 
-                            st.markdown("##### 🔍 Sentence-Level Evidence Mapping")
-                            evidence = explain_match_evidence(data.get("raw_text", ""), str(target_job["description"]), top_n_requirements=3)
-                            for ev in evidence:
-                                border_c = "#10b981" if ev["status"] == "Strong Evidence" else "#3b82f6"
-                                escaped_req = html.escape(str(ev['job_requirement']))
-                                escaped_ev = html.escape(str(ev['resume_evidence']))
-                                st.markdown(f"""
-                                <div style="background: #f8fafc; border-left: 4px solid {border_c}; border-radius: 8px; padding: 0.85rem; margin-bottom: 0.75rem;">
-                                    <div style="font-size: 0.8rem; font-weight: 700; color: #64748b;">JOB REQUIREMENT:</div>
-                                    <div style="font-size: 0.9rem; color: #0f172a; font-weight: 600; margin-bottom: 0.4rem;">"{escaped_req}"</div>
-                                    <div style="font-size: 0.8rem; font-weight: 700; color: #2563eb;">CANDIDATE EVIDENCE:</div>
-                                    <div style="font-size: 0.88rem; color: #334155;">"{escaped_ev}"</div>
-                                </div>
-                                """, unsafe_allow_html=True)
+                                st.markdown("##### 🔍 Sentence-Level Evidence Mapping")
+                                evidence = api_client.get_xai_evidence(
+                                    resume_text=data.get("raw_text", ""),
+                                    jd_text=str(target_job["description"]),
+                                    top_n_requirements=3
+                                )
+                                for ev in evidence:
+                                    border_c = "#10b981" if ev["status"] == "Strong Evidence" else "#3b82f6"
+                                    escaped_req = html.escape(str(ev['job_requirement']))
+                                    escaped_ev = html.escape(str(ev['resume_evidence']))
+                                    st.markdown(f"""
+                                    <div style="background: #f8fafc; border-left: 4px solid {border_c}; border-radius: 8px; padding: 0.85rem; margin-bottom: 0.75rem;">
+                                        <div style="font-size: 0.8rem; font-weight: 700; color: #64748b;">JOB REQUIREMENT:</div>
+                                        <div style="font-size: 0.9rem; color: #0f172a; font-weight: 600; margin-bottom: 0.4rem;">"{escaped_req}"</div>
+                                        <div style="font-size: 0.8rem; font-weight: 700; color: #2563eb;">CANDIDATE EVIDENCE:</div>
+                                        <div style="font-size: 0.88rem; color: #334155;">"{escaped_ev}"</div>
+                                    </div>
+                                    """, unsafe_allow_html=True)
+                            except Exception as ex:
+                                st.error(f"Failed to calculate match via API: {ex}")
 
             # ---------------- TAB 4: SUGGESTIONS ----------------
             with tab_sug:
@@ -1235,10 +1301,13 @@ if "Analyze Resume" in nav_page:
                 st.markdown("<br>#### 🪄 Google X-Y-Z Bullet Point Optimization", unsafe_allow_html=True)
                 st.info("Google formula: 'Accomplished [X] as measured by [Y], by doing [Z]'")
                 sample_bullet = "Developed and maintained web applications using Python and React, improving throughput by 35%."
-                opt_res = analyze_bullet_point(sample_bullet)
-                st.markdown(f"**Current Bullet:** *{sample_bullet}*")
-                st.markdown(f"**Quality Score:** {opt_res['score']}/100 ({opt_res['grade']})")
-                st.success(f"**Suggested High-Impact Rewrite:**\n\n{opt_res['improved_rewrite']}")
+                try:
+                    opt_res = api_client.optimize_bullet(sample_bullet)
+                    st.markdown(f"**Current Bullet:** *{sample_bullet}*")
+                    st.markdown(f"**Quality Score:** {opt_res['score']}/100 ({opt_res['grade']})")
+                    st.success(f"**Suggested High-Impact Rewrite:**\n\n{opt_res['improved_rewrite']}")
+                except Exception as ex:
+                    st.warning(f"Bullet optimization service unavailable: {ex}")
 
             st.markdown("</div>", unsafe_allow_html=True)
 
@@ -1259,7 +1328,7 @@ elif "Job Matching" in nav_page:
         st.warning("Please upload a resume or select a sample on the 'Analyze Resume' page first.")
         st.stop()
 
-    jobs_df = load_jobs_dataset()
+    jobs_df = get_jobs_dataframe()
     col1, col2 = st.columns([1, 1], gap="large")
 
     with col1:
@@ -1284,9 +1353,15 @@ elif "Job Matching" in nav_page:
     # Ensure consistent text, skills, and required experience
     if custom_desc.strip():
         target_text = custom_desc.strip()
-        # Dynamically extract skills from custom description using the 534+ taxonomy
-        target_req_skills = extract_skills(target_text)
-        required_exp_years = extract_experience_years(target_text)
+        # Dynamically extract skills and experience from custom description via API
+        try:
+            ext_meta = api_client.extract_skills_and_exp(target_text)
+            target_req_skills = ext_meta.get("skills", [])
+            required_exp_years = float(ext_meta.get("experience_years", 0.0) or 0.0)
+        except Exception:
+            target_req_skills = []
+            required_exp_years = 0.0
+
         job_title_label = "Custom Job Requisition"
         st.info(
             f"📋 **Custom JD Active**: Extracted {len(target_req_skills)} required skills "
@@ -1305,19 +1380,26 @@ elif "Job Matching" in nav_page:
     if st.button("🚀 Calculate Match & Evidence", type="primary", width="stretch"):
         with st.spinner("Executing dual-signal semantic matcher and sentence evidence analysis..."):
             candidate_tenure = float(data.get("experience_years") or 0.0)
-            res = compute_match(
-                resume_text=data.get("raw_text", ""),
-                resume_skills=data.get("skills", []),
-                jd_text=target_text,
-                jd_skills=target_req_skills,
-                candidate_exp_years=candidate_tenure,
-                required_exp_years=required_exp_years
-            )
-            evidence_items = explain_match_evidence(data.get("raw_text", ""), target_text, top_n_requirements=5)
+            try:
+                res = api_client.match_resume_with_job(
+                    resume_text=data.get("raw_text", ""),
+                    resume_skills=data.get("skills", []),
+                    candidate_exp_years=candidate_tenure,
+                    jd_text=target_text,
+                    jd_skills=target_req_skills if target_req_skills else None,
+                    required_exp_years=required_exp_years
+                )
+                evidence_items = api_client.get_xai_evidence(
+                    resume_text=data.get("raw_text", ""),
+                    jd_text=target_text,
+                    top_n_requirements=5
+                )
 
-            st.session_state.active_job_match = res
-            st.session_state.active_job_evidence = evidence_items
-            st.session_state.active_job_target_title = job_title_label
+                st.session_state.active_job_match = res
+                st.session_state.active_job_evidence = evidence_items
+                st.session_state.active_job_target_title = job_title_label
+            except Exception as ex:
+                st.error(f"Matching service error: {ex}")
 
     if "active_job_match" in st.session_state and st.session_state.active_job_match:
         res = st.session_state.active_job_match
@@ -1361,9 +1443,9 @@ elif "Batch Screening" in nav_page:
     </div>
     """, unsafe_allow_html=True)
 
-    jobs_df = load_jobs_dataset()
+    jobs_df = get_jobs_dataframe()
     if jobs_df is None or jobs_df.empty:
-        st.warning("No job positions found in data/jobs.csv. Please populate the dataset.")
+        st.warning("No job positions available from the backend API.")
         st.stop()
 
     job_choices = [f"{r['job_id']}: {r['title']} @ {r['company']}" for _, r in jobs_df.head(30).iterrows()]
@@ -1411,14 +1493,15 @@ elif "Batch Screening" in nav_page:
                 st.warning(f"⚠️ **{f.name}**: File size ({len(file_bytes)/1024/1024:.1f} MB) exceeds 5 MB limit. Skipped.")
                 continue
 
-            # 2. Extract document safely with descriptive error reporting (no silent except: pass)
+            # 2. Extract document safely via backend API upload
             try:
-                doc = extract_document(file_bytes, f.name)
+                upload_res = api_client.upload_resume(file_bytes, f.name)
+                ext_text = upload_res["extracted_data"]["raw_text"]
                 f_hash = hashlib.sha256(file_bytes).hexdigest()
-                candidates_to_eval.append((f.name, doc["text"], f_hash))
+                candidates_to_eval.append((f.name, ext_text, f_hash))
                 file_hashes.append(f_hash)
-            except ResumeParsingError as rpe:
-                st.warning(f"⚠️ **{f.name}**: Parsing Error - {str(rpe)}. Skipped.")
+            except APIResponseError as are:
+                st.warning(f"⚠️ **{f.name}**: Parsing Error - {are.detail}. Skipped.")
             except Exception as ex:
                 st.warning(f"⚠️ **{f.name}**: Extraction failed - {str(ex)}. Skipped.")
 
@@ -1437,32 +1520,34 @@ elif "Batch Screening" in nav_page:
         if st.session_state.get("last_batch_cache_key") == cache_signature and "last_batch_rows" in st.session_state:
             rows = st.session_state.last_batch_rows
         else:
-            rows = []
             t_skills = [s.strip().lower() for s in str(req_row["required_skills"]).replace(";", ",").split(",") if s.strip()]
             req_exp = float(req_row.get("experience_required", 0.0) or 0.0)
 
-            for fname, text, _ in candidates_to_eval:
-                ext = extract_resume_data(text)
-                cand_exp = float(ext.get("experience_years") or 0.0)
-
-                match = compute_match(
-                    resume_text=text,
-                    resume_skills=ext.get("skills", []),
+            try:
+                candidates_payload = [{"filename": fname, "text": text} for fname, text, _ in candidates_to_eval]
+                batch_response = api_client.batch_screen(
+                    job_id=str(req_row["job_id"]),
+                    jd_title=str(req_row["title"]),
                     jd_text=str(req_row["description"]),
-                    jd_skills=t_skills,
-                    candidate_exp_years=cand_exp,
-                    required_exp_years=req_exp
+                    required_skills=t_skills,
+                    experience_required=req_exp,
+                    candidates=candidates_payload
                 )
-                ats = calculate_ats_score(text, ext)
-                rows.append({
-                    "Candidate": ext.get("candidate_name", "Applicant"),
-                    "Filename": fname,
-                    "Match Score": f"{match['match_percentage']}%",
-                    "ATS Score": f"{ats.get('total_score', 0)}/100",
-                    "Experience": f"{cand_exp:.1f} yrs" if cand_exp > 0 else "Not detected",
-                    "Skills Matched": len(match.get("matched_skills", [])),
-                    "Missing Skills": ", ".join(match.get("missing_skills", [])[:3]) if match.get("missing_skills") else "None"
-                })
+                rows = [
+                    {
+                        "Candidate": res["candidate_name"],
+                        "Filename": res["filename"],
+                        "Match Score": f"{res['match_percentage']}%",
+                        "ATS Score": f"{res['ats_score']}/100",
+                        "Experience": f"{res['experience_years']:.1f} yrs" if res['experience_years'] > 0 else "Not detected",
+                        "Skills Matched": res["skills_matched_count"],
+                        "Missing Skills": ", ".join(res["missing_skills"][:3]) if res.get("missing_skills") else "None"
+                    }
+                    for res in batch_response.get("results", [])
+                ]
+            except Exception as ex:
+                st.error(f"Batch screening failed via API: {ex}")
+                rows = []
 
             st.session_state.last_batch_cache_key = cache_signature
             st.session_state.last_batch_rows = rows
@@ -1488,13 +1573,16 @@ elif "Resume Optimizer" in nav_page:
     )
 
     if st.button("Optimize Bullet Point", type="primary", width="stretch"):
-        opt = analyze_bullet_point(bullet_input)
-        st.metric("Impact Score", f"{opt['score']}/100", delta=opt["grade"])
-        st.markdown("#### Diagnostic Feedback")
-        for fb in opt["feedback"]:
-            st.markdown(f"- {fb}")
-        st.markdown("#### ✨ Suggested High-Impact Rewrite:")
-        st.success(opt["improved_rewrite"])
+        try:
+            opt = api_client.optimize_bullet(bullet_input)
+            st.metric("Impact Score", f"{opt['score']}/100", delta=opt.get("grade", ""))
+            st.markdown("#### Diagnostic Feedback")
+            for fb in opt.get("feedback", []):
+                st.markdown(f"- {fb}")
+            st.markdown("#### ✨ Suggested High-Impact Rewrite:")
+            st.success(opt.get("improved_rewrite", ""))
+        except Exception as ex:
+            st.error(f"Failed to optimize bullet point: {ex}")
 
 
 # -----------------------------------------------------------------------------
@@ -1514,12 +1602,17 @@ elif "Job Recommendations" in nav_page:
         st.stop()
 
     candidate_tenure = float(data.get("experience_years") or 0.0)
-    recs = recommend_jobs(
-        resume_text=data.get("raw_text", ""),
-        resume_skills=data.get("skills", []),
-        candidate_exp_years=candidate_tenure,
-        top_n=10
-    )
+    try:
+        rec_res = api_client.recommend_jobs(
+            resume_text=data.get("raw_text", ""),
+            resume_skills=data.get("skills", []),
+            candidate_exp_years=candidate_tenure,
+            top_n=10
+        )
+        recs = rec_res.get("recommendations", [])
+    except Exception as ex:
+        st.error(f"Failed to fetch recommendations: {ex}")
+        recs = []
 
     if recs:
         for job in recs:
@@ -1537,31 +1630,46 @@ elif "Reports" in nav_page:
     st.markdown("""
     <div class="page-main-header">
         <h1 class="page-title">Reports & Analysis History</h1>
-        <p class="page-subtitle">Review historical candidate audits stored in the local SQLite database.</p>
+        <p class="page-subtitle">Review historical candidate audits stored in the secure audit database.</p>
     </div>
     """, unsafe_allow_html=True)
 
     try:
-        from app.database import SessionLocal
-        from app.models import ResumeRecord
-        db = SessionLocal()
-        records = db.query(ResumeRecord).order_by(ResumeRecord.created_at.desc()).limit(20).all()
+        records = api_client.get_history(limit=30)
         if records:
             history_data = [
                 {
-                    "ID": r.id,
-                    "Candidate Name": r.candidate_name,
-                    "Filename": r.filename,
-                    "ATS Score": r.ats_score,
-                    "Grade": r.ats_grade,
-                    "Experience": f"{r.experience_years} yrs" if r.experience_years else "Not detected",
-                    "Date": r.created_at.strftime("%Y-%m-%d %H:%M") if r.created_at else "-"
+                    "ID": r["id"],
+                    "Candidate Name": r.get("candidate_name") or "Applicant",
+                    "Filename": r.get("filename") or "resume.pdf",
+                    "ATS Score": r.get("ats_score", 0),
+                    "Grade": r.get("ats_grade") or "C",
+                    "Experience": f"{r.get('experience_years', 0.0):.1f} yrs" if r.get("experience_years") else "Not detected",
+                    "Date": r.get("created_at") or "-"
                 }
                 for r in records
             ]
             st.dataframe(pd.DataFrame(history_data), width="stretch")
+
+            # Record management / deletion
+            st.markdown("#### 🗑️ Manage History Records")
+            del_c1, del_c2 = st.columns([3, 1])
+            with del_c1:
+                rec_choices = {f"Record #{r['id']} — {r.get('candidate_name', 'Applicant')} ({r.get('filename')})": r["id"] for r in records}
+                chosen_label = st.selectbox("Select Audit Record to Delete", list(rec_choices.keys()), key="delete_record_picker")
+            with del_c2:
+                st.markdown("<div style='margin-top: 28px;'>", unsafe_allow_html=True)
+                if st.button("Delete Record", type="secondary"):
+                    target_id = rec_choices[chosen_label]
+                    try:
+                        api_client.delete_history_record(target_id)
+                        st.success(f"Record #{target_id} deleted successfully.")
+                        st.rerun()
+                    except Exception as dex:
+                        st.error(f"Failed to delete record: {dex}")
+                st.markdown("</div>", unsafe_allow_html=True)
         else:
-            st.info("No saved audit records found in SQLite database. Upload a resume to populate history.")
-        db.close()
+            st.info("No saved audit records found in audit history. Upload a resume to populate history.")
     except Exception as e:
-        st.info(f"Database history view: {e}")
+        st.info(f"Audit history view unavailable: {e}")
+

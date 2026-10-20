@@ -114,11 +114,97 @@ class JobRecommendationResponse(BaseModel):
 
 class ResumeUploadResponse(BaseModel):
     filename: str
+    page_count: Optional[int] = 1
     extracted_data: ExtractedDataResponse
 
 
 class FullAnalysisResponse(BaseModel):
     id: Optional[int] = None
     filename: str
+    page_count: Optional[int] = 1
     extracted_data: ExtractedDataResponse
     ats_score: ATSScoreResponse
+
+
+
+# -----------------------------------------------------------------------------
+# Part 2: Bullet Optimizer, XAI Evidence, Batch Screening, and PDF Report Schemas
+# -----------------------------------------------------------------------------
+
+class BulletOptimizeRequest(BaseModel):
+    bullet_text: str
+
+
+class BulletOptimizeResponse(BaseModel):
+    score: int
+    grade: str = ""
+    status: Optional[str] = ""
+    has_action_verb: bool
+    has_metrics: bool
+    has_context: bool
+    feedback: List[str]
+    improved_rewrite: str
+    metrics_found: List[str] = Field(default_factory=list)
+
+
+class XAIEvidenceRequest(BaseModel):
+    resume_text: str
+    jd_text: str
+    top_n_requirements: int = 5
+
+
+class XAIEvidenceItem(BaseModel):
+    job_requirement: str
+    resume_evidence: str
+    confidence_score: Optional[float] = 0.0
+    similarity_score: Optional[float] = 0.0
+    status: str
+
+
+
+class XAIEvidenceResponse(BaseModel):
+    evidence: List[XAIEvidenceItem]
+
+
+class BatchCandidateInput(BaseModel):
+    filename: str
+    text: str
+
+
+class BatchScreenRequest(BaseModel):
+    job_id: Optional[str] = None
+    jd_title: Optional[str] = "Target Role"
+    jd_text: str
+    required_skills: Optional[List[str]] = Field(default_factory=list)
+    experience_required: float = 0.0
+    candidates: List[BatchCandidateInput]
+
+
+class BatchCandidateResult(BaseModel):
+    candidate_name: str
+    filename: str
+    match_percentage: float
+    ats_score: int
+    experience_years: float
+    skills_matched_count: int
+    missing_skills: List[str]
+
+
+class BatchScreenResponse(BaseModel):
+    job_title: str
+    candidates_screened: int
+    results: List[BatchCandidateResult]
+
+
+class PDFReportRequest(BaseModel):
+    candidate_name: str = "Applicant"
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    ats_score: int
+    ats_grade: str
+    category_breakdown: Dict[str, Any] = Field(default_factory=dict)
+    strengths: List[str] = Field(default_factory=list)
+    issues: List[str] = Field(default_factory=list)
+    suggestions: List[str] = Field(default_factory=list)
+    skills: List[str] = Field(default_factory=list)
+
