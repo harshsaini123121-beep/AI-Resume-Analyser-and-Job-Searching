@@ -23,7 +23,7 @@ EXCLUDE_DIRS = {
 }
 
 EXCLUDE_EXTENSIONS = {
-    ".pyc", ".pyo", ".pyd", ".db", ".sqlite3"
+    ".pyc", ".pyo", ".pyd", ".db", ".sqlite3", ".npy", ".hash"
 }
 
 EXCLUDE_FILES = {
