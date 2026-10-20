@@ -12,7 +12,8 @@ def render_skill_chips(
     max_display: Optional[int] = None,
     matched: Optional[List[str]] = None,
     missing: Optional[List[str]] = None,
-    bonus: Optional[List[str]] = None
+    bonus: Optional[List[str]] = None,
+    **kwargs
 ) -> str:
     """
     Renders HTML skill chips with escaping and accessibility icons.

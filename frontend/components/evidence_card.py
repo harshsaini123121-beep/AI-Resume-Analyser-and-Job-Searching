@@ -7,10 +7,11 @@ from typing import Dict, Any, Optional
 
 
 def render_evidence_card(
-    evidence_item: Optional[Dict[str, Any]] = None,
+    evidence_item: Optional[Any] = None,
     requirement: Optional[str] = None,
     candidate_proof: Optional[str] = None,
-    status: Optional[str] = None
+    status: Optional[str] = None,
+    **kwargs
 ) -> str:
     """
     Renders a side-by-side evidence comparison card.
@@ -21,9 +22,11 @@ def render_evidence_card(
         resume_proof = html.escape(str(evidence_item.get("resume_evidence", "")))
         item_status = evidence_item.get("status", "Moderate Alignment")
     else:
-        job_req = html.escape(str(requirement or ""))
-        resume_proof = html.escape(str(candidate_proof or ""))
-        item_status = status or "Moderate Alignment"
+        req_val = requirement or (evidence_item if isinstance(evidence_item, str) else "") or kwargs.get("req", "")
+        proof_val = candidate_proof or kwargs.get("proof", "") or kwargs.get("evidence", "")
+        job_req = html.escape(str(req_val))
+        resume_proof = html.escape(str(proof_val))
+        item_status = status or kwargs.get("verdict", "Moderate Alignment")
 
     is_strong = item_status == "Strong Evidence"
     card_cls = "evidence-card strong" if is_strong else "evidence-card"

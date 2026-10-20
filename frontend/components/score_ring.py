@@ -5,7 +5,7 @@ Always pairs color with textual verdict and icon for accessibility.
 import html
 
 
-def render_score_ring(score: float, max_score: float = 100.0, size: int = 140) -> str:
+def render_score_ring(score: float, max_score: float = 100.0, size: int = 140, **kwargs) -> str:
     """
     Renders an accessible SVG score ring with high contrast and explicit text label.
     """
