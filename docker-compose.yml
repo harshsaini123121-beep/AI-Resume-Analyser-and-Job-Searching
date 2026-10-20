@@ -1,10 +1,91 @@
 version: "3.8"
 
 services:
+  # ---------------------------------------------------------------------------
+  # Production PostgreSQL Database
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: resume_analyser_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: resumelab
+      POSTGRES_USER: resumelab
+      POSTGRES_PASSWORD: resumelab_secure_pass_2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U resumelab -d resumelab"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ---------------------------------------------------------------------------
+  # FastAPI Production Backend Service
+  # ---------------------------------------------------------------------------
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: resume_analyser_api
+    restart: unless-stopped
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - DATABASE_URL=postgresql://resumelab:resumelab_secure_pass_2026@postgres:5432/resumelab
+      - CORS_ORIGINS=http://localhost:8501,http://127.0.0.1:8501,http://localhost:8000,http://127.0.0.1:8000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # ---------------------------------------------------------------------------
+  # Streamlit UI Frontend Service
+  # ---------------------------------------------------------------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: resume_analyser_ui
+    restart: unless-stopped
+    command: streamlit run frontend/streamlit_app.py --server.port 8501 --server.address 0.0.0.0 --server.headless true
+    ports:
+      - "8501:8501"
+    environment:
+      - API_HOST=backend
+      - API_PORT=8000
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8501/_stcore/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # ---------------------------------------------------------------------------
+  # Development Service (Activated exclusively with --profile dev)
+  # Includes local workspace bind mount for live hot-reloading
+  # ---------------------------------------------------------------------------
+  dev-backend:
+    profiles: ["dev"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: resume_analyser_api_dev
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - "8000:8000"
     environment:
@@ -15,17 +96,6 @@ services:
       - .:/app
     restart: unless-stopped
 
-  frontend:
-    build: .
-    container_name: resume_analyser_ui
-    command: streamlit run frontend/streamlit_app.py --server.port 8501 --server.address 0.0.0.0
-    ports:
-      - "8501:8501"
-    environment:
-      - API_HOST=backend
-      - API_PORT=8000
-    depends_on:
-      - backend
-    volumes:
-      - .:/app
-    restart: unless-stopped
+volumes:
+  postgres_data:
+    name: resume_analyser_postgres_data
