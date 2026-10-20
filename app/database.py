@@ -17,6 +17,7 @@ Base = declarative_base()
 
 def init_db(bind_engine=None):
     """Initializes tables and metadata for SQLite and PostgreSQL."""
+    import app.models  # Register all models on Base.metadata
     target_engine = bind_engine or engine
     Base.metadata.create_all(bind=target_engine)
     if "sqlite" in str(target_engine.url):
